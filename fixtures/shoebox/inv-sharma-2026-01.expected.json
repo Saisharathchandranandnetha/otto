@@ -1,0 +1,95 @@
+{
+  "doc_type": "invoice",
+  "direction": {
+    "value": "purchase",
+    "confidence": 0.96
+  },
+  "counterparty_name": {
+    "value": "Sharma Fab.",
+    "confidence": 0.96
+  },
+  "vendor_name": {
+    "value": "Sharma Fab.",
+    "confidence": 0.96
+  },
+  "vendor_phone": {
+    "value": "+91-98761-23456",
+    "confidence": 0.8999999999999999
+  },
+  "invoice_no": {
+    "value": "SF/2026/031",
+    "confidence": 0.96
+  },
+  "invoice_date": {
+    "value": "2026-01-12",
+    "confidence": 0.96
+  },
+  "due_date": {
+    "value": null,
+    "confidence": 0.85
+  },
+  "line_items": [
+    {
+      "product_name": {
+        "value": "Red Cotton Dupatta",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 20,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 250,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 5000,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Leggings (Black)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 30,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 220,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 6600,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Pink Kurti (M)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 12,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 550,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 6600,
+        "confidence": 0.95
+      }
+    }
+  ],
+  "total": {
+    "value": 18200,
+    "confidence": 0.96
+  },
+  "currency": {
+    "value": "INR",
+    "confidence": 0.99
+  }
+}

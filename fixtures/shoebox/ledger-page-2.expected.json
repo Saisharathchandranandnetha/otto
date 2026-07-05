@@ -1,0 +1,75 @@
+{
+  "doc_type": "ledger_page",
+  "page_label": {
+    "value": "Page 13",
+    "confidence": 0.9
+  },
+  "rows": [
+    {
+      "party_name": {
+        "value": "Kavita Sharma",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "festival order",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": 6200,
+        "confidence": 0.88
+      },
+      "credit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "date": {
+        "value": "2026-04-02",
+        "confidence": 0.8
+      }
+    },
+    {
+      "party_name": {
+        "value": "Kavita Sharma",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "part payment gpay",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "credit": {
+        "value": 2000,
+        "confidence": 0.88
+      },
+      "date": {
+        "value": "2026-05-15",
+        "confidence": 0.8
+      }
+    },
+    {
+      "party_name": {
+        "value": "Deepak Verma",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "wedding order balance",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": 7000,
+        "confidence": 0.88
+      },
+      "credit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "date": {
+        "value": "2026-06-01",
+        "confidence": 0.8
+      }
+    }
+  ]
+}

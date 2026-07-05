@@ -1,0 +1,95 @@
+{
+  "doc_type": "invoice",
+  "direction": {
+    "value": "purchase",
+    "confidence": 0.96
+  },
+  "counterparty_name": {
+    "value": "Meena Silks",
+    "confidence": 0.96
+  },
+  "vendor_name": {
+    "value": "Meena Silks",
+    "confidence": 0.96
+  },
+  "vendor_phone": {
+    "value": "+91-98123-45678",
+    "confidence": 0.8999999999999999
+  },
+  "invoice_no": {
+    "value": "MS-563",
+    "confidence": 0.96
+  },
+  "invoice_date": {
+    "value": "2026-06-10",
+    "confidence": 0.96
+  },
+  "due_date": {
+    "value": null,
+    "confidence": 0.85
+  },
+  "line_items": [
+    {
+      "product_name": {
+        "value": "Kurti Set (Maroon)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 8,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 875,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 7000,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Palazzo Pants (Beige)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 15,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 335,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 5025,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Blue Silk Dupatta",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 10,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 335,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 3350,
+        "confidence": 0.95
+      }
+    }
+  ],
+  "total": {
+    "value": 15375,
+    "confidence": 0.96
+  },
+  "currency": {
+    "value": "INR",
+    "confidence": 0.99
+  }
+}

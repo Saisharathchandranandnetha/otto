@@ -1,0 +1,95 @@
+{
+  "doc_type": "invoice",
+  "direction": {
+    "value": "purchase",
+    "confidence": 0.96
+  },
+  "counterparty_name": {
+    "value": "Sharma Fabrics",
+    "confidence": 0.96
+  },
+  "vendor_name": {
+    "value": "Sharma Fabrics",
+    "confidence": 0.96
+  },
+  "vendor_phone": {
+    "value": "+91-98761-23456",
+    "confidence": 0.8999999999999999
+  },
+  "invoice_no": {
+    "value": "SF/2026/207",
+    "confidence": 0.96
+  },
+  "invoice_date": {
+    "value": "2026-05-20",
+    "confidence": 0.96
+  },
+  "due_date": {
+    "value": null,
+    "confidence": 0.85
+  },
+  "line_items": [
+    {
+      "product_name": {
+        "value": "Red Cotton Dupatta",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 15,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 265,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 3975,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Leggings (Black)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 30,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 225,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 6750,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Black Anarkali Kurti",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 8,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 665,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 5320,
+        "confidence": 0.95
+      }
+    }
+  ],
+  "total": {
+    "value": 16045,
+    "confidence": 0.96
+  },
+  "currency": {
+    "value": "INR",
+    "confidence": 0.99
+  }
+}

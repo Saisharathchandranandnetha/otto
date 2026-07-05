@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "feed": "Feed",
+    "inventory": "Inventory",
+    "ledger": "Ledger",
+    "settings": "Settings"
+  },
+  "feed": {
+    "title": "Approvals",
+    "pending": "Pending",
+    "empty_title": "Otto is blank",
+    "empty_desc": "Like every small business on day one — just a shoebox of papers and a phone full of WhatsApp messages.",
+    "start_resurrection": "Start the resurrection",
+    "no_actions": "No actions yet — snap an invoice or start the resurrection.",
+    "agent_activity": "Agent Activity"
+  },
+  "actions": {
+    "approve": "Approve",
+    "reject": "Reject",
+    "undo": "Undo",
+    "confirm": "Confirm Record",
+    "earn_it": "Earn it, Otto",
+    "not_yet": "Not yet",
+    "this_is_my_business": "This is my business"
+  },
+  "status": {
+    "awaiting_approval": "Awaiting approval",
+    "approved": "Approved",
+    "processing": "Processing",
+    "executed": "Executed ✓",
+    "auto_executed": "Auto-executed ✓",
+    "failed": "Failed",
+    "rejected": "Rejected",
+    "undone": "Undone"
+  }
+}

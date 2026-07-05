@@ -1,0 +1,97 @@
+{
+  "doc_type": "ledger_page",
+  "page_label": {
+    "value": "Page 14",
+    "confidence": 0.9
+  },
+  "rows": [
+    {
+      "party_name": {
+        "value": "Pooja Agarwal",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "sarees on credit",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": 3800,
+        "confidence": 0.88
+      },
+      "credit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "date": {
+        "value": "2026-05-22",
+        "confidence": 0.8
+      }
+    },
+    {
+      "party_name": {
+        "value": "Pooja Agarwal",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "cash",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "credit": {
+        "value": 2000,
+        "confidence": 0.88
+      },
+      "date": {
+        "value": "2026-06-05",
+        "confidence": 0.8
+      }
+    },
+    {
+      "party_name": {
+        "value": "Meera Joshi",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "bulk dupatta order",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": 5000,
+        "confidence": 0.88
+      },
+      "credit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "date": {
+        "value": "2026-03-18",
+        "confidence": 0.8
+      }
+    },
+    {
+      "party_name": {
+        "value": "Meera Joshi",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "paid full",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "credit": {
+        "value": 5000,
+        "confidence": 0.88
+      },
+      "date": {
+        "value": "2026-04-01",
+        "confidence": 0.8
+      }
+    }
+  ]
+}

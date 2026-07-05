@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  ::selection {
+    @apply bg-primary/15 text-on-surface;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Focus-visible for keyboard nav */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-secondary;
+    outline-style: solid;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-background font-sans text-on-surface antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+}
+
+@layer components {
+  /* ── Card: M3 raised surface on warm cream ──────────────────── */
+  .card {
+    @apply animate-slide-in rounded-xl border border-outline-variant/40
+           bg-surface-container-lowest p-4
+           shadow-[0_4px_16px_rgba(54,102,103,0.04)];
+  }
+
+  .card-accent {
+    @apply card border-primary/30 shadow-[0_4px_16px_rgba(156,62,38,0.08)];
+  }
+
+  /* ── Buttons: pill-shaped, 48px touch target ────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full px-6 py-2
+           text-label-lg font-sans font-semibold transition-all duration-150
+           h-touch-target-min
+           active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-on-primary hover:bg-surface-tint shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-on-secondary hover:opacity-90 shadow-sm;
+  }
+
+  .btn-ghost {
+    @apply btn border border-outline text-on-surface
+           hover:bg-surface-container-high;
+  }
+
+  .btn-danger {
+    @apply btn border border-error/40 text-error
+           hover:border-error/60 hover:bg-error/5;
+  }
+
+  .btn-icon {
+    @apply btn p-2 rounded-full;
+  }
+
+  /* ── Text inputs: warm neutral with teal focus ──────────────── */
+  .input {
+    @apply rounded-lg border border-outline-variant bg-surface-container-low px-3 py-1.5
+           font-sans text-body-md text-on-surface placeholder:text-on-surface-variant/50
+           focus:border-secondary/60 focus:outline-none focus:ring-1 focus:ring-secondary/30;
+  }
+
+  /* ── Low-confidence field highlight (warm yellow) ───────────── */
+  .field-review {
+    @apply rounded border border-[#fbc02d]/60 bg-[#fff9c4] px-2 py-1 text-[#f57f17];
+  }
+
+  /* ── Agent trace line ───────────────────────────────────────── */
+  .trace-line {
+    @apply text-label-sm leading-6 tracking-wide;
+  }
+
+  /* ── Live dot indicator ─────────────────────────────────────── */
+  .live-dot {
+    @apply inline-block h-2 w-2 rounded-full;
+  }
+
+  .live-dot--on {
+    @apply live-dot bg-secondary shadow-[0_0_6px_rgba(54,102,103,0.4)];
+  }
+
+  .live-dot--off {
+    @apply live-dot bg-error/60;
+  }
+
+  /* ── Empty state illustration (pure CSS geometric) ──────────── */
+  .empty-box {
+    @apply relative mx-auto flex h-32 w-32 items-center justify-center
+           rounded-2xl border-2 border-dashed border-outline-variant;
+  }
+
+  .empty-box::before {
+    content: '';
+    @apply absolute h-16 w-16 rounded-lg border-2 border-outline-variant/40;
+    transform: rotate(12deg);
+  }
+
+  .empty-box::after {
+    content: '';
+    @apply absolute h-16 w-16 rounded-lg border-2 border-primary/20;
+    transform: rotate(-8deg);
+  }
+
+  /* ── Shimmer effect (processing states) ─────────────────────── */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
+
+  /* ── Fade in up (onboarding stepper) ────────────────────────── */
+  .fade-in-up {
+    @apply animate-fade-in-up opacity-0;
+  }
+
+  /* ── Material Symbols icon defaults ─────────────────────────── */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* ── Hide scrollbar utility ─────────────────────────────────── */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ── Toggle switch styling ──────────────────────────────────── */
+  .toggle-checkbox:checked {
+    right: 0;
+    border-color: theme('colors.primary.DEFAULT');
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    background-color: theme('colors.primary.DEFAULT');
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

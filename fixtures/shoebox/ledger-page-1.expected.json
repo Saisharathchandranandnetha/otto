@@ -1,0 +1,75 @@
+{
+  "doc_type": "ledger_page",
+  "page_label": {
+    "value": "Page 12",
+    "confidence": 0.9
+  },
+  "rows": [
+    {
+      "party_name": {
+        "value": "Rahul Deep",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "3 kurti sets + 2 sarees (udhaar)",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": 12000,
+        "confidence": 0.88
+      },
+      "credit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "date": {
+        "value": "2026-03-02",
+        "confidence": 0.8
+      }
+    },
+    {
+      "party_name": {
+        "value": "Rahul Deep",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "cash received",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "credit": {
+        "value": 4000,
+        "confidence": 0.88
+      },
+      "date": {
+        "value": "2026-04-10",
+        "confidence": 0.8
+      }
+    },
+    {
+      "party_name": {
+        "value": "Sunita Devi",
+        "confidence": 0.88
+      },
+      "description": {
+        "value": "2 suit sets",
+        "confidence": 0.78
+      },
+      "debit": {
+        "value": 2500,
+        "confidence": 0.88
+      },
+      "credit": {
+        "value": null,
+        "confidence": 0.9
+      },
+      "date": {
+        "value": "2026-05-11",
+        "confidence": 0.8
+      }
+    }
+  ]
+}

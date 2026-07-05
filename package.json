@@ -1,0 +1,43 @@
+{
+  "name": "otto",
+  "version": "0.1.0",
+  "private": true,
+  "keywords": ["hackathon","takeover","ai","small-business"],
+  "scripts": {
+    "dev": "next dev -p ${PORT:-3000}",
+    "build": "next build",
+    "start": "next start -p ${PORT:-3000}",
+    "typecheck": "tsc --noEmit",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "tsx db/seed.ts",
+    "demo:reset": "tsx scripts/demo-reset.ts",
+    "cache:warm": "tsx scripts/cache-warm.ts",
+    "eval": "tsx scripts/eval.ts",
+    "flow": "tsx scripts/run-flow.ts",
+    "setup": "tsx scripts/migrate.ts && tsx db/seed.ts",
+    "health": "tsx scripts/health.ts"
+  },
+  "dependencies": {
+    "next": "^14.2.15",
+    "postgres": "^3.4.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "twilio": "^5.3.0",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.3"
+  },
+  "engines": { "node": ">=18.17.0" },
+  "pnpm": { "onlyBuiltDependencies": ["esbuild"] }
+}

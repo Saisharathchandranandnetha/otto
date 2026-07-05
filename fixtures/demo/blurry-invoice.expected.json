@@ -1,0 +1,59 @@
+{
+  "doc_type": "invoice",
+  "direction": {
+    "value": "purchase",
+    "confidence": 0.7
+  },
+  "counterparty_name": {
+    "value": "Meena Silks",
+    "confidence": 0.7
+  },
+  "vendor_name": {
+    "value": "Meena Silks",
+    "confidence": 0.7
+  },
+  "vendor_phone": {
+    "value": "+91-98123-45678",
+    "confidence": 0.6399999999999999
+  },
+  "invoice_no": {
+    "value": "MS-5??",
+    "confidence": 0.4
+  },
+  "invoice_date": {
+    "value": "2026-06-28",
+    "confidence": 0.65
+  },
+  "due_date": {
+    "value": null,
+    "confidence": 0.85
+  },
+  "line_items": [
+    {
+      "product_name": {
+        "value": "Georgette Saree",
+        "confidence": 0.68
+      },
+      "qty": {
+        "value": 8,
+        "confidence": 0.55
+      },
+      "unit_price": {
+        "value": 1015,
+        "confidence": 0.62
+      },
+      "amount": {
+        "value": 8120,
+        "confidence": 0.6
+      }
+    }
+  ],
+  "total": {
+    "value": 8120,
+    "confidence": 0.6
+  },
+  "currency": {
+    "value": "INR",
+    "confidence": 0.99
+  }
+}

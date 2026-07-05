@@ -1,0 +1,24 @@
+{
+  "merges": [
+    {
+      "canonical_name": "Sharma Fabrics",
+      "entity_type": "supplier",
+      "merged_aliases": [
+        "Sharma Fab."
+      ],
+      "phone": "+91-98761-23456",
+      "confidence": 0.97,
+      "evidence": "Same phone number on invoices SF/2026/031 (as \"Sharma Fab.\") and SF/2026/118 (as \"Sharma Fabrics\"); WhatsApp contact matches."
+    },
+    {
+      "canonical_name": "Meena Silks",
+      "entity_type": "supplier",
+      "merged_aliases": [
+        "Meena Silk House"
+      ],
+      "phone": "+91-98123-45678",
+      "confidence": 0.96,
+      "evidence": "Same phone across MS-441 (\"Meena Silk House\") and MS-502/MS-563 (\"Meena Silks\"); same invoice number series."
+    }
+  ]
+}

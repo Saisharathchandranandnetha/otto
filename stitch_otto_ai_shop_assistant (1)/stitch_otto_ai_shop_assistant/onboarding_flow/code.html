@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Otto - Building your business</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Setup -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#3d6c6d",
+                    "primary-fixed": "#ffdbd2",
+                    "tertiary-container": "#7b745e",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1b1c1a",
+                    "surface-variant": "#e4e2de",
+                    "secondary-fixed": "#baecec",
+                    "primary-container": "#bc563c",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#3c0800",
+                    "tertiary-fixed-dim": "#cec6ad",
+                    "background": "#fbf9f5",
+                    "on-surface": "#1b1c1a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#dbdad6",
+                    "on-tertiary-fixed-variant": "#4c4733",
+                    "on-secondary-fixed-variant": "#1c4e4f",
+                    "secondary-container": "#baecec",
+                    "on-tertiary-fixed": "#1f1c0b",
+                    "surface-tint": "#9f4128",
+                    "surface-container": "#efeeea",
+                    "surface-container-highest": "#e4e2de",
+                    "outline-variant": "#ddc0ba",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#30312e",
+                    "secondary": "#366667",
+                    "inverse-on-surface": "#f2f0ed",
+                    "tertiary": "#615c47",
+                    "on-tertiary-container": "#fffbff",
+                    "primary": "#9c3e26",
+                    "surface-bright": "#fbf9f5",
+                    "surface": "#fbf9f5",
+                    "outline": "#89726c",
+                    "primary-fixed-dim": "#ffb4a2",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#56423d",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#7f2a13",
+                    "tertiary-fixed": "#ebe2c8",
+                    "secondary-fixed-dim": "#9fcfd0",
+                    "surface-container-high": "#eae8e4",
+                    "on-secondary-fixed": "#002020",
+                    "inverse-primary": "#ffb4a2",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f5f3ef",
+                    "on-primary-container": "#fffbff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "touch-target-min": "48px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-padding": "20px",
+                    "stack-sm": "12px",
+                    "stack-md": "24px",
+                    "stack-lg": "40px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+                    "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+                    "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+                    "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+                    "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+                    "body-md": ["Plus Jakarta Sans", "sans-serif"],
+                    "headline-md": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 255, 255, 0.6) 60%,
+                rgba(255, 255, 255, 0)
+            );
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- Note: TopAppBar and BottomNavBar are deliberately suppressed here per the "Semantic Shell Mandate" 
+         as this is a Linear/Transactional First-Run Onboarding screen. -->
+<main class="flex-1 w-full max-w-md mx-auto flex flex-col relative pb-32">
+<!-- Header -->
+<header class="pt-12 pb-6 px-container-padding fade-in-up" style="animation-delay: 0.1s;">
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile text-primary mb-2 tracking-tight">Building your business</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Otto is organizing your history from the documents you provided.</p>
+</header>
+<!-- Document Thumbnails (Source Material Bento) -->
+<section class="px-container-padding mb-8 fade-in-up" style="animation-delay: 0.2s;">
+<div class="grid grid-cols-2 gap-gutter">
+<!-- File Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-[0_4px_16px_rgba(54,102,103,0.03)] relative overflow-hidden group hover:border-outline transition-colors cursor-default">
+<div class="bg-surface-container w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-secondary">
+<span class="material-symbols-outlined text-[24px]">description</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface truncate">Invoices_Q3_2023.pdf</p>
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-secondary/5 rounded-full blur-xl"></div>
+</div>
+<!-- Image Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(54,102,103,0.03)] h-[104px] relative bg-cover bg-center" data-alt="A close-up, high-quality photograph of a slightly crumpled thermal paper receipt resting on a smooth, warm-toned wooden desk. The lighting is soft and natural, casting subtle shadows that highlight the paper's texture. The aesthetic is clean, modern, and trustworthy, fitting a professional small business environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCI5LCdMtOgdTlW_SzycjSgfIS7EjkYpkvu0D4LnxIkpLU3-9lLV_Xbs5suP4sI-XQr5OTP_SPZYdw9L0VEQUHQw50uM6zUx_lEuvXlTfOMkcnv9ZSgF51ofgkOKem5hNOrJlmeaBIPb9CPBnrDIvFTF4k8gudm06AfbPfY4ZPLE0SyIo89XHYr8bhrfmG_QD1Ybt-uRdOWwSKK4ivZQM6tJIKsWj5MiAmJiALL7Ei3AI5fc52q5lOCRsHZ80fJIlcQQiEEGZDXdQ')">
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-1.5 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
+<span class="material-symbols-outlined text-[14px] text-on-surface">image</span>
+<span class="text-[10px] font-label-sm text-on-surface tracking-wide">Receipt_092.jpg</span>
+</div>
+</div>
+<!-- WhatsApp Export Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-[0_4px_16px_rgba(54,102,103,0.03)] col-span-2 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-[#25D366]/10 p-2.5 rounded-lg text-[#25D366]">
+<span class="material-symbols-outlined text-[24px]">forum</span>
+</div>
+<div>
+<p class="text-label-lg font-label-lg text-on-surface">WhatsApp Chat Export</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-0.5">Supplier_Communications.zip</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant">check_circle</span>
+</div>
+</div>
+</section>
+<!-- Progress Sequence (Vertical Stepper) -->
+<section class="px-container-padding flex-1 fade-in-up" style="animation-delay: 0.3s;">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.03)] p-6 relative overflow-hidden">
+<!-- Background decorative element -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed-dim/10 rounded-bl-full blur-2xl -z-10"></div>
+<!-- Stepper Line -->
+<div class="absolute left-[39px] top-10 bottom-10 w-[2px] bg-surface-container"></div>
+<!-- Step 1: Done -->
+<div class="flex gap-4 relative z-10 mb-stack-md group">
+<div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0 ring-4 ring-surface-container-lowest shadow-sm transition-transform group-hover:scale-105">
+<span class="material-symbols-outlined text-on-secondary text-[18px]">check</span>
+</div>
+<div class="pt-1">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Reading your invoices</h3>
+<p class="text-label-lg font-label-lg text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">inventory_2</span>
+                            Found 12 products, 4 suppliers
+                        </p>
+</div>
+</div>
+<!-- Step 2: Done -->
+<div class="flex gap-4 relative z-10 mb-stack-md group">
+<div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0 ring-4 ring-surface-container-lowest shadow-sm transition-transform group-hover:scale-105">
+<span class="material-symbols-outlined text-on-secondary text-[18px]">check</span>
+</div>
+<div class="pt-1">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Finding your suppliers</h3>
+<p class="text-label-lg font-label-lg text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">group</span>
+                            Found 9 customers
+                        </p>
+</div>
+</div>
+<!-- Step 3: Active (Processing) -->
+<div class="flex gap-4 relative z-10 mb-stack-md" id="step-active">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0 ring-4 ring-surface-container-lowest shadow-sm relative">
+<!-- Pulsing ring -->
+<div class="absolute inset-0 rounded-full border-2 border-primary-container animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-50"></div>
+<span class="material-symbols-outlined text-on-primary-container text-[18px] animate-[spin_3s_linear_infinite]">sync</span>
+</div>
+<div class="pt-1">
+<h3 class="text-headline-sm font-headline-sm text-on-surface text-primary">Merging duplicate contacts</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">Cross-referencing phone numbers...</p>
+</div>
+</div>
+<!-- Step 4: Pending -->
+<div class="flex gap-4 relative z-10 opacity-50" id="step-pending">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-4 ring-surface-container-lowest">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">more_horiz</span>
+</div>
+<div class="pt-1">
+<h3 class="text-body-lg font-body-lg text-on-surface-variant">Calculating reorder points</h3>
+</div>
+</div>
+<!-- Step 4: Done (Hidden initially) -->
+<div class="hidden flex gap-4 relative z-10 mb-2" id="step-final-done">
+<div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0 ring-4 ring-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-on-secondary text-[18px]">check</span>
+</div>
+<div class="pt-1">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Calculating reorder points</h3>
+<p class="text-label-lg font-label-lg text-secondary mt-1">Stock levels optimized</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Sticky Bottom Action Area -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest border-t border-surface-container pt-4 pb-safe shadow-[0_-8px_32px_rgba(0,0,0,0.08)] z-50 transition-all duration-500 transform translate-y-0" id="bottom-bar">
+<div class="max-w-md mx-auto px-container-padding">
+<!-- Processing State (Visible Initially) -->
+<div class="flex flex-col items-center justify-center pb-4 pt-2" id="state-processing">
+<p class="text-label-lg font-label-lg text-on-surface-variant mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] animate-spin">hourglass_bottom</span>
+                         Almost there...
+                     </p>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden shimmer">
+<div class="bg-primary h-full w-[65%] rounded-full transition-all duration-[3000ms] ease-out" id="progress-bar-fill"></div>
+</div>
+</div>
+<!-- Ready State (Hidden Initially) -->
+<div class="hidden flex-col gap-5 pb-4" id="state-ready">
+<div class="text-center fade-in-up">
+<h2 class="text-headline-md font-headline-md text-primary mb-1">Your business is ready</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">We've securely organized your data.</p>
+</div>
+<!-- Mini Stats Bento -->
+<div class="flex justify-between bg-surface-container p-3 rounded-xl border border-outline-variant/50 fade-in-up" style="animation-delay: 0.1s;">
+<div class="text-center w-1/3 border-r border-outline-variant/30">
+<p class="text-headline-sm font-headline-sm text-on-surface">12</p>
+<p class="text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider">Products</p>
+</div>
+<div class="text-center w-1/3 border-r border-outline-variant/30">
+<p class="text-headline-sm font-headline-sm text-on-surface">13</p>
+<p class="text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider">Contacts</p>
+</div>
+<div class="text-center w-1/3">
+<p class="text-headline-sm font-headline-sm text-on-surface text-secondary">30+</p>
+<p class="text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider">Invoices</p>
+</div>
+</div>
+<button class="w-full h-touch-target-min bg-primary text-on-primary rounded-full text-label-lg font-label-lg flex items-center justify-center gap-2 hover:bg-surface-tint active:scale-[0.98] transition-all shadow-md fade-in-up" style="animation-delay: 0.2s;">
+                        This is my business
+                        <span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Inline script to demonstrate the transition from 'Processing' to 'Ready' state -->
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const progressBarFill = document.getElementById('progress-bar-fill');
+            const stateProcessing = document.getElementById('state-processing');
+            const stateReady = document.getElementById('state-ready');
+            
+            const stepActive = document.getElementById('step-active');
+            const stepPending = document.getElementById('step-pending');
+            const stepFinalDone = document.getElementById('step-final-done');
+
+            // Simulate progress filling up
+            setTimeout(() => {
+                if(progressBarFill) progressBarFill.style.width = '100%';
+            }, 500);
+
+            // Simulate sequence completion after 3.5 seconds
+            setTimeout(() => {
+                // Update Stepper UI to final state
+                if(stepActive) stepActive.classList.add('hidden');
+                if(stepPending) stepPending.classList.add('hidden');
+                if(stepFinalDone) {
+                    stepFinalDone.classList.remove('hidden');
+                    stepFinalDone.classList.add('fade-in-up');
+                }
+
+                // Swap bottom action area states
+                if(stateProcessing) stateProcessing.classList.add('hidden');
+                if(stateReady) {
+                    stateReady.classList.remove('hidden');
+                    stateReady.classList.add('flex');
+                }
+            }, 3500);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: otto-db
+    environment:
+      POSTGRES_USER: otto
+      POSTGRES_PASSWORD: otto
+      POSTGRES_DB: otto
+    ports:
+      - "5432:5432"
+    volumes:
+      - otto_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U otto"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  otto_pgdata:

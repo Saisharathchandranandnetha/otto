@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="402" font-family="monospace">
+<rect width="100%" height="100%" fill="#fbf7ee"/>
+<text x="24" y="44" font-size="22" font-weight="bold">Sharma Fabrics</text>
+<text x="24" y="68" font-size="13">+91-98761-23456 · Jaipur</text>
+<text x="24" y="100" font-size="14">Invoice: SF/2026/207    Date: 2026-05-20</text>
+<line x1="24" y1="118" x2="616" y2="118" stroke="#999"/>
+<text x="24" y="150" font-size="14">Red Cotton Dupatta   x15  @ Rs.265  =  Rs.3975</text>
+<text x="24" y="184" font-size="14">Leggings (Black)   x30  @ Rs.225  =  Rs.6750</text>
+<text x="24" y="218" font-size="14">Black Anarkali Kurti   x8  @ Rs.665  =  Rs.5320</text>
+<line x1="24" y1="242" x2="616" y2="242" stroke="#999"/>
+<text x="24" y="278" font-size="17" font-weight="bold">TOTAL: Rs.16045</text>
+
+<text x="24" y="342" font-size="11" fill="#777">Stand-in fixture — replace with a real photographed invoice for the live demo.</text>
+</svg>

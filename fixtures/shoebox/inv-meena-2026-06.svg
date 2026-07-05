@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="402" font-family="monospace">
+<rect width="100%" height="100%" fill="#fbf7ee"/>
+<text x="24" y="44" font-size="22" font-weight="bold">Meena Silks</text>
+<text x="24" y="68" font-size="13">+91-98123-45678 · Jaipur</text>
+<text x="24" y="100" font-size="14">Invoice: MS-563    Date: 2026-06-10</text>
+<line x1="24" y1="118" x2="616" y2="118" stroke="#999"/>
+<text x="24" y="150" font-size="14">Kurti Set (Maroon)   x8  @ Rs.875  =  Rs.7000</text>
+<text x="24" y="184" font-size="14">Palazzo Pants (Beige)   x15  @ Rs.335  =  Rs.5025</text>
+<text x="24" y="218" font-size="14">Blue Silk Dupatta   x10  @ Rs.335  =  Rs.3350</text>
+<line x1="24" y1="242" x2="616" y2="242" stroke="#999"/>
+<text x="24" y="278" font-size="17" font-weight="bold">TOTAL: Rs.15375</text>
+
+<text x="24" y="342" font-size="11" fill="#777">Stand-in fixture — replace with a real photographed invoice for the live demo.</text>
+</svg>

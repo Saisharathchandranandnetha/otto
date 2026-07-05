@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Otto - Settings</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#3d6c6d",
+                        "primary-fixed": "#ffdbd2",
+                        "tertiary-container": "#7b745e",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1b1c1a",
+                        "surface-variant": "#e4e2de",
+                        "secondary-fixed": "#baecec",
+                        "primary-container": "#bc563c",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#3c0800",
+                        "tertiary-fixed-dim": "#cec6ad",
+                        "background": "#fbf9f5",
+                        "on-surface": "#1b1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "on-tertiary-fixed-variant": "#4c4733",
+                        "on-secondary-fixed-variant": "#1c4e4f",
+                        "secondary-container": "#baecec",
+                        "on-tertiary-fixed": "#1f1c0b",
+                        "surface-tint": "#9f4128",
+                        "surface-container": "#efeeea",
+                        "surface-container-highest": "#e4e2de",
+                        "outline-variant": "#ddc0ba",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#30312e",
+                        "secondary": "#366667",
+                        "inverse-on-surface": "#f2f0ed",
+                        "tertiary": "#615c47",
+                        "on-tertiary-container": "#fffbff",
+                        "primary": "#9c3e26",
+                        "surface-bright": "#fbf9f5",
+                        "surface": "#fbf9f5",
+                        "outline": "#89726c",
+                        "primary-fixed-dim": "#ffb4a2",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#56423d",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#7f2a13",
+                        "tertiary-fixed": "#ebe2c8",
+                        "secondary-fixed-dim": "#9fcfd0",
+                        "surface-container-high": "#eae8e4",
+                        "on-secondary-fixed": "#002020",
+                        "inverse-primary": "#ffb4a2",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f5f3ef",
+                        "on-primary-container": "#fffbff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "touch-target-min": "48px",
+                        "gutter": "16px",
+                        "base": "8px",
+                        "container-padding": "20px",
+                        "stack-sm": "12px",
+                        "stack-md": "24px",
+                        "stack-lg": "40px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom toggle switch styling based on brand colors */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #9c3e26;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #9c3e26;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen relative pb-[90px]">
+<!-- TopAppBar from JSON -->
+<header class="fixed top-0 left-0 w-full z-50 bg-background dark:bg-on-background flex justify-between items-center px-container-padding h-touch-target-min">
+<button class="hover:opacity-80 transition-opacity text-on-surface-variant dark:text-outline-variant flex items-center justify-center w-touch-target-min h-touch-target-min">
+<span class="material-symbols-outlined">language</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Otto</h1>
+<button class="hover:opacity-80 transition-opacity text-on-surface-variant dark:text-outline-variant flex items-center justify-center w-touch-target-min h-touch-target-min">
+<span class="material-symbols-outlined">verified_user</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="pt-[64px] px-container-padding max-w-2xl mx-auto flex flex-col gap-stack-md">
+<!-- Page Title (Optional for context, but keeping it clean per mobile first) -->
+<div class="pt-4">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">Settings</h2>
+</div>
+<!-- Business Profile Section -->
+<section class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-[0_4px_16px_rgba(156,62,38,0.03)] overflow-hidden">
+<div class="p-4 border-b border-surface-variant flex justify-between items-center bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div>
+<h3 class="text-label-lg font-label-lg text-on-surface">Otto General Store</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Business Profile</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<div class="p-4 flex justify-between items-center bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h3 class="text-label-lg font-label-lg text-on-surface">Account Owner</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Personal details</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</section>
+<!-- WhatsApp Integration Section -->
+<section class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-[0_4px_16px_rgba(54,102,103,0.04)] p-4">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center text-[#2E7D32]">
+<!-- Using generic chat icon for WA placeholder -->
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+</div>
+<div class="flex-1">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">WhatsApp Assistant</h3>
+<p class="text-label-sm font-label-sm text-secondary flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Connected
+                    </p>
+</div>
+</div>
+<div class="bg-surface-container rounded-lg p-3 border border-surface-variant/50">
+<p class="text-label-lg font-label-lg text-on-surface-variant">
+                    Otto gently syncs with your business chats to log transactions. Your personal messages remain fully private and untouched.
+                </p>
+</div>
+</section>
+<!-- Autonomy & Trust Section -->
+<section class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-sm p-4">
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-4">Autonomy &amp; Trust</h3>
+<div class="flex flex-col gap-4">
+<!-- Item 1 -->
+<div class="flex justify-between items-center pb-4 border-b border-surface-variant">
+<div class="flex-1 pr-4">
+<h4 class="text-label-lg font-label-lg text-on-surface">Supplier Payments</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">
+<span class="inline-block px-2 py-0.5 bg-primary-container/20 text-primary rounded text-[10px] uppercase font-bold tracking-wider mr-1">Autonomous</span>
+                            Up to ₹5,000 daily
+                        </p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-primary transition-all duration-300 z-10 top-0 right-0" id="toggle1" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-primary cursor-pointer transition-colors duration-300" for="toggle1"></label>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex justify-between items-center pb-2">
+<div class="flex-1 pr-4">
+<h4 class="text-label-lg font-label-lg text-on-surface">Customer Reminders</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">
+<span class="inline-block px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded text-[10px] uppercase font-bold tracking-wider mr-1">Gated</span>
+                            Requires approval
+                        </p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-variant appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0" id="toggle2" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-colors duration-300" for="toggle2"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- Language Section -->
+<section class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-sm overflow-hidden mb-8">
+<h3 class="text-headline-sm font-headline-sm text-on-surface p-4 pb-2">Language</h3>
+<div class="flex flex-col">
+<button class="flex justify-between items-center p-4 bg-surface-container-lowest hover:bg-surface-container-low transition-colors border-b border-surface-variant text-left">
+<span class="text-body-md font-body-md text-on-surface">English</span>
+<span class="material-symbols-outlined text-primary">check</span>
+</button>
+<button class="flex justify-between items-center p-4 bg-surface-container-lowest hover:bg-surface-container-low transition-colors border-b border-surface-variant text-left">
+<span class="text-body-md font-body-md text-on-surface">हिन्दी</span>
+</button>
+<button class="flex justify-between items-center p-4 bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-left">
+<span class="text-body-md font-body-md text-on-surface">తెలుగు</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar from JSON -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-[72px] px-base pb-safe bg-surface dark:bg-inverse-surface shadow-[0_-4px_16px_rgba(54,102,103,0.08)] rounded-t-xl md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">home_app_logo</span>
+<span class="text-label-sm font-label-sm mt-1">Feed</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-label-sm font-label-sm mt-1">Inventory</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-label-sm font-label-sm mt-1">Ledger</span>
+</button>
+<!-- ACTIVE STATE -->
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-label-sm font-label-sm mt-1">Settings</span>
+</button>
+</nav>
+<script>
+        // Simple toggle logic for the non-checked toggle to demonstrate interaction
+        const toggle2 = document.getElementById('toggle2');
+        toggle2.addEventListener('change', function() {
+            if(this.checked) {
+                this.style.left = 'auto';
+                this.style.right = '0';
+                this.style.borderColor = '#9c3e26'; // primary
+                this.nextElementSibling.style.backgroundColor = '#9c3e26';
+            } else {
+                this.style.right = 'auto';
+                this.style.left = '0';
+                this.style.borderColor = '#e4e2de'; // surface-variant
+                this.nextElementSibling.style.backgroundColor = '#e4e2de';
+            }
+        });
+
+        // Initialize toggle1 styling
+        const toggle1 = document.getElementById('toggle1');
+        if(toggle1.checked) {
+            toggle1.style.right = '0';
+            toggle1.style.borderColor = '#9c3e26';
+            toggle1.nextElementSibling.style.backgroundColor = '#9c3e26';
+        }
+    </script>
+</body></html>
