@@ -27,7 +27,7 @@ export default function FeedPage() {
             <div className="card bg-surface">
               <h3 className="font-semibold text-on-surface flex items-center gap-2 mb-2">
                 <span className="material-symbols-outlined text-primary">account_tree</span>
-                Powered by Dify Engine
+                Powered by Vas Engine
               </h3>
               <ul className="text-body-sm text-on-surface-variant space-y-2 list-disc list-inside">
                 <li>Visual Workflow Builder for rapid testing</li>
@@ -35,6 +35,12 @@ export default function FeedPage() {
                 <li>RAG Pipelines with document extraction</li>
                 <li>Agent Capabilities with Function Calling</li>
               </ul>
+              <div className="mt-4">
+                <a href="http://localhost/install" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-full text-body-sm font-medium hover:bg-primary/90 transition-colors">
+                  <span className="material-symbols-outlined text-[18px]">edit_note</span>
+                  Open Visual Workflow Builder
+                </a>
+              </div>
             </div>
             
             <div className="card bg-surface">
