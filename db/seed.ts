@@ -90,7 +90,7 @@ async function main() {
   for (const p of pending) {
     await sql`insert into invoices (supplier_id, invoice_no, invoice_date, due_date, total, status)
       values (${supplierIds[p.sup as 0 | 1]}, ${p.no},
-              current_date - 14, current_date + ${p.days}, ${p.total}, 'due')`;
+              current_date - 14, current_date + ${p.days}::int, ${p.total}, 'due')`;
   }
 
   // Trust history: 2 approved reorders already behind us → the NEXT one triggers graduation.

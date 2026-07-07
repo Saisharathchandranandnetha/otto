@@ -13,6 +13,21 @@ Otto is a complete, production-grade backend + frontend application that:
 1. **The Resurrection** — upload 15–20 photos of paper invoices, handwritten ledger pages, and a WhatsApp chat export → batch vision extraction → entity resolution → inference pass (reorder points, dues, price history) → live narrated build → one-tap confirmation → **a running digital business, in 3 minutes, zero typing.**
 2. **The Autonomy Ladder** — every action starts human-gated. Approve reorders 3 times → Otto asks for a promotion → accept → Otto now executes reorders alone, **capped, logged, reversible for 1 hour, and revocable with one toggle.**
 
+3. **Theme 2 Domain Engine** - one approval/trust core now drives hardcoded MVP playbooks for **Education, Healthcare, HR, Legal, Manufacturing, Sales, Customer Support, and Retail**. Each playbook stages a real approval-feed action with workflow steps, draft output, evidence sources, cost-of-delay, Otto Engine metadata, and the same earned-autonomy safety model.
+
+## Theme 2 MVP engine
+
+The home screen is now the **Autonomous Workflow Agents** console. Pick any targeted industry and click **Stage** to generate a domain-specific action card, or **Stage all** to populate the queue across all eight domains.
+
+Core action families:
+- `workflow_approval` for multi-department approvals.
+- `document_generation` for letters, memos, reports, and contracts.
+- `support_response` for ticket replies and escalations.
+- `knowledge_answer` for policy-backed answers.
+- `personalization_plan` for sales, retail, and customer growth.
+
+Otto Workflow Engine integration: set `OTTO_ENGINE_URL` and `OTTO_ENGINE_KEY` to connect to Otto's workflow orchestration API, or leave them blank for the deterministic local playbook fallback used in the hackathon MVP. Otto keeps the safety moat: approval gate, trust grants, caps, undo, revoke, and audit trail.
+
 ## Quick start
 
 ```bash

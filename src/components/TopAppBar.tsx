@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 const DESKTOP_TABS = [
-  { href: '/', label: 'Feed' },
+  { href: '/', label: 'Engine' },
   { href: '/inventory', label: 'Inventory' },
   { href: '/ledger', label: 'Ledger' },
   { href: '/settings', label: 'Settings' },

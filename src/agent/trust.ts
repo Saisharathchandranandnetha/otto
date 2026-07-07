@@ -5,12 +5,18 @@
 //   one-toggle revoke at any time.
 import { sql } from '@/lib/db';
 import { createAction, draftAction, transition, type ActionType } from './machine';
+import { THEME2_ACTION_TYPES } from '@/lib/theme2';
 
 export const GRADUATION_THRESHOLD = 3;
 export const DEFAULT_CAP_INR = 10_000;
 
-/** Action types that can graduate (Flow C's payment_reminder joins later). */
-const GRADUATABLE: ActionType[] = ['reorder'];
+/** Action types that can graduate into capped autonomy. */
+const GRADUATABLE: ActionType[] = [
+  'reorder',
+  'admission_processing',
+  'attendance_report',
+  ...THEME2_ACTION_TYPES,
+];
 
 /** Called after every HUMAN approval. Surfaces the graduation card when earned. */
 export async function recordHumanApproval(actionType: ActionType): Promise<{ offeredGraduation: boolean }> {

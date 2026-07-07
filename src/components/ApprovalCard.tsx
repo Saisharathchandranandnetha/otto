@@ -5,6 +5,7 @@
 // Material Symbols icons, and 48px touch targets.
 import { useState, useCallback } from 'react';
 import { inr, type FeedAction } from './useOtto';
+import { isTheme2ActionType } from '@/lib/theme2';
 
 const REVIEW_THRESHOLD = 0.75;
 
@@ -22,6 +23,18 @@ function UndoTimer({ deadline }: { deadline: string }) {
       <span className="material-symbols-outlined text-[18px]">undo</span>
       Undo <span className="font-normal opacity-80">({mins}m left)</span>
     </button>
+  );
+}
+
+function textList(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+}
+
+function textRecord(value: unknown): Record<string, string> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
   );
 }
 
@@ -174,6 +187,147 @@ export function ApprovalCard({ action, onAct }: Props) {
   }
 
   // ── Resurrection summary ─────────────────────────────────────────────
+  if (
+    isTheme2ActionType(action.type) ||
+    action.type === 'admission_processing' ||
+    action.type === 'attendance_report'
+  ) {
+    const workflow = textList(action.payload.workflow_steps);
+    const approvals = textList(action.payload.approval_chain);
+    const sources = textList(action.payload.sources);
+    const draft = textRecord(action.payload.draft);
+    const impact = textRecord(action.payload.impact);
+    const engine = textRecord(action.payload.engine);
+    const color = typeof action.payload.color === 'string' ? action.payload.color : '#366667';
+    const accent = typeof action.payload.accent === 'string' ? action.payload.accent : '#e4e2de';
+    const icon = typeof action.payload.icon === 'string' ? action.payload.icon : 'schema';
+    const done = action.status === 'executed';
+    const reversed = action.status === 'undone';
+
+    return (
+      <article className="card relative overflow-hidden border-outline-variant/60">
+        <div
+          className="absolute left-0 top-0 h-full w-1"
+          style={{ backgroundColor: color }}
+          aria-hidden="true"
+        />
+
+        <div className="flex items-start gap-4">
+          <div
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded"
+            style={{ backgroundColor: accent, color }}
+          >
+            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+              {icon}
+            </span>
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className="rounded px-2 py-1 text-label-sm font-semibold"
+                style={{ backgroundColor: accent, color }}
+              >
+                {String(action.payload.domain_name ?? 'Theme 2')}
+              </span>
+              <span className="text-label-sm text-on-surface-variant">
+                {String(action.payload.problem_statement ?? action.type)}
+              </span>
+            </div>
+
+            <h3 className="mt-2 text-headline-sm text-on-surface">
+              {String(action.payload.title ?? 'Domain workflow')}
+            </h3>
+            {action.reasoning && (
+              <p className="mt-2 text-body-md text-on-surface-variant">
+                {action.reasoning}
+              </p>
+            )}
+
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              {[impact.primary, impact.secondary, impact.costOfDelay].filter(Boolean).map((item) => (
+                <div key={item} className="rounded border border-outline-variant/40 bg-surface-container-low px-3 py-2">
+                  <p className="text-label-sm text-on-surface">{item}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr]">
+              <div className="rounded border border-outline-variant/40 bg-surface-container-low p-3">
+                <div className="mb-2 flex items-center gap-2 text-label-sm font-semibold text-on-surface">
+                  <span className="material-symbols-outlined text-[16px]" style={{ color }}>account_tree</span>
+                  Workflow
+                </div>
+                <ol className="space-y-1 text-label-sm text-on-surface-variant">
+                  {workflow.slice(0, 5).map((step, i) => (
+                    <li key={step} className="flex gap-2">
+                      <span className="font-mono text-on-surface">{i + 1}</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <div className="rounded border border-outline-variant/40 bg-surface-container-low p-3">
+                <div className="mb-2 flex items-center gap-2 text-label-sm font-semibold text-on-surface">
+                  <span className="material-symbols-outlined text-[16px]" style={{ color }}>draft</span>
+                  Draft Output
+                </div>
+                <p className="text-label-sm text-on-surface">
+                  {draft.format ?? 'Packet'} for {draft.recipient ?? 'reviewer'}
+                </p>
+                {draft.body && (
+                  <p className="mt-2 line-clamp-3 text-label-sm text-on-surface-variant">
+                    {draft.body}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              {approvals.map((approval) => (
+                <span key={approval} className="rounded bg-surface-container px-2 py-1 text-label-sm text-on-surface-variant">
+                  {approval}
+                </span>
+              ))}
+              {sources.slice(0, 3).map((source) => (
+                <span key={source} className="rounded border border-outline-variant/40 px-2 py-1 text-label-sm text-on-surface-variant">
+                  {source}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-label-sm text-on-surface-variant">
+              <span className="inline-flex items-center gap-1">
+                <span className="material-symbols-outlined text-[15px]">hub</span>
+                Otto Engine: {engine.mode ?? 'mock'}
+              </span>
+              <span>Confidence {Math.round(Number(action.payload.confidence ?? 0) * 100)}%</span>
+              {action.amount ? <span>Value {inr(action.amount)}</span> : null}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center justify-between border-t border-surface-container-highest pt-3">
+          <span className="text-label-sm text-on-surface-variant">
+            {done ? 'Executed' : reversed ? 'Withdrawn' : action.status === 'rejected' ? 'Rejected' : 'Awaiting approval'}
+          </span>
+
+          {action.status === 'awaiting_approval' && (
+            <div className="flex gap-2">
+              <button className="btn-ghost" disabled={busy} onClick={() => void run('reject')}>
+                Reject
+              </button>
+              <button className="btn-secondary" disabled={busy} onClick={() => void run('approve')}>
+                {busy ? 'Working...' : 'Approve'}
+              </button>
+            </div>
+          )}
+        </div>
+      </article>
+    );
+  }
+
   if (action.type === 'resurrection_commit') {
     const s = (action.payload.summary ?? {}) as Record<string, number>;
     const done = action.status === 'executed';

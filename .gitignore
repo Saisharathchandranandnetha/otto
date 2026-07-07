@@ -38,3 +38,11 @@ next-env.d.ts
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# AI Agent Sessions
+.claude-flow/
+.agents/
+.gemini/
+
+# Local Backend
+dify/

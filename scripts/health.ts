@@ -38,7 +38,7 @@ async function main() {
   }
 
   // 4. Node version
-  const [major] = process.version.slice(1).split('.').map(Number);
+  const major = Number(process.version.slice(1).split('.')[0] ?? '0');
   if (major < 18) errors.push(`Node: ${process.version} (need >=18)`);
 
   await sql.end();

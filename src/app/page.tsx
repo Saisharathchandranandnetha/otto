@@ -10,6 +10,7 @@ import { TrustMeter } from '@/components/TrustMeter';
 import { ActivityTrace } from '@/components/ActivityTrace';
 import { SimulatedWhatsAppPane } from '@/components/SimulatedWhatsAppPane';
 import { AppShell } from '@/components/AppShell';
+import { DomainEnginePanel } from '@/components/DomainEnginePanel';
 
 function EmptyState() {
   return (
@@ -77,6 +78,8 @@ export default function FeedPage() {
 
   return (
     <AppShell>
+      <DomainEnginePanel onRefresh={refresh} />
+
       {/* Trust Meter Strip */}
       {grants.length > 0 && (
         <section className="px-container-padding py-base bg-surface-container-lowest border-b border-surface-container-highest shadow-sm">
@@ -85,11 +88,11 @@ export default function FeedPage() {
       )}
 
       {/* Main Feed */}
-      <main className="flex-1 overflow-y-auto px-container-padding py-stack-md flex flex-col gap-stack-md max-w-2xl mx-auto">
+      <main className="flex-1 overflow-y-auto px-container-padding py-stack-md flex flex-col gap-stack-md max-w-4xl mx-auto">
         {/* Section Header */}
         <div className="flex justify-between items-end">
           <h1 className="text-headline-lg-mobile md:text-headline-lg text-on-surface">
-            Approvals
+            Approval Queue
           </h1>
           {pendingCount > 0 && (
             <span className="text-label-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded">

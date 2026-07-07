@@ -4,11 +4,12 @@
 // callers race, one matches 0 rows and exits. Every step is audit-logged.
 import { sql } from '@/lib/db';
 import { emitAgentEvent } from '@/lib/sse';
-import { getAction, transition, type ActionRow } from './machine';
+import { getAction, transition, type ActionRow, type ActionType } from './machine';
 import { acceptGraduation } from './trust';
 import { sendWhatsApp } from '@/integrations/whatsapp';
 import { renderPoPdf } from '@/integrations/po-pdf';
-import { writeFileSync } from 'node:fs';
+import { isTheme2ActionType } from '@/lib/theme2';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /** Dispatch an approved action to its executor. Safe to call twice (lock above). */
@@ -25,7 +26,16 @@ export async function execute(actionId: string): Promise<void> {
       case 'reorder':             await executeReorder(locked); break;
       case 'graduation_offer':    await executeGraduation(locked); break;
       case 'resurrection_commit': await executeResurrectionCommit(locked); break;
-      default: throw new Error(`no executor for type ${locked.type}`);
+      default:
+        if (
+          isTheme2ActionType(locked.type) ||
+          locked.type === 'admission_processing' ||
+          locked.type === 'attendance_report'
+        ) {
+          await executeDomainAction(locked);
+          break;
+        }
+        throw new Error(`no executor for type ${locked.type}`);
     }
     await transition(actionId, 'executing', 'executed', {
       detail: { auto: locked.approvedBy === 'autonomy_grant' },
@@ -145,8 +155,45 @@ async function executeReorder(action: ActionRow): Promise<void> {
 }
 
 // ── Graduation: owner tapped "Earn it, Otto" ────────────────────────────────────
+async function executeDomainAction(action: ActionRow): Promise<void> {
+  const p = action.payload as {
+    domain?: string;
+    domain_name?: string;
+    title?: string;
+    workflow_steps?: string[];
+    draft?: { format?: string; recipient?: string; body?: string };
+    impact?: { primary?: string; secondary?: string; costOfDelay?: string };
+    engine?: { mode?: string; runId?: string; workflowId?: string };
+  };
+
+  await sql`
+    update actions set payload = payload || ${sql.json({
+      domain_status: 'approved_packet_ready',
+      executed_at: new Date().toISOString(),
+    })}
+    where id = ${action.id}`;
+
+  await emitAgentEvent({
+    actionId: action.id,
+    fromState: 'executing',
+    toState: 'executing',
+    detail: {
+      step: 'domain_action_executed',
+      domain: p.domain_name ?? p.domain,
+      title: p.title,
+      output: p.draft?.format,
+      recipient: p.draft?.recipient,
+      workflow_steps: p.workflow_steps?.length ?? 0,
+      impact: p.impact?.primary,
+      engine_mode: p.engine?.mode ?? 'mock',
+      engine_run_id: p.engine?.runId,
+      note: 'Approved packet committed. External domain systems are connector-ready, not mutated in MVP mode.',
+    },
+  });
+}
+
 async function executeGraduation(action: ActionRow): Promise<void> {
-  const p = action.payload as { action_type: 'reorder'; cap: number };
+  const p = action.payload as { action_type: ActionType; cap: number };
   await acceptGraduation(p.action_type, p.cap);
   await emitAgentEvent({
     actionId: action.id, fromState: 'executing', toState: 'executing',
@@ -211,14 +258,37 @@ export interface StagedBusiness {
 }
 
 // ── Undo (auto-executed reorders, within the 1-hour window) ─────────────────────
-export async function undoReorder(actionId: string): Promise<{ ok: boolean; reason?: string }> {
+export async function undoAction(actionId: string): Promise<{ ok: boolean; reason?: string }> {
   const action = await getAction(actionId);
-  if (!action || action.type !== 'reorder' || action.status !== 'executed') {
-    return { ok: false, reason: 'not an executed reorder' };
+  if (!action || action.status !== 'executed') {
+    return { ok: false, reason: 'not an executed action' };
   }
   if (!action.undoDeadline || new Date() > new Date(action.undoDeadline)) {
     return { ok: false, reason: 'undo window elapsed' };
   }
+
+  if (
+    isTheme2ActionType(action.type) ||
+    action.type === 'admission_processing' ||
+    action.type === 'attendance_report'
+  ) {
+    const ok = await transition(actionId, 'executed', 'undone', {
+      payloadMerge: {
+        domain_status: 'reversed',
+        reversed_at: new Date().toISOString(),
+      },
+      detail: {
+        step: 'domain_action_reversed',
+        note: 'Connector-ready packet withdrawn before external execution.',
+      },
+    });
+    return { ok: !!ok };
+  }
+
+  if (action.type !== 'reorder') {
+    return { ok: false, reason: `undo not supported for ${action.type}` };
+  }
+
   const ok = await transition(actionId, 'executed', 'undone', {
     payloadMerge: { po_cancelled: true },
     detail: { step: 'po_cancelled', note: 'compensating action: PO withdrawn, supplier notified' },

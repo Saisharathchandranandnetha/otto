@@ -58,8 +58,8 @@ export async function runResurrection(documentIds: string[]): Promise<Resurrecti
       );
 
       await sql`update documents set status = 'extracted',
-        extraction = ${sql.json(data as object)},
-        field_confidence = ${sql.json(fieldConfidences(data))}
+        extraction = ${sql.json(data as any)},
+        field_confidence = ${sql.json(fieldConfidences(data) as any)}
         where id = ${docId}`;
       extractions.push({ docId, fileName: doc.fileName as string, data });
 
@@ -206,7 +206,7 @@ export async function runResurrection(documentIds: string[]): Promise<Resurrecti
     reasoning: `Reconstructed from ${extractions.length} documents: ${products.length} products, ${staged.suppliers.length} suppliers, ${staged.customers.length} customers, ₹${totalDues.toLocaleString('en-IN')} in dues.\n\n${insights.length} data signals detected:\n${insightLines}`,
     detail: { summary: { ...summary } },
   });
-  await sql`update actions set payload = ${sql.json({ staged, summary, insights } as unknown as object)} where id = ${action.id}`;
+  await sql`update actions set payload = ${sql.json({ staged, summary, insights } as any)} where id = ${action.id}`;
   await transition(action.id, 'drafted', 'awaiting_approval', { detail: { card: 'resurrection_summary' } });
 
   return summary;

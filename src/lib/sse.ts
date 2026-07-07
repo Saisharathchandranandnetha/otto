@@ -27,7 +27,7 @@ export async function emitAgentEvent(e: AgentEventInput): Promise<void> {
   const { sql } = await import('./db');
   const [row] = await sql`
     insert into agent_events (action_id, from_state, to_state, detail)
-    values (${e.actionId}, ${e.fromState}, ${e.toState}, ${sql.json(e.detail ?? {})})
+    values (${e.actionId}, ${e.fromState}, ${e.toState}, ${sql.json((e.detail ?? {}) as any)})
     returning id, created_at`;
   row && bus.emit('agent_event', {
     id: row.id, actionId: e.actionId, fromState: e.fromState,

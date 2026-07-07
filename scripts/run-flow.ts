@@ -74,19 +74,19 @@ async function flowA() {
   const id = await approveLatest('invoice_commit');
   await expectStatus(id, 'executed');
   const [after] = await sql`select stock_qty from products where name ilike 'Kurti Set (Teal)'`;
-  if (Number(after!.stockQty) !== Number(before.stockQty) - 3) {
-    die(`stock ${before.stockQty} → ${after!.stockQty}, expected −3`);
+  if (Number(after!.stockQty) !== Number(before!.stockQty) - 3) {
+    die(`stock ${before!.stockQty} → ${after!.stockQty}, expected −3`);
   }
   const [ledger] = await sql`select count(*)::int as n from ledger_entries where action_id = ${id}`;
   if (ledger!.n < 1) die('no ledger entry written');
-  ok(`stock ${before.stockQty} → ${after!.stockQty}, ledger written, trace logged`);
+  ok(`stock ${before!.stockQty} → ${after!.stockQty}, ledger written, trace logged`);
 }
 
 async function flowB() {
   // Flow A left Kurti Set (Teal) at/below reorder point → a reorder card should exist
   const [draft] = await sql`select id, amount from actions where type='reorder' and status='awaiting_approval' order by created_at desc limit 1`;
   if (!draft) die('no reorder card awaiting — did Flow A run after demo:reset?');
-  ok(`Otto noticed: reorder draft ₹${Number(draft.amount).toLocaleString('en-IN')} awaiting approval`);
+  ok(`Otto noticed: reorder draft ₹${Number(draft!.amount).toLocaleString('en-IN')} awaiting approval`);
 
   const reorderId = await approveLatest('reorder'); // 3rd human approval (2 pre-seeded)
   await expectStatus(reorderId, 'executed');
@@ -98,7 +98,7 @@ async function flowB() {
   await approveLatest('graduation_offer', 10000);
   const [grant] = await sql`select autonomy_level, amount_cap from trust_grants where action_type='reorder'`;
   if (grant?.autonomyLevel !== 'autonomous') die('trust grant not autonomous after acceptance');
-  ok(`autonomy granted: reorders ≤ ₹${Number(grant.amountCap).toLocaleString('en-IN')}`);
+  ok(`autonomy granted: reorders ≤ ₹${Number(grant!.amountCap).toLocaleString('en-IN')}`);
 
   // 4th low-stock event → Otto executes ALONE
   // (resurrected tenant has no SKUs, so nudge stock directly — the on-stage demo
@@ -111,12 +111,12 @@ async function flowB() {
   if (!scan.autoExecuted?.length) die('4th event was not auto-executed under the grant');
   const [auto] = await sql`select id, undo_deadline from actions where type='reorder' and approved_by='autonomy_grant' order by created_at desc limit 1`;
   if (!auto?.undoDeadline) die('auto-executed action missing undo window');
-  ok(`Otto executed alone: ${scan.autoExecuted.join(', ')} — logged, notified, undoable until ${String(auto.undoDeadline).slice(11, 19)}`);
+  ok(`Otto executed alone: ${scan.autoExecuted.join(', ')} — logged, notified, undoable until ${String(auto!.undoDeadline).slice(11, 19)}`);
 
   // undo + revoke — reversible and revocable, proven
   const undo = await fetch(`${BASE}/api/approve`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ actionId: auto.id, decision: 'undo' }),
+    body: JSON.stringify({ actionId: auto!.id, decision: 'undo' }),
   });
   if (!undo.ok) die('undo failed inside the window');
   await fetch(`${BASE}/api/trust`, {

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const TABS = [
-  { href: '/', label: 'Feed', icon: 'home_app_logo' },
+  { href: '/', label: 'Engine', icon: 'schema' },
   { href: '/inventory', label: 'Inventory', icon: 'inventory_2' },
   { href: '/ledger', label: 'Ledger', icon: 'menu_book' },
   { href: '/settings', label: 'Settings', icon: 'settings' },

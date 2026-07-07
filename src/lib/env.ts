@@ -14,6 +14,8 @@ export interface EnvVars {
   TWILIO_WHATSAPP_FROM?: string;
   DEMO_SUPPLIER_WHATSAPP_TO?: string;
   OPENAI_API_KEY?: string;
+  OTTO_ENGINE_URL?: string;
+  OTTO_ENGINE_KEY?: string;
   LLM_CACHE_DIR?: string;
   PORT?: string;
   OTTO_URL?: string;
@@ -39,6 +41,8 @@ export function getEnv(): EnvVars {
     TWILIO_WHATSAPP_FROM: process.env.TWILIO_WHATSAPP_FROM,
     DEMO_SUPPLIER_WHATSAPP_TO: process.env.DEMO_SUPPLIER_WHATSAPP_TO,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    OTTO_ENGINE_URL: process.env.OTTO_ENGINE_URL,
+    OTTO_ENGINE_KEY: process.env.OTTO_ENGINE_KEY,
     LLM_CACHE_DIR: process.env.LLM_CACHE_DIR,
     PORT: process.env.PORT,
     OTTO_URL: process.env.OTTO_URL,

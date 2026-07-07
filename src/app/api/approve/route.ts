@@ -6,10 +6,16 @@ import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { getAction, transition } from '@/agent/machine';
 import { recordHumanApproval } from '@/agent/trust';
-import { execute, undoReorder } from '@/agent/executors';
+import { execute, undoAction } from '@/agent/executors';
 import type { ActionType } from '@/agent/machine';
+import { THEME2_ACTION_TYPES } from '@/lib/theme2';
 
-const COUNTS_TOWARD_TRUST: ActionType[] = ['reorder'];
+const COUNTS_TOWARD_TRUST: ActionType[] = [
+  'reorder',
+  'admission_processing',
+  'attendance_report',
+  ...THEME2_ACTION_TYPES,
+];
 
 export async function POST(req: Request) {
   try {
@@ -81,7 +87,7 @@ export async function POST(req: Request) {
       }
 
       case 'undo': {
-        const result = await undoReorder(action.id);
+        const result = await undoAction(action.id);
         if (!result.ok) {
           return NextResponse.json(
             { error: result.reason ?? 'Undo not possible' },

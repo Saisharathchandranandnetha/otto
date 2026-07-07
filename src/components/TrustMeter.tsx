@@ -9,6 +9,13 @@ const LABELS: Record<string, [string, string]> = {
   reorder: ['Reorder', 'Purchase Orders'],
   invoice_commit: ['Invoice', 'Verification'],
   payment_reminder: ['Payment', 'Reminders'],
+  admission_processing: ['Admissions', 'Processing'],
+  attendance_report: ['Attendance', 'Reports'],
+  workflow_approval: ['Workflow', 'Approvals'],
+  document_generation: ['Docs', 'Generation'],
+  support_response: ['Support', 'Replies'],
+  knowledge_answer: ['Knowledge', 'Answers'],
+  personalization_plan: ['Growth', 'Personalization'],
 };
 
 const GRADUATION_TARGET = 3;

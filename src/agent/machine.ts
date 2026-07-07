@@ -12,13 +12,17 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 import { sql } from '@/lib/db';
 import { emitAgentEvent } from '@/lib/sse';
+import type { Theme2ActionType } from '@/lib/theme2';
 
 export type ActionType =
   | 'invoice_commit'
   | 'reorder'
   | 'payment_reminder'
   | 'graduation_offer'
-  | 'resurrection_commit';
+  | 'resurrection_commit'
+  | 'admission_processing'
+  | 'attendance_report'
+  | Theme2ActionType;
 
 export type ActionStatus =
   | 'perceived'
@@ -68,7 +72,7 @@ export async function createAction(input: {
 }): Promise<ActionRow> {
   const [row] = await sql`
     insert into actions (type, payload, reasoning, amount)
-    values (${input.type}, ${sql.json(input.payload ?? {})},
+    values (${input.type}, ${sql.json((input.payload ?? {}) as any)},
             ${input.reasoning ?? null}, ${input.amount ?? null})
     returning *`;
   const action = row as unknown as ActionRow;
@@ -108,14 +112,14 @@ export async function transition(
         approved_by   = coalesce(${patch.approvedBy ?? null}, approved_by),
         trust_grant_id= coalesce(${patch.trustGrantId ?? null}, trust_grant_id),
         undo_deadline = coalesce(${patch.undoDeadline ?? null}, undo_deadline),
-        payload       = payload || ${tx.json(patch.payloadMerge ?? {})},
+        payload       = payload || ${tx.json((patch.payloadMerge ?? {}) as any)},
         updated_at    = now()
       where id = ${actionId} and status = ${from}
       returning *`;
     if (!row) return null; // 0 rows = lost the race = idempotent no-op
     await tx`
       insert into agent_events (action_id, from_state, to_state, detail)
-      values (${actionId}, ${from}, ${to}, ${tx.json(patch.detail ?? {})})`;
+      values (${actionId}, ${from}, ${to}, ${tx.json((patch.detail ?? {}) as any)})`;
     return row as unknown as ActionRow;
   });
 

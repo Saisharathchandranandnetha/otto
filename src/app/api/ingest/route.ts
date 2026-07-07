@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No new documents to process' }, { status: 409 });
     }
 
-    const [docId] = docIds;
+    const docId = docIds[0]!;
     const [doc] = await sql`
       update documents set status = 'extracting' where id = ${docId}
       returning file_name, storage_path`;
@@ -86,8 +86,8 @@ export async function POST(req: Request) {
       const review = needsReview(data);
       await sql`
         update documents set status = ${review ? 'review' : 'extracted'},
-          extraction = ${sql.json(data as object)},
-          field_confidence = ${sql.json(fieldConfidences(data))}
+          extraction = ${sql.json(data as any)},
+          field_confidence = ${sql.json(fieldConfidences(data) as any)}
         where id = ${docId}`;
 
       const lines = data.line_items.map((li) => ({

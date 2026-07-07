@@ -6,17 +6,37 @@ import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { scanReorderTriggers } from '@/agent/triggers';
 import { emitAgentEvent } from '@/lib/sse';
+import { runAllDomainPlaybooks, runDomainPlaybook } from '@/agent/domain-engine';
+import { THEME2_DOMAIN_SLUGS, type Theme2DomainSlug } from '@/lib/theme2';
 
 export async function POST(req: Request) {
   try {
     const body = (await req.json().catch(() => ({}))) as {
       scan?: string;
       simulate_sale?: { sku: string; qty: number };
+      run_domain?: Theme2DomainSlug;
+      run_theme2_all?: boolean;
     };
 
     if (body.scan === 'reorder') {
       const result = await scanReorderTriggers();
       return NextResponse.json(result);
+    }
+
+    if (body.run_domain) {
+      if (!THEME2_DOMAIN_SLUGS.includes(body.run_domain)) {
+        return NextResponse.json(
+          { error: `Unknown Theme 2 domain "${body.run_domain}"` },
+          { status: 400 },
+        );
+      }
+      const result = await runDomainPlaybook(body.run_domain);
+      return NextResponse.json({ ok: true, result });
+    }
+
+    if (body.run_theme2_all) {
+      const results = await runAllDomainPlaybooks();
+      return NextResponse.json({ ok: true, results });
     }
 
     if (body.simulate_sale) {
@@ -57,7 +77,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { error: 'Unknown command. Use { scan: "reorder" } or { simulate_sale: { sku, qty } }' },
+      { error: 'Unknown command. Use { scan: "reorder" }, { run_domain }, { run_theme2_all }, or { simulate_sale }' },
       { status: 400 },
     );
   } catch (err) {
