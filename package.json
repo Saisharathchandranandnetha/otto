@@ -25,6 +25,8 @@
     "health": "tsx scripts/health.ts"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^4.0.5",
+    "ai": "^7.0.16",
     "next": "^14.2.15",
     "pg-boss": "^12.25.1",
     "postgres": "^3.4.4",
