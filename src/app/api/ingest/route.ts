@@ -12,7 +12,7 @@ import { InvoiceExtraction, fieldConfidences, needsReview } from '@/extract/sche
 import { createAction, draftAction, transition } from '@/agent/machine';
 import { runResurrection } from '@/agent/resurrection';
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 function classifyKind(fileName: string): 'invoice' | 'ledger_page' | 'receipt' | 'whatsapp_export' {
