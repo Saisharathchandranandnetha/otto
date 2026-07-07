@@ -7,7 +7,9 @@ import { usePathname } from 'next/navigation';
 
 import { LanguageSwitcher } from './LanguageSwitcher';
 
-const DESKTOP_TABS = [
+type Tab = { href: string; label: string; external?: boolean };
+
+const DESKTOP_TABS: Tab[] = [
   { href: '/', label: 'Engine' },
   { href: '/inventory', label: 'Inventory' },
   { href: '/ledger', label: 'Ledger' },
