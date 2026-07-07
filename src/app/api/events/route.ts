@@ -6,7 +6,7 @@ import { sql } from '@/lib/db';
 import { bus } from '@/lib/sse';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 600; // SSE streams can be long-lived
+export const maxDuration = 300; // SSE streams can be long-lived
 
 export async function GET(req: NextRequest) {
   const cursor = Number(req.nextUrl.searchParams.get('cursor') ?? 0);
