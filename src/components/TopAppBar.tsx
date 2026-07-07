@@ -12,7 +12,7 @@ const DESKTOP_TABS = [
   { href: '/inventory', label: 'Inventory' },
   { href: '/ledger', label: 'Ledger' },
   { href: '/settings', label: 'Settings' },
-  { href: 'http://localhost/install', label: 'VAS', external: true },
+  { href: '/vas', label: 'VAS Workflow Builder' },
 ];
 
 export function TopAppBar() {
