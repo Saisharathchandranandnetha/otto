@@ -15,14 +15,22 @@ const inr = (n: unknown) =>
   }).format(Number(n));
 
 export default async function LedgerPage() {
-  const [customers, suppliers] = await Promise.all([
-    sql`select c.id, c.name, c.phone, c.dues_amount, c.confidence
-        from customers c
-        order by c.dues_amount desc, c.name`,
-    sql`select s.id, s.name, s.phone, s.aliases, s.confidence
-        from suppliers s
-        order by s.name`,
-  ]);
+  let customers: any[] = [];
+  let suppliers: any[] = [];
+  try {
+    const result = await Promise.all([
+      sql`select c.id, c.name, c.phone, c.dues_amount, c.confidence
+          from customers c
+          order by c.dues_amount desc, c.name`,
+      sql`select s.id, s.name, s.phone, s.aliases, s.confidence
+          from suppliers s
+          order by s.name`,
+    ]);
+    customers = result[0];
+    suppliers = result[1];
+  } catch (err) {
+    console.warn('Database connection failed, showing empty state for MVP demo.');
+  }
 
   const customerCount = customers.length;
   const supplierCount = suppliers.length;

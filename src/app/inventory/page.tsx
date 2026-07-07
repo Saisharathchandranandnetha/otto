@@ -17,15 +17,21 @@ const inr = (n: unknown) =>
   }).format(Number(n));
 
 export default async function InventoryPage() {
-  const [products] = await Promise.all([
-    sql`select p.id, p.name, p.sku, p.stock_qty, p.reorder_point, p.reorder_qty, p.unit_price,
-               p.confidence, p.source_doc_id, p.created_at,
-               s.name as supplier_name, d.file_name as source_file
-        from products p
-        left join suppliers s on s.id = p.supplier_id
-        left join documents d on d.id = p.source_doc_id
-        order by (p.reorder_point is not null and p.stock_qty <= p.reorder_point) desc, p.name`,
-  ]);
+  let products: any[] = [];
+  try {
+    const result = await Promise.all([
+      sql`select p.id, p.name, p.sku, p.stock_qty, p.reorder_point, p.reorder_qty, p.unit_price,
+                 p.confidence, p.source_doc_id, p.created_at,
+                 s.name as supplier_name, d.file_name as source_file
+          from products p
+          left join suppliers s on s.id = p.supplier_id
+          left join documents d on d.id = p.source_doc_id
+          order by (p.reorder_point is not null and p.stock_qty <= p.reorder_point) desc, p.name`,
+    ]);
+    products = result[0];
+  } catch (err) {
+    console.warn('Database connection failed, showing empty state for MVP demo.');
+  }
 
   const productCount = products.length;
   const lowStockCount = products.filter(
