@@ -113,6 +113,14 @@ const config: Config = {
         'fade-in': 'fadeIn 400ms ease-out',
         'fade-in-up': 'fadeInUp 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards',
         shimmer: 'shimmer 2s infinite linear',
+        'grid-drift': 'gridDrift 24s linear infinite',
+        'orb-float': 'orbFloat 12s ease-in-out infinite',
+        'orb-float-alt': 'orbFloat 16s ease-in-out infinite reverse',
+        'scan-beam': 'scanBeam 7s ease-in-out infinite',
+        'ring-pulse': 'ringPulse 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+        'shake': 'shake 400ms cubic-bezier(0.36, 0.07, 0.19, 0.97)',
+        'border-flow': 'borderFlow 4s linear infinite',
+        'glyph-spin': 'glyphSpin 14s linear infinite',
       },
       keyframes: {
         slideIn: {
@@ -138,6 +146,39 @@ const config: Config = {
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
+        },
+        gridDrift: {
+          '0%': { backgroundPosition: '0 0' },
+          '100%': { backgroundPosition: '48px 48px' },
+        },
+        orbFloat: {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(30px, -40px) scale(1.08)' },
+          '66%': { transform: 'translate(-25px, 25px) scale(0.94)' },
+        },
+        scanBeam: {
+          '0%, 100%': { top: '-10%', opacity: '0' },
+          '10%': { opacity: '1' },
+          '50%': { top: '110%', opacity: '1' },
+          '60%': { opacity: '0' },
+        },
+        ringPulse: {
+          '0%': { transform: 'scale(0.8)', opacity: '0.8' },
+          '100%': { transform: 'scale(1.6)', opacity: '0' },
+        },
+        shake: {
+          '10%, 90%': { transform: 'translateX(-2px)' },
+          '20%, 80%': { transform: 'translateX(4px)' },
+          '30%, 50%, 70%': { transform: 'translateX(-6px)' },
+          '40%, 60%': { transform: 'translateX(6px)' },
+        },
+        borderFlow: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '200% 50%' },
+        },
+        glyphSpin: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
         },
       },
     },
