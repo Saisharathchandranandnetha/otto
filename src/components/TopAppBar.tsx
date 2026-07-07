@@ -12,7 +12,8 @@ const DESKTOP_TABS = [
   { href: '/inventory', label: 'Inventory' },
   { href: '/ledger', label: 'Ledger' },
   { href: '/settings', label: 'Settings' },
-] as const;
+  { href: 'http://localhost/install', label: 'VAS', external: true },
+];
 
 export function TopAppBar() {
   const pathname = usePathname();
@@ -34,6 +35,20 @@ export function TopAppBar() {
       {/* Center: desktop nav links (hidden on mobile) */}
       <nav className="hidden md:flex items-center gap-6" aria-label="Desktop navigation">
         {DESKTOP_TABS.map((tab) => {
+          if (tab.external) {
+            return (
+              <a
+                key={tab.href}
+                href={tab.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-label-lg transition-colors text-on-surface-variant hover:text-primary flex items-center gap-1"
+              >
+                {tab.label}
+                <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+              </a>
+            );
+          }
           const active = tab.href === '/' ? pathname === '/' : pathname.startsWith(tab.href);
           return (
             <Link
