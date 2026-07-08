@@ -1,6 +1,7 @@
 'use client';
 
 import { AppShell } from '@/components/AppShell';
+import { WorkflowBuilder } from '@/components/WorkflowBuilder';
 
 const TEMPLATES = [
   { id: 'education_copilot', name: 'Education AI Knowledge Assistant', file: '/templates/education_copilot.yml' },
@@ -37,14 +38,9 @@ export default function VasPage() {
           ))}
         </div>
 
-        {/* Embedded Vas (Dify) Workflow Builder */}
+        {/* React Flow Workflow Builder Mock */}
         <div className="flex-1 w-full bg-surface">
-          <iframe
-            src="http://localhost/"
-            title="VAS Workflow Builder"
-            className="w-full h-full border-none"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-          ></iframe>
+          <WorkflowBuilder />
         </div>
       </div>
     </AppShell>

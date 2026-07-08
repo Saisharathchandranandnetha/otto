@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@ai-sdk/groq": "^4.0.5",
+    "@xyflow/react": "^12.11.2",
     "ai": "^7.0.16",
     "next": "^14.2.15",
     "pg-boss": "^12.25.1",
