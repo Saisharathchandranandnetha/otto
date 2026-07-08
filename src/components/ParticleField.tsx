@@ -24,10 +24,11 @@ interface Particle {
 }
 
 // Theme colors: teal rgb(54,102,103) / terracotta rgb(156,62,38)
-const TEAL = [54, 102, 103] as const;
-const TERRA = [156, 62, 38] as const;
+type RGB = readonly [number, number, number];
+const TEAL: RGB = [54, 102, 103];
+const TERRA: RGB = [156, 62, 38];
 
-function mix(a: readonly number[], b: readonly number[], t: number) {
+function mix(a: RGB, b: RGB, t: number): [number, number, number] {
   return [
     Math.round(a[0] + (b[0] - a[0]) * t),
     Math.round(a[1] + (b[1] - a[1]) * t),
@@ -41,10 +42,12 @@ export function ParticleField({ mode, text = 'OTTO' }: ParticleFieldProps) {
   modeRef.current = mode;
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const canvasEl = canvasRef.current;
+    if (!canvasEl) return;
+    const context = canvasEl.getContext('2d');
+    if (!context) return;
+    const canvas: HTMLCanvasElement = canvasEl;
+    const ctx: CanvasRenderingContext2D = context;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -88,7 +91,7 @@ export function ParticleField({ mode, text = 'OTTO' }: ParticleFieldProps) {
       const targets: Array<[number, number]> = [];
       for (let y = 0; y < height; y += gap) {
         for (let x = 0; x < width; x += gap) {
-          if (data[(y * width + x) * 4 + 3] > 128) {
+          if ((data[(y * width + x) * 4 + 3] ?? 0) > 128) {
             targets.push([x, y]);
           }
         }
