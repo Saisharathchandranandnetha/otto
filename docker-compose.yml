@@ -1,0 +1,78 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: otto-db
+    environment:
+      POSTGRES_USER: otto
+      POSTGRES_PASSWORD: otto
+      POSTGRES_DB: otto
+    ports:
+      - "5432:5432"
+    volumes:
+      - otto_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U otto"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: otto-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - otto_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      retries: 5
+
+  ai-engine:
+    build:
+      context: ./apps/ai-engine
+      dockerfile: Dockerfile
+    container_name: otto-ai-engine
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=otto
+      - DB_PASSWORD=otto
+      - DB_DATABASE=otto
+      - DB_POSTGRESDB_SCHEMA=ai_engine
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CELERY_BROKER_URL=redis://redis:6379/1
+    ports:
+      - "5001:5001"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  ai-worker:
+    build:
+      context: ./apps/ai-engine
+      dockerfile: Dockerfile
+    container_name: otto-ai-worker
+    command: celery -A app.celery worker -P gevent -c 1 -Q dataset,generation,mail,ops_trace
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=otto
+      - DB_PASSWORD=otto
+      - DB_DATABASE=otto
+      - DB_POSTGRESDB_SCHEMA=ai_engine
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CELERY_BROKER_URL=redis://redis:6379/1
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  otto_pgdata:
+  otto_redis:

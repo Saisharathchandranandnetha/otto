@@ -1,0 +1,62 @@
+{
+  "name": "@n8n/storybook",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf storybook-static .turbo",
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "build:unchecked": "pnpm run build",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
+    "lint": "eslint . --quiet",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@n8n/chat": "workspace:*",
+    "@n8n/composables": "workspace:*",
+    "@n8n/design-system": "workspace:*",
+    "@n8n/i18n": "workspace:*",
+    "@n8n/stores": "workspace:*",
+    "@n8n/utils": "workspace:*",
+    "element-plus": "*",
+    "pinia": "*",
+    "vue": "*",
+    "vue-router": "*",
+    "vue-tsc": "*"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "*",
+    "@iconify-json/lucide": "*",
+    "@iconify-json/mdi": "*",
+    "@n8n/eslint-config": "workspace:*",
+    "@n8n/typescript-config": "workspace:*",
+    "@storybook/addon-a11y": "*",
+    "@storybook/addon-docs": "*",
+    "@storybook/addon-themes": "*",
+    "@storybook/addon-vitest": "*",
+    "@storybook/vue3": "*",
+    "@storybook/vue3-vite": "*",
+    "@types/node": "*",
+    "@vitejs/plugin-vue": "*",
+    "@vitest/browser-playwright": "*",
+    "@vitest/coverage-v8": "*",
+    "@vue/tsconfig": "*",
+    "eslint-plugin-storybook": "*",
+    "playwright": "*",
+    "prettier": "*",
+    "remark-gfm": "^4.0.1",
+    "storybook": "*",
+    "storybook-addon-vue-mdx": "3.0.0",
+    "typescript": "*",
+    "unplugin-icons": "*",
+    "vite": "*",
+    "vite-svg-loader": "*",
+    "vitest": "*",
+    "vue-tsc": "*"
+  },
+  "license": "LicenseRef-n8n-sustainable-use"
+}
+
+
+

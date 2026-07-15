@@ -1,0 +1,160 @@
+{
+  "doc_type": "whatsapp_export",
+  "contacts": [
+    {
+      "name": {
+        "value": "Rahul Deep",
+        "confidence": 0.97
+      },
+      "phone": {
+        "value": "+91-98290-11111",
+        "confidence": 0.7
+      },
+      "role_guess": {
+        "value": "customer",
+        "confidence": 0.95
+      },
+      "signals": [
+        {
+          "kind": "payment_promise",
+          "summary": {
+            "value": "Promised to pay ₹8,000 \"next week\" via GPay",
+            "confidence": 0.93
+          },
+          "amount": {
+            "value": 8000,
+            "confidence": 0.95
+          },
+          "date": {
+            "value": "2026-01-06",
+            "confidence": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "value": "Sharma Fab.",
+        "confidence": 0.97
+      },
+      "phone": {
+        "value": "+91-98761-23456",
+        "confidence": 0.7
+      },
+      "role_guess": {
+        "value": "supplier",
+        "confidence": 0.96
+      },
+      "signals": [
+        {
+          "kind": "supply_confirmation",
+          "summary": {
+            "value": "Dispatched 20 dupattas + 30 leggings with invoice",
+            "confidence": 0.94
+          },
+          "amount": {
+            "value": null,
+            "confidence": 0.8
+          },
+          "date": {
+            "value": "2026-01-12",
+            "confidence": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "value": "Meena Silk House",
+        "confidence": 0.97
+      },
+      "phone": {
+        "value": "+91-98123-45678",
+        "confidence": 0.7
+      },
+      "role_guess": {
+        "value": "supplier",
+        "confidence": 0.96
+      },
+      "signals": [
+        {
+          "kind": "supply_confirmation",
+          "summary": {
+            "value": "Offered 5 pc new Banarasi saree stock; owner accepted",
+            "confidence": 0.9
+          },
+          "amount": {
+            "value": null,
+            "confidence": 0.8
+          },
+          "date": {
+            "value": "2026-02-08",
+            "confidence": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "value": "Ritu Singh",
+        "confidence": 0.96
+      },
+      "phone": {
+        "value": null,
+        "confidence": 0.6
+      },
+      "role_guess": {
+        "value": "customer",
+        "confidence": 0.94
+      },
+      "signals": [
+        {
+          "kind": "order",
+          "summary": {
+            "value": "Wants 2 chikankari kurtis size M for a wedding",
+            "confidence": 0.92
+          },
+          "amount": {
+            "value": null,
+            "confidence": 0.8
+          },
+          "date": {
+            "value": "2026-04-03",
+            "confidence": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "value": "Anil Gupta",
+        "confidence": 0.96
+      },
+      "phone": {
+        "value": null,
+        "confidence": 0.6
+      },
+      "role_guess": {
+        "value": "customer",
+        "confidence": 0.94
+      },
+      "signals": [
+        {
+          "kind": "order",
+          "summary": {
+            "value": "Wants 3 beige palazzo pants",
+            "confidence": 0.92
+          },
+          "amount": {
+            "value": null,
+            "confidence": 0.8
+          },
+          "date": {
+            "value": "2026-05-19",
+            "confidence": 0.9
+          }
+        }
+      ]
+    }
+  ]
+}

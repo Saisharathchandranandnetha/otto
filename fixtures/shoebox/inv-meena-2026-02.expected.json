@@ -1,0 +1,95 @@
+{
+  "doc_type": "invoice",
+  "direction": {
+    "value": "purchase",
+    "confidence": 0.96
+  },
+  "counterparty_name": {
+    "value": "Meena Silk House",
+    "confidence": 0.96
+  },
+  "vendor_name": {
+    "value": "Meena Silk House",
+    "confidence": 0.96
+  },
+  "vendor_phone": {
+    "value": "+91-98123-45678",
+    "confidence": 0.8999999999999999
+  },
+  "invoice_no": {
+    "value": "MS-441",
+    "confidence": 0.96
+  },
+  "invoice_date": {
+    "value": "2026-02-08",
+    "confidence": 0.96
+  },
+  "due_date": {
+    "value": null,
+    "confidence": 0.85
+  },
+  "line_items": [
+    {
+      "product_name": {
+        "value": "Blue Silk Dupatta",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 15,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 315,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 4725,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Banarasi Silk Saree",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 5,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 2240,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 11200,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Blouse Piece (Gold)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 20,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 245,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 4900,
+        "confidence": 0.95
+      }
+    }
+  ],
+  "total": {
+    "value": 20825,
+    "confidence": 0.96
+  },
+  "currency": {
+    "value": "INR",
+    "confidence": 0.99
+  }
+}

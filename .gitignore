@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+.next/
+out/
+dist/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime data (uploads are per-session)
+data/uploads/
+data/pos/
+# NOTE: data/llm-cache/ is COMMITTED — the warmed cache is the offline stage fallback
+# Remove the ! below if you don't want to commit the cache
+!data/llm-cache/.gitkeep
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# AI Agent Sessions
+.claude-flow/
+.agents/
+.gemini/
+
+# Local Backend
+dify/

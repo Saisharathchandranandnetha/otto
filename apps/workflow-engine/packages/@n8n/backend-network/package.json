@@ -1,0 +1,94 @@
+{
+  "name": "@n8n/backend-network",
+  "version": "1.4.0",
+  "scripts": {
+    "clean": "rimraf dist .turbo",
+    "dev": "pnpm watch",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "build:unchecked": "tsc -p tsconfig.build.json --noCheck",
+    "format": "biome format --write .",
+    "format:check": "biome ci .",
+    "lint": "eslint . --quiet",
+    "lint:fix": "eslint . --fix",
+    "watch": "tsc -p tsconfig.build.json --watch",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:dev": "vitest --silent=false"
+  },
+  "main": "dist/index.js",
+  "module": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts",
+      "require": "./dist/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./src/testing.ts",
+      "require": "./dist/testing.js"
+    },
+    "./transport": {
+      "types": "./dist/transport.d.ts",
+      "import": "./src/transport.ts",
+      "require": "./dist/transport.js"
+    },
+    "./proxy": {
+      "types": "./dist/proxy/index.d.ts",
+      "import": "./src/proxy/index.ts",
+      "require": "./dist/proxy/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "testing": [
+        "dist/testing.d.ts"
+      ],
+      "transport": [
+        "dist/transport.d.ts"
+      ],
+      "proxy": [
+        "dist/proxy/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "dependencies": {
+    "@n8n/backend-common": "workspace:*",
+    "@n8n/config": "workspace:*",
+    "@n8n/constants": "workspace:*",
+    "@n8n/di": "workspace:*",
+    "@n8n/utils": "workspace:*",
+    "axios": "*",
+    "cache-manager": "*",
+    "form-data": "*",
+    "http-proxy-agent": "*",
+    "https-proxy-agent": "*",
+    "iconv-lite": "*",
+    "n8n-workflow": "workspace:*",
+    "proxy-from-env": "*",
+    "qs": "*",
+    "reflect-metadata": "*",
+    "undici": "*",
+    "zod": "*"
+  },
+  "devDependencies": {
+    "@n8n/typescript-config": "workspace:*",
+    "@n8n/vitest-config": "workspace:*",
+    "@types/proxy-from-env": "*",
+    "@types/qs": "*",
+    "@vitest/coverage-v8": "*",
+    "nock": "*",
+    "typescript": "*",
+    "vitest": "*",
+    "vitest-mock-extended": "*"
+  },
+  "license": "LicenseRef-n8n-sustainable-use"
+}
+
+
+

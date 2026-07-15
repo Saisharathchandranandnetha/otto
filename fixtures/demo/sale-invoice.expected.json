@@ -1,0 +1,77 @@
+{
+  "doc_type": "invoice",
+  "direction": {
+    "value": "sale",
+    "confidence": 0.96
+  },
+  "counterparty_name": {
+    "value": "Deepak Verma",
+    "confidence": 0.96
+  },
+  "vendor_name": {
+    "value": "Priya's Fashion",
+    "confidence": 0.96
+  },
+  "vendor_phone": {
+    "value": "+91-99887-76655",
+    "confidence": 0.8999999999999999
+  },
+  "invoice_no": {
+    "value": "PF-2026-1042",
+    "confidence": 0.96
+  },
+  "invoice_date": {
+    "value": "2026-07-06",
+    "confidence": 0.96
+  },
+  "due_date": {
+    "value": null,
+    "confidence": 0.85
+  },
+  "line_items": [
+    {
+      "product_name": {
+        "value": "Kurti Set (Teal)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 3,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 1450,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 4350,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Red Cotton Dupatta",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 2,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 350,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 700,
+        "confidence": 0.95
+      }
+    }
+  ],
+  "total": {
+    "value": 5050,
+    "confidence": 0.96
+  },
+  "currency": {
+    "value": "INR",
+    "confidence": 0.99
+  }
+}

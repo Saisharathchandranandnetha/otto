@@ -1,0 +1,55 @@
+{
+  "name": "@n8n/scheduler",
+  "version": "0.2.0",
+  "scripts": {
+    "clean": "rimraf dist .turbo",
+    "dev": "pnpm watch",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "build:unchecked": "tsc -p tsconfig.build.json --noCheck",
+    "format": "biome format --write .",
+    "format:check": "biome ci .",
+    "lint": "eslint . --quiet",
+    "lint:fix": "eslint . --fix",
+    "mutate": "node ../../../scripts/mutation-health/mutate.mjs --package-dir packages/@n8n/scheduler",
+    "watch": "tsc -p tsconfig.build.json --watch",
+    "test": "vitest run --passWithNoTests",
+    "test:unit": "vitest run --passWithNoTests",
+    "test:dev": "vitest --silent=false"
+  },
+  "main": "dist/index.js",
+  "module": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@n8n/constants": "workspace:*",
+    "@n8n/utils": "workspace:*",
+    "cron-parser": "*",
+    "luxon": "*",
+    "n8n-workflow": "workspace:*"
+  },
+  "devDependencies": {
+    "@n8n/typescript-config": "workspace:*",
+    "@n8n/vitest-config": "workspace:*",
+    "@stryker-mutator/core": "*",
+    "@stryker-mutator/vitest-runner": "*",
+    "@types/luxon": "*",
+    "@vitest/coverage-v8": "*",
+    "fast-check": "*",
+    "typescript": "*",
+    "vitest": "*",
+    "vitest-mock-extended": "*"
+  },
+  "license": "LicenseRef-n8n-sustainable-use"
+}
+
+
+

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="368" font-family="monospace">
+<rect width="100%" height="100%" fill="#fbf7ee"/>
+<text x="24" y="44" font-size="22" font-weight="bold">Priya's Fashion</text>
+<text x="24" y="68" font-size="13">+91-99887-76655 · Jaipur</text>
+<text x="24" y="100" font-size="14">Invoice: PF-2026-1042    Date: 2026-07-06</text>
+<line x1="24" y1="118" x2="616" y2="118" stroke="#999"/>
+<text x="24" y="150" font-size="14">Kurti Set (Teal)   x3  @ Rs.1450  =  Rs.4350</text>
+<text x="24" y="184" font-size="14">Red Cotton Dupatta   x2  @ Rs.350  =  Rs.700</text>
+<line x1="24" y1="208" x2="616" y2="208" stroke="#999"/>
+<text x="24" y="244" font-size="17" font-weight="bold">TOTAL: Rs.5050</text>
+<text x="24" y="120" font-size="12">Bill to: Deepak Verma (udhaar)</text>
+<text x="24" y="308" font-size="11" fill="#777">Stand-in fixture — replace with a real photographed invoice for the live demo.</text>
+</svg>

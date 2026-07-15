@@ -1,0 +1,83 @@
+{
+  "name": "@n8n/chat",
+  "version": "1.29.0",
+  "scripts": {
+    "clean": "rimraf dist .turbo",
+    "dev": "pnpm run --dir=../storybook dev --initial-path=/docs/chat-chat--docs",
+    "build": "pnpm build:vite && pnpm build:bundle",
+    "build:unchecked": "pnpm run build",
+    "build:vite": "cross-env vite build",
+    "build:bundle": "cross-env INCLUDE_VUE=true vite build",
+    "preview": "vite preview",
+    "test:dev": "vitest",
+    "test": "vitest run",
+    "test:changed": "janitor test-scoped",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "eslint src --quiet",
+    "lint:fix": "eslint src --fix",
+    "lint:styles": "stylelint \"src/**/*.{scss,sass,vue}\" --cache",
+    "lint:styles:fix": "stylelint \"src/**/*.{scss,sass,vue}\" --fix --cache",
+    "format": "biome format --write src && prettier --write src/ --ignore-path ../../../../.prettierignore",
+    "format:check": "biome ci src && prettier --check src/ --ignore-path ../../../../.prettierignore"
+  },
+  "types": "./dist/index.d.ts",
+  "main": "./dist/chat.umd.js",
+  "module": "./dist/chat.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/chat.es.js",
+      "require": "./dist/chat.umd.js"
+    },
+    "./style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    },
+    "./*": {
+      "import": "./*",
+      "require": "./*"
+    }
+  },
+  "dependencies": {
+    "@n8n/design-system": "workspace:*",
+    "@vueuse/core": "*",
+    "highlight.js": "*",
+    "markdown-it": "*",
+    "markdown-it-link-attributes": "*",
+    "uuid": "*",
+    "vue": "*",
+    "vue-markdown-render": "*"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "*",
+    "@iconify-json/mdi": "*",
+    "@n8n/eslint-config": "workspace:*",
+    "@n8n/playwright-janitor": "workspace:*",
+    "@n8n/stylelint-config": "workspace:*",
+    "@n8n/typescript-config": "workspace:*",
+    "@n8n/vitest-config": "workspace:*",
+    "@storybook/vue3": "*",
+    "@storybook/vue3-vite": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/vue": "*",
+    "@types/markdown-it": "*",
+    "@types/markdown-it-link-attributes": "*",
+    "@vitejs/plugin-vue": "*",
+    "@vitest/coverage-v8": "*",
+    "@vue/test-utils": "*",
+    "unplugin-icons": "^0.19.0",
+    "typescript": "*",
+    "vite": "*",
+    "vite-plugin-dts": "*",
+    "vitest": "*",
+    "vue-tsc": "*"
+  },
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "license": "LicenseRef-n8n-sustainable-use"
+}
+
+
+

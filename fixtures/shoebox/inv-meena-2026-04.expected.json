@@ -1,0 +1,95 @@
+{
+  "doc_type": "invoice",
+  "direction": {
+    "value": "purchase",
+    "confidence": 0.96
+  },
+  "counterparty_name": {
+    "value": "Meena Silks",
+    "confidence": 0.96
+  },
+  "vendor_name": {
+    "value": "Meena Silks",
+    "confidence": 0.96
+  },
+  "vendor_phone": {
+    "value": "+91-98123-45678",
+    "confidence": 0.8999999999999999
+  },
+  "invoice_no": {
+    "value": "MS-502",
+    "confidence": 0.96
+  },
+  "invoice_date": {
+    "value": "2026-04-15",
+    "confidence": 0.96
+  },
+  "due_date": {
+    "value": null,
+    "confidence": 0.85
+  },
+  "line_items": [
+    {
+      "product_name": {
+        "value": "Blue Silk Dupatta",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 12,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 330,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 3960,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "White Chikankari Kurti (M)",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 10,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 545,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 5450,
+        "confidence": 0.95
+      }
+    },
+    {
+      "product_name": {
+        "value": "Georgette Saree",
+        "confidence": 0.95
+      },
+      "qty": {
+        "value": 8,
+        "confidence": 0.95
+      },
+      "unit_price": {
+        "value": 1015,
+        "confidence": 0.95
+      },
+      "amount": {
+        "value": 8120,
+        "confidence": 0.95
+      }
+    }
+  ],
+  "total": {
+    "value": 17530,
+    "confidence": 0.96
+  },
+  "currency": {
+    "value": "INR",
+    "confidence": 0.99
+  }
+}

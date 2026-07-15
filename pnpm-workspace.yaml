@@ -1,0 +1,39 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'apps/workflow-engine/packages/*'
+  - 'apps/workflow-engine/packages/@n8n/*'
+  - 'apps/workflow-engine/packages/frontend/*'
+  - 'apps/workflow-engine/packages/frontend/@n8n/*'
+  - 'apps/workflow-engine/packages/testing/*'
+allowBuilds:
+  '@biomejs/biome': set this to true or false
+  '@jitsi/robotjs': set this to true or false
+  '@parcel/watcher': set this to true or false
+  '@scarf/scarf': set this to true or false
+  '@sentry/cli': set this to true or false
+  '@sentry/node-cpu-profiler': set this to true or false
+  '@sentry/node-native-stacktrace': set this to true or false
+  agent-browser: set this to true or false
+  bufferutil: set this to true or false
+  core-js: set this to true or false
+  cpu-features: set this to true or false
+  electron-winstaller: set this to true or false
+  es5-ext: set this to true or false
+  eslint-plugin-n8n-nodes-base: set this to true or false
+  isolated-vm: set this to true or false
+  lefthook: set this to true or false
+  libpq: set this to true or false
+  msgpackr-extract: set this to true or false
+  oracledb: set this to true or false
+  protobufjs: set this to true or false
+  puppeteer: set this to true or false
+  sleep: set this to true or false
+  sqlite3: set this to true or false
+  ssh2: set this to true or false
+  tree-sitter: set this to true or false
+  tree-sitter-bash: set this to true or false
+  unrs-resolver: set this to true or false
+  utf-8-validate: set this to true or false
+  v-code-diff: set this to true or false
+  vue-demi: set this to true or false
