@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import { AppShell } from '@/components/AppShell';
-import { WorkflowBuilder } from '@/components/WorkflowBuilder';
-import { Node, Edge } from '@xyflow/react';
 
 /* ─────────────────────────────────────────────────────────────────
    TEMPLATES — 5 core + browse-all library
@@ -57,6 +55,7 @@ const BROWSE_TEMPLATES: Template[] = [
 
 /* ─────────────────────────────────────────────────────────────────
    COMPLEX WORKFLOW GRAPHS — rich, industry-specific node trees
+   (kept for template metadata; canvas is now the n8n iframe)
    ───────────────────────────────────────────────────────────────── */
 
 const nodeStyle = (bg: string, border: string) => ({
@@ -64,7 +63,7 @@ const nodeStyle = (bg: string, border: string) => ({
   fontSize: '13px', fontWeight: 500, minWidth: '180px',
 });
 
-function getTemplateGraph(templateId: string): { nodes: Node[]; edges: Edge[] } {
+function getTemplateGraph(templateId: string) {
   switch (templateId) {
     case 'healthcare_triage':
       return {
@@ -241,16 +240,45 @@ function getTemplateGraph(templateId: string): { nodes: Node[]; edges: Edge[] } 
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   AI STUDIO CATEGORIES — sidebar for the Dify tab
+   ───────────────────────────────────────────────────────────────── */
+
+interface AICategory {
+  id: string;
+  name: string;
+  desc: string;
+  icon: string;
+  color: string;
+  bg: string;
+}
+
+const AI_CATEGORIES: AICategory[] = [
+  { id: 'chatbots', name: 'Chatbots', desc: 'Build conversational AI assistants with custom knowledge and personality', icon: 'chat', color: 'text-blue-500', bg: 'bg-blue-50' },
+  { id: 'text_generators', name: 'Text Generators', desc: 'Create content generation pipelines for documents, emails, and reports', icon: 'edit_note', color: 'text-purple-500', bg: 'bg-purple-50' },
+  { id: 'agent_workflows', name: 'Agent Workflows', desc: 'Design multi-step AI agent workflows with tool use and reasoning', icon: 'account_tree', color: 'text-amber-600', bg: 'bg-amber-50' },
+  { id: 'knowledge_base', name: 'Knowledge Base', desc: 'Upload and manage documents for RAG-powered retrieval and Q&A', icon: 'library_books', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+];
+
+/* ─────────────────────────────────────────────────────────────────
+   SUB-TAB DEFINITIONS
+   ───────────────────────────────────────────────────────────────── */
+
+type SubTab = 'workflows' | 'ai-studio';
+
+/* ─────────────────────────────────────────────────────────────────
    PAGE COMPONENT
    ───────────────────────────────────────────────────────────────── */
 
 export default function VasPage() {
+  const [activeTab, setActiveTab] = useState<SubTab>('workflows');
   const [activeTemplate, setActiveTemplate] = useState(TEMPLATES[0]!.id);
   const [sidebarWidth, setSidebarWidth] = useState(340);
   const [showBrowse, setShowBrowse] = useState(false);
   const [browseCategory, setBrowseCategory] = useState<string>('All');
   const [isDragging, setIsDragging] = useState(false);
-  const graph = getTemplateGraph(activeTemplate);
+
+  // Keep graph reference for potential future use
+  void getTemplateGraph;
 
   const activeInfo = [...TEMPLATES, ...BROWSE_TEMPLATES].find((t) => t.id === activeTemplate);
 
@@ -275,172 +303,274 @@ export default function VasPage() {
 
   return (
     <AppShell>
-      <div className="flex h-[calc(100vh-48px)] overflow-hidden">
-        {/* ── LEFT SIDEBAR: Templates ─────────────────────────────── */}
-        <div
-          className="flex flex-col bg-surface-container-lowest border-r border-surface-container-highest shrink-0 overflow-hidden"
-          style={{ width: sidebarWidth }}
-        >
-          {/* Header */}
-          <div className="p-4 border-b border-surface-container-highest bg-surface-container-low">
-            <h1 className="text-headline-sm font-bold text-on-surface flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary">account_tree</span>
-              Workflow Templates
-            </h1>
-            <p className="text-label-sm text-on-surface-variant mt-1">Select an industry workflow</p>
-          </div>
+      <div className="flex flex-col h-[calc(100vh-48px)] overflow-hidden">
+        {/* ── SUB-TAB BAR ──────────────────────────────────────────── */}
+        <div className="flex items-center gap-0 bg-surface-container-lowest border-b border-surface-container-highest shrink-0 px-4">
+          <button
+            onClick={() => setActiveTab('workflows')}
+            className={`flex items-center gap-2 px-4 py-3 text-label-lg font-semibold transition-colors relative ${
+              activeTab === 'workflows'
+                ? 'text-primary border-b-2 border-primary'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[20px]">account_tree</span>
+            Otto Workflows
+          </button>
+          <button
+            onClick={() => setActiveTab('ai-studio')}
+            className={`flex items-center gap-2 px-4 py-3 text-label-lg font-semibold transition-colors relative ${
+              activeTab === 'ai-studio'
+                ? 'text-primary border-b-2 border-primary'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[20px]">smart_toy</span>
+            Otto AI Studio
+          </button>
+        </div>
 
-          {/* Core templates */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-widest px-1 mb-2">
-              ⭐ Popular Templates
-            </p>
-            {TEMPLATES.map((t) => (
+        {/* ── TAB CONTENT ──────────────────────────────────────────── */}
+        <div className="flex flex-1 min-h-0 overflow-hidden">
+          {activeTab === 'workflows' ? (
+            <>
+              {/* ── LEFT SIDEBAR: Templates ─────────────────────────── */}
               <div
-                key={t.id}
-                onClick={() => { setActiveTemplate(t.id); setShowBrowse(false); }}
-                className={`rounded-xl p-3 cursor-pointer transition-all duration-200 group border ${
-                  activeTemplate === t.id && !showBrowse
-                    ? 'border-primary bg-primary/5 shadow-md ring-1 ring-primary/30'
-                    : 'border-transparent hover:bg-surface-container-low hover:border-surface-container-highest'
-                }`}
+                className="flex flex-col bg-surface-container-lowest border-r border-surface-container-highest shrink-0 overflow-hidden"
+                style={{ width: sidebarWidth }}
               >
-                <div className="flex items-start gap-3">
-                  <div className={`w-9 h-9 ${t.bg} rounded-lg flex items-center justify-center shrink-0 ${activeTemplate === t.id ? 'scale-110' : 'group-hover:scale-105'} transition-transform`}>
-                    <span className={`material-symbols-outlined text-[20px] ${t.color}`}>{t.icon}</span>
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="text-label-lg font-semibold text-on-surface truncate">{t.name}</h3>
-                    <p className="text-label-sm text-on-surface-variant line-clamp-2 mt-0.5">{t.desc}</p>
-                    {t.uses && (
-                      <div className="flex items-center gap-1 mt-1.5">
-                        <span className="material-symbols-outlined text-[12px] text-on-surface-variant/60">group</span>
-                        <span className="text-label-sm text-on-surface-variant/60">{t.uses} uses</span>
+                {/* Header */}
+                <div className="p-4 border-b border-surface-container-highest bg-surface-container-low">
+                  <h1 className="text-headline-sm font-bold text-on-surface flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary">account_tree</span>
+                    Workflow Templates
+                  </h1>
+                  <p className="text-label-sm text-on-surface-variant mt-1">Select an industry workflow</p>
+                </div>
+
+                {/* Core templates */}
+                <div className="flex-1 overflow-y-auto p-3 space-y-2">
+                  <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-widest px-1 mb-2">
+                    ⭐ Popular Templates
+                  </p>
+                  {TEMPLATES.map((t) => (
+                    <div
+                      key={t.id}
+                      onClick={() => { setActiveTemplate(t.id); setShowBrowse(false); }}
+                      className={`rounded-xl p-3 cursor-pointer transition-all duration-200 group border ${
+                        activeTemplate === t.id && !showBrowse
+                          ? 'border-primary bg-primary/5 shadow-md ring-1 ring-primary/30'
+                          : 'border-transparent hover:bg-surface-container-low hover:border-surface-container-highest'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className={`w-9 h-9 ${t.bg} rounded-lg flex items-center justify-center shrink-0 ${activeTemplate === t.id ? 'scale-110' : 'group-hover:scale-105'} transition-transform`}>
+                          <span className={`material-symbols-outlined text-[20px] ${t.color}`}>{t.icon}</span>
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-label-lg font-semibold text-on-surface truncate">{t.name}</h3>
+                          <p className="text-label-sm text-on-surface-variant line-clamp-2 mt-0.5">{t.desc}</p>
+                          {t.uses && (
+                            <div className="flex items-center gap-1 mt-1.5">
+                              <span className="material-symbols-outlined text-[12px] text-on-surface-variant/60">group</span>
+                              <span className="text-label-sm text-on-surface-variant/60">{t.uses} uses</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Browse All button */}
+                  <div className="pt-3 mt-3 border-t border-surface-container-highest">
+                    <button
+                      onClick={() => setShowBrowse(!showBrowse)}
+                      className={`w-full rounded-xl p-3 text-left transition-all border ${
+                        showBrowse
+                          ? 'border-secondary bg-secondary/5 ring-1 ring-secondary/30'
+                          : 'border-transparent hover:bg-surface-container-low'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-secondary/10 rounded-lg flex items-center justify-center shrink-0">
+                          <span className="material-symbols-outlined text-[20px] text-secondary">explore</span>
+                        </div>
+                        <div>
+                          <h3 className="text-label-lg font-semibold text-on-surface">Browse All Templates</h3>
+                          <p className="text-label-sm text-on-surface-variant">{BROWSE_TEMPLATES.length} more templates</p>
+                        </div>
+                        <span className={`material-symbols-outlined text-on-surface-variant ml-auto transition-transform ${showBrowse ? 'rotate-180' : ''}`}>
+                          expand_more
+                        </span>
+                      </div>
+                    </button>
+
+                    {/* Browse templates expandable section */}
+                    {showBrowse && (
+                      <div className="mt-3 animate-fade-in">
+                        {/* Category filter chips */}
+                        <div className="flex flex-wrap gap-1.5 px-1 mb-3">
+                          {categories.map((cat) => (
+                            <button
+                              key={cat}
+                              onClick={() => setBrowseCategory(cat)}
+                              className={`px-2.5 py-1 rounded-full text-label-sm font-medium transition-all ${
+                                browseCategory === cat
+                                  ? 'bg-secondary text-on-secondary'
+                                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+                              }`}
+                            >
+                              {cat}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Browse list */}
+                        <div className="space-y-1.5">
+                          {filteredBrowse.map((t) => (
+                            <div
+                              key={t.id}
+                              onClick={() => { setActiveTemplate(t.id); }}
+                              className={`rounded-lg p-2.5 cursor-pointer transition-all border ${
+                                activeTemplate === t.id
+                                  ? 'border-primary bg-primary/5 shadow-sm'
+                                  : 'border-transparent hover:bg-surface-container-low'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <div className={`w-7 h-7 ${t.bg} rounded-md flex items-center justify-center shrink-0`}>
+                                  <span className={`material-symbols-outlined text-[16px] ${t.color}`}>{t.icon}</span>
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <h4 className="text-label-sm font-semibold text-on-surface truncate">{t.name}</h4>
+                                  <p className="text-label-sm text-on-surface-variant/70 truncate">{t.desc}</p>
+                                </div>
+                                {t.uses && (
+                                  <span className="text-label-sm text-on-surface-variant/50 shrink-0">{t.uses}</span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-            ))}
 
-            {/* Browse All button */}
-            <div className="pt-3 mt-3 border-t border-surface-container-highest">
-              <button
-                onClick={() => setShowBrowse(!showBrowse)}
-                className={`w-full rounded-xl p-3 text-left transition-all border ${
-                  showBrowse
-                    ? 'border-secondary bg-secondary/5 ring-1 ring-secondary/30'
-                    : 'border-transparent hover:bg-surface-container-low'
+              {/* ── SPLITTER / DRAG HANDLE ──────────────────────────── */}
+              <div
+                onMouseDown={handleMouseDown}
+                className={`w-1.5 shrink-0 cursor-col-resize transition-colors relative group ${
+                  isDragging ? 'bg-primary' : 'bg-surface-container-highest hover:bg-primary/40'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-secondary/10 rounded-lg flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[20px] text-secondary">explore</span>
-                  </div>
-                  <div>
-                    <h3 className="text-label-lg font-semibold text-on-surface">Browse All Templates</h3>
-                    <p className="text-label-sm text-on-surface-variant">{BROWSE_TEMPLATES.length} more templates</p>
-                  </div>
-                  <span className={`material-symbols-outlined text-on-surface-variant ml-auto transition-transform ${showBrowse ? 'rotate-180' : ''}`}>
-                    expand_more
-                  </span>
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 w-4 h-10 rounded-full bg-surface-container-highest group-hover:bg-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="material-symbols-outlined text-[14px] text-on-surface-variant">drag_indicator</span>
                 </div>
-              </button>
+              </div>
 
-              {/* Browse templates expandable section */}
-              {showBrowse && (
-                <div className="mt-3 animate-fade-in">
-                  {/* Category filter chips */}
-                  <div className="flex flex-wrap gap-1.5 px-1 mb-3">
-                    {categories.map((cat) => (
-                      <button
-                        key={cat}
-                        onClick={() => setBrowseCategory(cat)}
-                        className={`px-2.5 py-1 rounded-full text-label-sm font-medium transition-all ${
-                          browseCategory === cat
-                            ? 'bg-secondary text-on-secondary'
-                            : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-                        }`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
+              {/* ── RIGHT: n8n Workflow iframe ──────────────────────── */}
+              <div className="flex-1 min-w-0 flex flex-col bg-surface">
+                {/* Toolbar */}
+                <div className="flex items-center gap-3 px-4 py-2 border-b border-surface-container-highest bg-surface-container-lowest shrink-0">
+                  {activeInfo && (
+                    <>
+                      <div className={`w-7 h-7 ${activeInfo.bg} rounded-md flex items-center justify-center`}>
+                        <span className={`material-symbols-outlined text-[18px] ${activeInfo.color}`}>{activeInfo.icon}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h2 className="text-label-lg font-semibold text-on-surface truncate">{activeInfo.name}</h2>
+                      </div>
+                    </>
+                  )}
+                  <div className="flex items-center gap-2 ml-auto">
+                    <button className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-label-sm font-medium text-primary hover:bg-primary/10 transition-colors">
+                      <span className="material-symbols-outlined text-[16px]">add</span>
+                      New Workflow
+                    </button>
+                    <button className="flex items-center gap-1.5 rounded-full border border-outline-variant/60 bg-surface-container-low px-3 py-1.5 text-label-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                      <span className="material-symbols-outlined text-[16px]">settings</span>
+                      Manage Workflows
+                    </button>
                   </div>
+                </div>
 
-                  {/* Browse list */}
-                  <div className="space-y-1.5">
-                    {filteredBrowse.map((t) => (
-                      <div
-                        key={t.id}
-                        onClick={() => { setActiveTemplate(t.id); }}
-                        className={`rounded-lg p-2.5 cursor-pointer transition-all border ${
-                          activeTemplate === t.id
-                            ? 'border-primary bg-primary/5 shadow-sm'
-                            : 'border-transparent hover:bg-surface-container-low'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div className={`w-7 h-7 ${t.bg} rounded-md flex items-center justify-center shrink-0`}>
-                            <span className={`material-symbols-outlined text-[16px] ${t.color}`}>{t.icon}</span>
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-label-sm font-semibold text-on-surface truncate">{t.name}</h4>
-                            <p className="text-label-sm text-on-surface-variant/70 truncate">{t.desc}</p>
-                          </div>
-                          {t.uses && (
-                            <span className="text-label-sm text-on-surface-variant/50 shrink-0">{t.uses}</span>
-                          )}
+                {/* n8n iframe */}
+                <div className="flex-1 w-full">
+                  <iframe
+                    src="http://localhost:5678"
+                    title="VAS Workflows"
+                    style={{ border: 'none', width: '100%', height: '100%' }}
+                    allow="clipboard-read; clipboard-write"
+                  />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* ── LEFT SIDEBAR: AI Categories ────────────────────── */}
+              <div
+                className="flex flex-col bg-surface-container-lowest border-r border-surface-container-highest shrink-0 overflow-hidden"
+                style={{ width: sidebarWidth }}
+              >
+                {/* Header */}
+                <div className="p-4 border-b border-surface-container-highest bg-surface-container-low">
+                  <h1 className="text-headline-sm font-bold text-on-surface flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary">smart_toy</span>
+                    AI Studio
+                  </h1>
+                  <p className="text-label-sm text-on-surface-variant mt-1">Build & manage AI agents</p>
+                </div>
+
+                {/* AI Category list */}
+                <div className="flex-1 overflow-y-auto p-3 space-y-2">
+                  <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-widest px-1 mb-2">
+                    🤖 Agent Categories
+                  </p>
+                  {AI_CATEGORIES.map((cat) => (
+                    <div
+                      key={cat.id}
+                      className="rounded-xl p-3 border border-transparent hover:bg-surface-container-low hover:border-surface-container-highest transition-all duration-200 group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className={`w-9 h-9 ${cat.bg} rounded-lg flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}>
+                          <span className={`material-symbols-outlined text-[20px] ${cat.color}`}>{cat.icon}</span>
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-label-lg font-semibold text-on-surface truncate">{cat.name}</h3>
+                          <p className="text-label-sm text-on-surface-variant line-clamp-2 mt-0.5">{cat.desc}</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
+              </div>
 
-        {/* ── SPLITTER / DRAG HANDLE ──────────────────────────────── */}
-        <div
-          onMouseDown={handleMouseDown}
-          className={`w-1.5 shrink-0 cursor-col-resize transition-colors relative group ${
-            isDragging ? 'bg-primary' : 'bg-surface-container-highest hover:bg-primary/40'
-          }`}
-        >
-          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 w-4 h-10 rounded-full bg-surface-container-highest group-hover:bg-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="material-symbols-outlined text-[14px] text-on-surface-variant">drag_indicator</span>
-          </div>
-        </div>
+              {/* ── SPLITTER / DRAG HANDLE ──────────────────────────── */}
+              <div
+                onMouseDown={handleMouseDown}
+                className={`w-1.5 shrink-0 cursor-col-resize transition-colors relative group ${
+                  isDragging ? 'bg-primary' : 'bg-surface-container-highest hover:bg-primary/40'
+                }`}
+              >
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 w-4 h-10 rounded-full bg-surface-container-highest group-hover:bg-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="material-symbols-outlined text-[14px] text-on-surface-variant">drag_indicator</span>
+                </div>
+              </div>
 
-        {/* ── RIGHT: Workflow Canvas ──────────────────────────────── */}
-        <div className="flex-1 min-w-0 flex flex-col bg-surface">
-          {/* Active template info bar */}
-          {activeInfo && (
-            <div className="flex items-center gap-3 px-4 py-2 border-b border-surface-container-highest bg-surface-container-lowest shrink-0">
-              <div className={`w-7 h-7 ${activeInfo.bg} rounded-md flex items-center justify-center`}>
-                <span className={`material-symbols-outlined text-[18px] ${activeInfo.color}`}>{activeInfo.icon}</span>
+              {/* ── RIGHT: Dify AI Studio iframe ───────────────────── */}
+              <div className="flex-1 min-w-0 flex flex-col bg-surface">
+                <iframe
+                  src="http://localhost:5001"
+                  title="Otto AI Studio — Dify"
+                  style={{ border: 'none', width: '100%', height: '100%' }}
+                  className="flex-1"
+                  allow="clipboard-read; clipboard-write"
+                />
               </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-label-lg font-semibold text-on-surface truncate">{activeInfo.name}</h2>
-              </div>
-              <div className="flex items-center gap-2">
-                {activeInfo.popular && (
-                  <span className="text-label-sm px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[12px]">trending_up</span>
-                    Popular
-                  </span>
-                )}
-                {activeInfo.uses && (
-                  <span className="text-label-sm text-on-surface-variant/60">{activeInfo.uses} uses</span>
-                )}
-              </div>
-            </div>
+            </>
           )}
-
-          {/* React Flow canvas */}
-          <div className="flex-1 w-full">
-            <WorkflowBuilder key={activeTemplate} initialNodes={graph.nodes} initialEdges={graph.edges} />
-          </div>
         </div>
       </div>
     </AppShell>

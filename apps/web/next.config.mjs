@@ -17,6 +17,30 @@ const nextConfig = {
         source: '/api/ai/:path*',
         destination: 'http://localhost:5001/v1/:path*',
       },
+      {
+        source: '/otto-workflows/:path*',
+        destination: 'http://localhost:5678/:path*',
+      },
+      {
+        source: '/assets/:path*',
+        destination: 'http://localhost:5678/assets/:path*',
+      },
+      {
+        source: '/rest/:path*',
+        destination: 'http://localhost:5678/rest/:path*',
+      },
+      {
+        source: '/webhook/:path*',
+        destination: 'http://localhost:5678/webhook/:path*',
+      },
+      {
+        source: '/healthz',
+        destination: 'http://localhost:5678/healthz',
+      },
+      {
+        source: '/otto-ai-studio/:path*',
+        destination: 'http://localhost:5001/:path*',
+      },
     ];
   },
 };

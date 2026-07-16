@@ -15,7 +15,7 @@ const DESKTOP_TABS: Tab[] = [
   { href: '/inventory', label: 'Inventory' },
   { href: '/ledger', label: 'Ledger' },
   { href: '/settings', label: 'Settings' },
-  { href: '/vas', label: 'VAS Workflow Builder' },
+  { href: '/vas', label: 'Automation Studio' },
 ];
 
 export function TopAppBar() {

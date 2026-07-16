@@ -3,10 +3,10 @@
 
 @mixin theme {
 	@include tokens-legacy.theme-legacy;
-	--background--brand: var(--color--orange-500);
-	--background--brand--hover: var(--color--orange-600);
-	--background--brand--active: var(--color--orange-700);
-	--background--brand--focus: var(--color--orange-400);
+	--background--brand: #9c3e26;
+	--background--brand--hover: #7d321e;
+	--background--brand--active: #5e2517;
+	--background--brand--focus: #bc4a2e;
 	--background--brand--disabled: var(--color--neutral-200);
 
 	--background--surface: var(--color--neutral-white);

@@ -1,13 +1,16 @@
 {
   "name": "otto-platform",
   "private": true,
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "pnpm --filter @otto/web dev",
-    "dev:all": "concurrently \"pnpm --filter @otto/web dev\" \"pnpm --filter @otto/workflow-engine start\"",
+    "dev:all": "pnpm --filter @otto/web dev",
     "build": "pnpm --filter @otto/web build",
-    "db:up": "docker compose up -d db redis",
+    "db:up": "docker compose up -d",
     "db:migrate": "pnpm --filter @otto/database migrate",
-    "db:seed": "pnpm --filter @otto/web db:seed"
+    "db:seed": "pnpm --filter @otto/web db:seed",
+    "platform:up": "docker compose up -d && pnpm --filter @otto/web dev",
+    "platform:down": "docker compose down"
   },
   "devDependencies": {
     "concurrently": "^9.0.0"

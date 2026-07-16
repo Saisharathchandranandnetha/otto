@@ -1,12 +1,8 @@
 import { createGroq } from '@ai-sdk/groq';
 import { generateText } from 'ai';
 
-const p1 = 'gsk_eo0nbNkUM';
-const p2 = 'R5zKwu4r983WG';
-const p3 = 'dyb3FYu2IuuTPUSUHDsxYrvXX7hJYP';
-
 const groq = createGroq({
-  apiKey: p1 + p2 + p3,
+  apiKey: process.env.GROQ_API_KEY || process.env.OPENROUTER_API_KEY,
 });
 
 const SYSTEM_PROMPT = `
