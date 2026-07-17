@@ -22,7 +22,9 @@
     "eval": "tsx scripts/eval.ts",
     "flow": "tsx scripts/run-flow.ts",
     "setup": "tsx scripts/migrate.ts && tsx db/seed.ts",
-    "health": "tsx scripts/health.ts"
+    "health": "tsx scripts/health.ts",
+    "auth:seed": "tsx db/seeds/002_domains.ts",
+    "auth:reset-admin": "tsx scripts/reset-admin-password.ts"
   },
   "dependencies": {
     "@ai-sdk/groq": "^4.0.5",
@@ -30,16 +32,24 @@
     "@radix-ui/react-accordion": "^1.1.2",
     "@xyflow/react": "^12.11.2",
     "ai": "^7.0.16",
+    "bcryptjs": "2.4.3",
+    "cookie": "^2.0.1",
+    "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^1.25.0",
     "next": "^14.2.15",
     "pg-boss": "^12.25.1",
     "postgres": "^3.4.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "recharts": "^3.9.2",
     "twilio": "^5.3.0",
     "zod": "^3.23.8",
     "zod-to-json-schema": "^3.23.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie": "^1.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

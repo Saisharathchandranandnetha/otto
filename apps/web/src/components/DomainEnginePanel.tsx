@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   THEME2_PLAYBOOKS,
   type Theme2DomainSlug,
@@ -16,6 +17,7 @@ function playbookBySlug(slug: Theme2DomainSlug): Theme2Playbook {
 }
 
 export function DomainEnginePanel({ onRefresh }: Props) {
+  const router = useRouter();
   const [activeSlug, setActiveSlug] = useState<Theme2DomainSlug>('education');
   const [busy, setBusy] = useState<Theme2DomainSlug | 'all' | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -97,7 +99,13 @@ export function DomainEnginePanel({ onRefresh }: Props) {
                 <button
                   key={playbook.slug}
                   type="button"
-                  onClick={() => setActiveSlug(playbook.slug)}
+                  onClick={() => {
+                    if (playbook.slug === 'education') {
+                      router.push('/education');
+                    } else {
+                      setActiveSlug(playbook.slug);
+                    }
+                  }}
                   className={`group rounded border bg-white p-3 text-left transition ${
                     activeDomain
                       ? 'border-on-surface shadow-[0_8px_24px_rgba(15,23,42,0.08)]'
@@ -114,8 +122,17 @@ export function DomainEnginePanel({ onRefresh }: Props) {
                       </span>
                     </span>
                     <span className="min-w-0">
-                      <span className="block truncate text-label-lg text-on-surface">
+                      <span className="block truncate text-label-lg text-on-surface flex items-center justify-between">
                         {playbook.industry}
+                        {playbook.slug === 'education' && (
+                          <span className="ml-2 inline-flex items-center gap-1 rounded bg-green-500/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-green-500 border border-green-500/20">
+                            <span className="relative flex h-1.5 w-1.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                            </span>
+                            Live
+                          </span>
+                        )}
                       </span>
                       <span className="block truncate text-label-sm text-on-surface-variant">
                         {playbook.actionType.replace(/_/g, ' ')}

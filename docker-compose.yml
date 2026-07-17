@@ -3,9 +3,9 @@ services:
     image: pgvector/pgvector:pg16
     container_name: otto-db
     environment:
-      POSTGRES_USER: otto
-      POSTGRES_PASSWORD: otto
-      POSTGRES_DB: otto
+      POSTGRES_USER: ${POSTGRES_USER:-otto}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-otto}
+      POSTGRES_DB: ${POSTGRES_DB:-otto}
     ports:
       - "5432:5432"
     volumes:
@@ -28,37 +28,61 @@ services:
       interval: 3s
       retries: 5
 
-  workflow-engine:
-    image: docker.n8n.io/n8nio/n8n:latest
-    container_name: otto-workflow-engine
+  # --- n8n Workflow Automation Engine ---
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: otto_n8n
+    restart: always
+    # ports:
+    #   - "5678:5678"
     environment:
+      # Core settings
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      # This gets replaced with ngrok URL at runtime — see setup script
+      - WEBHOOK_URL=${N8N_WEBHOOK_URL:-http://localhost:5678}
+      - WEBHOOK_TUNNEL_URL=${N8N_WEBHOOK_URL:-http://localhost:5678}
+      # Database — use Postgres instead of SQLite for production
       - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_DATABASE=otto
       - DB_POSTGRESDB_HOST=db
       - DB_POSTGRESDB_PORT=5432
-      - DB_POSTGRESDB_USER=otto
-      - DB_POSTGRESDB_PASSWORD=otto
-      - DB_POSTGRESDB_SCHEMA=workflows
-      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
-      - QUEUE_HEALTH_CHECK_ACTIVE=true
-      - EXECUTIONS_MODE=regular
-      - N8N_PERSONALIZATION_APP_NAME=VAS
-      - N8N_PERSONALIZATION_COMPANY_NAME=VAS
-      - N8N_PERSONALIZATION_LOGO=https://raw.githubusercontent.com/Saisharathchandranandnetha/otto/main/logo.png
-      - N8N_HIDE_USAGE_PAGE=true
-      - N8N_DISABLE_UI_SECURITY=true
-      - N8N_CORS_ENABLED=true
-      - N8N_CORS_ALLOWED_ORIGINS=*
-      - N8N_PUSH_BACKEND=websocket
-      - N8N_WEBHOOK_URL=http://localhost:5678
-      - N8N_EDITOR_BASE_URL=http://localhost:5678
-    ports:
-      - "5678:5678"
+      - DB_POSTGRESDB_DATABASE=${N8N_DB_NAME:-n8n_db}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER:-otto}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD:-otto}
+      # Security
+      - N8N_SECURE_COOKIE=false
+      - N8N_BASIC_AUTH_ACTIVE=false
+      # Execution settings
+      - EXECUTIONS_DATA_PRUNE=true
+      - EXECUTIONS_DATA_MAX_AGE=168
+      # License — for paid n8n license
+      - N8N_LICENSE_ACTIVATION_KEY=${N8N_LICENSE_KEY:-}
+      # Generic timezone
+      - GENERIC_TIMEZONE=Asia/Kolkata
+      # Integration credentials (Telegram + Dify + Webhook)
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - DIFY_API_KEY=${DIFY_API_KEY:-}
+      - DIFY_API_URL=${DIFY_API_URL:-}
+      - OTTO_WEBHOOK_SECRET=${OTTO_WEBHOOK_SECRET:-secret-otto-webhook-token}
+    volumes:
+      - n8n_data:/home/node/.n8n
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_healthy
+
+  # --- ngrok tunnel (makes n8n reachable by Telegram via HTTPS) ---
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: otto_ngrok
+    restart: always
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command: http n8n:5678
+    ports:
+      - "4040:4040"
+    depends_on:
+      - n8n
 
   ai-engine:
     build:
@@ -108,3 +132,4 @@ services:
 volumes:
   otto_pgdata:
   otto_redis:
+  n8n_data:

@@ -29,3 +29,10 @@ def system_required(view):
     def decorated(*args, **kwargs):
         return view(*args, **kwargs)
     return decorated
+
+def current_account_with_tenant():
+    # Mock implementation
+    return None, "dify_default_tenant"
+
+current_user = None
+

@@ -10,7 +10,15 @@
     "db:migrate": "pnpm --filter @otto/database migrate",
     "db:seed": "pnpm --filter @otto/web db:seed",
     "platform:up": "docker compose up -d && pnpm --filter @otto/web dev",
-    "platform:down": "docker compose down"
+    "platform:down": "docker compose down",
+    "n8n:start": "docker-compose up n8n db ngrok -d",
+    "n8n:stop": "docker-compose stop n8n ngrok",
+    "n8n:logs": "docker-compose logs -f n8n",
+    "n8n:setup": "tsx scripts/setup-n8n.ts",
+    "n8n:ngrok-url": "curl -s http://localhost:4040/api/tunnels | node -e \"const d=require('fs').readFileSync('/dev/stdin','utf8'); console.log(JSON.parse(d).tunnels[0]?.public_url || 'ngrok not running')\"",
+    "dev:full": "concurrently \"pnpm dev\" \"pnpm n8n:logs\"",
+    "auth:seed": "pnpm --filter @otto/web auth:seed",
+    "auth:reset-admin": "pnpm --filter @otto/web auth:reset-admin"
   },
   "devDependencies": {
     "concurrently": "^9.0.0"

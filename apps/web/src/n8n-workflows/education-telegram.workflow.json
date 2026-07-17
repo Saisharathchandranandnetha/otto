@@ -1,0 +1,204 @@
+{
+  "name": "Education Telegram Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message"]
+      },
+      "id": "1",
+      "name": "Telegram Message Received",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "education-telegram-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const message = $input.first().json.message;\nreturn [{\n  json: {\n    chat_id: message.chat.id.toString(),\n    user_name: message.from.first_name + (message.from.last_name ? ' ' + message.from.last_name : ''),\n    user_message: message.text || '',\n    timestamp: new Date().toISOString(),\n    message_id: message.message_id.toString()\n  }\n}];"
+      },
+      "id": "2",
+      "name": "Extract Message Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.DIFY_API_URL }}/chat-messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.DIFY_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $json.user_message }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"\",\n  \"user\": \"{{ $json.chat_id }}\"\n}",
+        "options": {}
+      },
+      "id": "3",
+      "name": "Query Dify AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const difyResponse = $input.first().json;\nconst prevData = $('Extract Message Data').first().json;\n\nlet ai_reply = \"I'm sorry, I couldn't find an answer. Our team will assist you shortly.\";\nlet confidence = 0;\nlet topic = 'general';\n\nif (difyResponse.answer) {\n  ai_reply = difyResponse.answer;\n  confidence = difyResponse.metadata?.usage ? 0.85 : 0.70;\n}\n\nconst q = prevData.user_message.toLowerCase();\nif (q.includes('admission') || q.includes('apply') || q.includes('enroll')) \n  topic = 'admission';\nelse if (q.includes('fee') || q.includes('payment') || q.includes('invoice')) \n  topic = 'fees';\nelse if (q.includes('exam') || q.includes('test') || q.includes('paper')) \n  topic = 'exams';\nelse if (q.includes('document') || q.includes('certificate')) \n  topic = 'documents';\nelse if (q.includes('schedule') || q.includes('timetable')) \n  topic = 'schedule';\n\nconst status = confidence > 0.75 ? 'resolved' : \n               confidence > 0.5 ? 'pending' : 'escalated';\n\nreturn [{\n  json: {\n    ...prevData,\n    ai_reply,\n    confidence,\n    topic,\n    status,\n    conversation_id: difyResponse.conversation_id || ''\n  }\n}];"
+      },
+      "id": "4",
+      "name": "Process AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "={{ $json.ai_reply }}",
+        "additionalFields": {}
+      },
+      "id": "5",
+      "name": "Send Reply to Student",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OTTO_WEBHOOK_URL }}/api/education/chat-logs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "x-otto-secret",
+              "value": "={{ $env.OTTO_WEBHOOK_SECRET }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"user_name\": \"{{ $json.user_name }}\",\n  \"chat_id\": \"{{ $json.chat_id }}\",\n  \"message\": \"{{ $json.user_message }}\",\n  \"ai_reply\": \"{{ $json.ai_reply }}\",\n  \"topic\": \"{{ $json.topic }}\",\n  \"confidence\": {{ $json.confidence }},\n  \"status\": \"{{ $json.status }}\",\n  \"timestamp\": \"{{ $json.timestamp }}\",\n  \"conversation_id\": \"{{ $json.conversation_id }}\"\n}",
+        "options": {}
+      },
+      "id": "6",
+      "name": "Log to Otto Dashboard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1250, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const prevData = $('Extract Message Data').first().json;\nreturn [{\n  json: {\n    ...prevData,\n    ai_reply: \"I'm sorry, I couldn't find an answer. Our team will assist you shortly.\",\n    confidence: 0,\n    topic: 'general',\n    status: 'escalated',\n    conversation_id: ''\n  }\n}];"
+      },
+      "id": "7",
+      "name": "Error Handler / Fallback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 500]
+    }
+  ],
+  "connections": {
+    "Telegram Message Received": {
+      "main": [
+        [
+          {
+            "node": "Extract Message Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Message Data": {
+      "main": [
+        [
+          {
+            "node": "Query Dify AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Dify AI": {
+      "main": [
+        [
+          {
+            "node": "Process AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Handler / Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process AI Response": {
+      "main": [
+        [
+          {
+            "node": "Send Reply to Student",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handler / Fallback": {
+      "main": [
+        [
+          {
+            "node": "Send Reply to Student",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reply to Student": {
+      "main": [
+        [
+          {
+            "node": "Log to Otto Dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
