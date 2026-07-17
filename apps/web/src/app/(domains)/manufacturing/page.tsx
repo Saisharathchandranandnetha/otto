@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, TrendingUp, Activity, Brain, Users, Zap } from 'lucide-react';
+import { Bot, MessageCircle, Brain, FileText, Workflow, Sparkles } from 'lucide-react';
 import { MetricPillarCard } from '@/components/dashboard/MetricPillarCard';
 import { TelegramLiveFeed } from '@/components/dashboard/TelegramLiveFeed';
 import { DecisionIntelPanel } from '@/components/dashboard/DecisionIntelPanel';
@@ -15,7 +15,7 @@ import { AuditTrailPanel } from '@/components/dashboard/AuditTrailPanel';
 import { ActivityTimeline } from '@/components/dashboard/ActivityTimeline';
 
 export const metadata = {
-  title: 'Manufacturing & Analytics | Otto',
+  title: 'Manufacturing Domain | Otto',
 };
 
 export default async function ManufacturingDashboardPage() {
@@ -31,8 +31,8 @@ export default async function ManufacturingDashboardPage() {
         
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-display-sm font-semibold text-on-surface">Analytics & Decision Intelligence</h1>
-            <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across 6 Analytics pillars</p>
+            <h1 className="text-display-sm font-semibold text-on-surface">Manufacturing AI Control Center</h1>
+            <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across all 6 AI pillars</p>
           </div>
           
           <div className="flex items-center gap-4">
@@ -56,44 +56,44 @@ export default async function ManufacturingDashboardPage() {
       {/* 3. Top Row - 6 Pillar Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <MetricPillarCard 
-          title="Business Intelligence Dashboard"
-          primaryMetric="Real-time"
-          secondaryMetric="Monitoring sales and operations"
-          icon={PieChart}
+          title="AI Floor Supervisor"
+          primaryMetric="124 hrs"
+          secondaryMetric="38 inspection tasks automated"
+          icon={Bot}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Predictive Analytics"
-          primaryMetric="94% Accuracy"
-          secondaryMetric="Forecasting demand & inventory"
-          icon={TrendingUp}
+          title="AI Vendor Support"
+          primaryMetric="87 queries"
+          secondaryMetric="81% resolved without human"
+          icon={MessageCircle}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Performance Monitoring"
-          primaryMetric="Peak"
-          secondaryMetric="Measuring operational efficiency"
-          icon={Activity}
-          trendUp={true}
-        />
-        <MetricPillarCard 
-          title="AI Decision Support"
-          primaryMetric="3 Alerts"
-          secondaryMetric="Intelligent recommendations active"
+          title="AI Maintenance Assistant"
+          primaryMetric="98% uptime"
+          secondaryMetric="Top topic: Machine Calibration (14)"
           icon={Brain}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Customer Insights"
-          primaryMetric="Deep"
-          secondaryMetric="Purchasing behavior patterns"
-          icon={Users}
+          title="AI Spec Generation"
+          primaryMetric="15 docs"
+          secondaryMetric="10 QA Reports • 5 Work Orders"
+          icon={FileText}
+          trendUp={true}
         />
         <MetricPillarCard 
-          title="Operational Intelligence"
-          primaryMetric="0 Anomalies"
-          secondaryMetric="Proactive alerts for critical events"
-          icon={Zap}
+          title="Autonomous QA Agents"
+          primaryMetric="7 active"
+          secondaryMetric="22 production pipelines completed"
+          icon={Workflow}
+        />
+        <MetricPillarCard 
+          title="Defect Prediction Engine"
+          primaryMetric="9 alerts"
+          secondaryMetric="3 potential bottlenecks detected"
+          icon={Sparkles}
           trendUp={true}
         />
       </div>

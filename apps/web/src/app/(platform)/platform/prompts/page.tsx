@@ -1,9 +1,9 @@
 'use client';
 
 import { Sidebar } from '../../../../components/Sidebar';
-import { Workflow, Plus } from 'lucide-react';
+import { FileText, Plus } from 'lucide-react';
 
-export default function WorkflowsPage() {
+export default function PromptsPage() {
   return (
     <div className="flex h-screen bg-surface-container-lowest text-on-surface">
       <Sidebar />
@@ -11,25 +11,25 @@ export default function WorkflowsPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-display-sm font-semibold flex items-center gap-3">
-              <Workflow className="w-8 h-8 text-primary" />
-              Workflows
+              <FileText className="w-8 h-8 text-primary" />
+              Prompts
             </h1>
             <p className="text-body-lg text-on-surface-variant mt-2">
-              Design and monitor agentic workflows and human-in-the-loop approvals.
+              Manage system prompts and templates for your agents.
             </p>
           </div>
           <button className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary hover:bg-primary/90 rounded-lg transition-colors font-medium">
             <Plus className="w-5 h-5" />
-            New Workflow
+            New Prompt
           </button>
         </div>
 
         <div className="bg-surface border border-outline-variant/30 rounded-2xl flex-1 flex items-center justify-center">
           <div className="text-center">
-            <Workflow className="w-16 h-16 text-on-surface-variant/30 mx-auto mb-4" />
-            <h2 className="text-title-lg font-medium">No Workflows Yet</h2>
+            <FileText className="w-16 h-16 text-on-surface-variant/30 mx-auto mb-4" />
+            <h2 className="text-title-lg font-medium">No Prompts Yet</h2>
             <p className="text-body-md text-on-surface-variant mt-2">
-              Create a workflow to orchestrate agents and automate processes.
+              Create a prompt template to share across agents.
             </p>
           </div>
         </div>

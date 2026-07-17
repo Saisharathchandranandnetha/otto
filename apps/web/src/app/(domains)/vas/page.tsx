@@ -1,5 +1,5 @@
 import React from 'react';
-import { Store, UserPlus, ShoppingCart, Repeat, Building, ShieldCheck } from 'lucide-react';
+import { Bot, MessageCircle, Brain, FileText, Workflow, Sparkles } from 'lucide-react';
 import { MetricPillarCard } from '@/components/dashboard/MetricPillarCard';
 import { TelegramLiveFeed } from '@/components/dashboard/TelegramLiveFeed';
 import { DecisionIntelPanel } from '@/components/dashboard/DecisionIntelPanel';
@@ -15,10 +15,10 @@ import { AuditTrailPanel } from '@/components/dashboard/AuditTrailPanel';
 import { ActivityTimeline } from '@/components/dashboard/ActivityTimeline';
 
 export const metadata = {
-  title: 'VAS & Commerce | Otto',
+  title: 'VAS Domain | Otto',
 };
 
-export default async function VASDashboardPage() {
+export default async function VasDashboardPage() {
   return (
     <div className="flex-1 overflow-y-auto p-6 bg-surface-container-lowest">
       {/* 1. Header */}
@@ -26,13 +26,13 @@ export default async function VASDashboardPage() {
         <div className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-2">
           <span>Otto</span>
           <span>→</span>
-          <span className="font-medium text-on-surface">VAS & Commerce Domain</span>
+          <span className="font-medium text-on-surface">VAS Domain</span>
         </div>
         
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-display-sm font-semibold text-on-surface">Commerce Control Center</h1>
-            <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across 6 Commerce pillars</p>
+            <h1 className="text-display-sm font-semibold text-on-surface">VAS AI Control Center</h1>
+            <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across all 6 AI pillars</p>
           </div>
           
           <div className="flex items-center gap-4">
@@ -56,44 +56,44 @@ export default async function VASDashboardPage() {
       {/* 3. Top Row - 6 Pillar Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <MetricPillarCard 
-          title="Direct-to-Customer Commerce"
-          primaryMetric="+24%"
-          secondaryMetric="Growth in D2C sales volume"
-          icon={Store}
+          title="AI Service Copilot"
+          primaryMetric="105 hrs"
+          secondaryMetric="56 ticket routings automated"
+          icon={Bot}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Customer Acquisition & Leads"
-          primaryMetric="892 Leads"
-          secondaryMetric="Automated follow-ups sent"
-          icon={UserPlus}
+          title="AI Tech Support"
+          primaryMetric="214 queries"
+          secondaryMetric="78% resolved without human"
+          icon={MessageCircle}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Shopping Experience Optimization"
-          primaryMetric="-15%"
-          secondaryMetric="Reduction in cart abandonment"
-          icon={ShoppingCart}
+          title="AI Knowledge Base"
+          primaryMetric="96% accuracy"
+          secondaryMetric="Top topic: Setup Guide (88)"
+          icon={Brain}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Subscription Commerce"
-          primaryMetric="4,120 Active"
-          secondaryMetric="Automated renewals processed"
-          icon={Repeat}
+          title="AI SLA Generation"
+          primaryMetric="32 docs"
+          secondaryMetric="15 SLAs • 17 Incident Reports"
+          icon={FileText}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="B2B Digital Sales"
-          primaryMetric="32 Quotes"
-          secondaryMetric="Negotiations handled digitally"
-          icon={Building}
+          title="Autonomous Service Agents"
+          primaryMetric="9 active"
+          secondaryMetric="45 dispatch pipelines completed"
+          icon={Workflow}
         />
         <MetricPillarCard 
-          title="Trust & Marketplace Verification"
-          primaryMetric="100% Verified"
-          secondaryMetric="Fraud prevention active"
-          icon={ShieldCheck}
+          title="Churn Prediction Engine"
+          primaryMetric="12 alerts"
+          secondaryMetric="4 at-risk accounts detected"
+          icon={Sparkles}
           trendUp={true}
         />
       </div>

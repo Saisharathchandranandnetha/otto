@@ -53,6 +53,9 @@ const TRANSITIONS: Record<ActionStatus, ActionStatus[]> = {
 export interface ActionRow {
   id: string;
   orgId: string;
+  agentId: string;
+  actionClass: string;
+  channel: string | null;
   type: ActionType;
   status: ActionStatus;
   payload: Record<string, unknown>;
@@ -61,20 +64,26 @@ export interface ActionRow {
   approvedBy: 'human' | 'autonomy_grant' | null;
   trustGrantId: string | null;
   undoDeadline: Date | null;
+  undoPayload: Record<string, unknown> | null;
+  undoneAt: Date | null;
+  undoneBy: string | null;
   createdAt: Date;
 }
 
 /** Create a new action in `perceived` and log its birth. */
 export async function createAction(input: {
   orgId: string;
+  agentId: string;
+  actionClass: string;
+  channel?: string;
   type: ActionType;
   payload?: Record<string, unknown>;
   reasoning?: string;
   amount?: number;
 }): Promise<ActionRow> {
   const [row] = await sql`
-    insert into actions (org_id, type, payload, reasoning, amount)
-    values (${input.orgId}, ${input.type}, ${sql.json((input.payload ?? {}) as any)},
+    insert into actions (org_id, agent_id, action_class, channel, type, payload, reasoning, amount)
+    values (${input.orgId}, ${input.agentId}, ${input.actionClass}, ${input.channel ?? null}, ${input.type}, ${sql.json((input.payload ?? {}) as any)},
             ${input.reasoning ?? null}, ${input.amount ?? null})
     returning *`;
   const action = row as unknown as ActionRow;

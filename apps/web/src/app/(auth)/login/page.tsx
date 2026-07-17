@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Factory, HeartPulse, Headphones, ShoppingBag, TrendingUp, Scale, GraduationCap, ArrowRight, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@otto.ai');
+  const [password, setPassword] = useState('Otto@2026!');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();

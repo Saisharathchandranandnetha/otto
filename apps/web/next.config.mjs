@@ -4,9 +4,7 @@ const nextConfig = {
   // Standalone output uses symlinks on Windows. Keep it opt-in for deploy builds.
   output: process.env.NEXT_STANDALONE === '1' ? 'standalone' : undefined,
   // Disable Next.js telemetry
-  experimental: {
-    serverComponentsExternalPackages: ['postgres', 'twilio'],
-  },
+  serverExternalPackages: ['postgres', 'twilio'],
   async rewrites() {
     return [
       {

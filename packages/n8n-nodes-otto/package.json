@@ -1,0 +1,26 @@
+{
+  "name": "n8n-nodes-otto",
+  "version": "0.1.0",
+  "description": "OTTO Agentic Nodes for n8n",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "n8ncommunitypackage"
+  ],
+  "n8n": {
+    "nodes": [
+      "dist/nodes/OttoAgentRun/OttoAgentRun.node.js",
+      "dist/nodes/OttoApprovalGate/OttoApprovalGate.node.js"
+    ]
+  },
+  "dependencies": {
+    "n8n-workflow": "^1.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "@types/node": "^20.14.9"
+  }
+}

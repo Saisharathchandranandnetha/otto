@@ -1,0 +1,19 @@
+{
+  "name": "worker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "pg-boss": "^9.0.3",
+    "postgres": "^3.4.4",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "tsx": "^4.16.2",
+    "@types/node": "^20.14.9"
+  }
+}

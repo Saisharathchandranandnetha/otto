@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, CreditCard, TrendingUp, Workflow, Briefcase, ShieldCheck } from 'lucide-react';
+import { Bot, MessageCircle, Brain, FileText, Workflow, Sparkles } from 'lucide-react';
 import { MetricPillarCard } from '@/components/dashboard/MetricPillarCard';
 import { TelegramLiveFeed } from '@/components/dashboard/TelegramLiveFeed';
 import { DecisionIntelPanel } from '@/components/dashboard/DecisionIntelPanel';
@@ -15,7 +15,7 @@ import { AuditTrailPanel } from '@/components/dashboard/AuditTrailPanel';
 import { ActivityTimeline } from '@/components/dashboard/ActivityTimeline';
 
 export const metadata = {
-  title: 'Ledger & Finance | Otto',
+  title: 'Ledger Domain | Otto',
 };
 
 export default async function LedgerDashboardPage() {
@@ -26,13 +26,13 @@ export default async function LedgerDashboardPage() {
         <div className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-2">
           <span>Otto</span>
           <span>→</span>
-          <span className="font-medium text-on-surface">Ledger & Finance Domain</span>
+          <span className="font-medium text-on-surface">Ledger Domain</span>
         </div>
         
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-display-sm font-semibold text-on-surface">Finance Control Center</h1>
-            <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across 6 Financial pillars</p>
+            <h1 className="text-display-sm font-semibold text-on-surface">Ledger AI Control Center</h1>
+            <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across all 6 AI pillars</p>
           </div>
           
           <div className="flex items-center gap-4">
@@ -56,45 +56,45 @@ export default async function LedgerDashboardPage() {
       {/* 3. Top Row - 6 Pillar Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <MetricPillarCard 
-          title="Digital Ledger Management"
-          primaryMetric="100% Synced"
-          secondaryMetric="Automated customer dues tracking"
-          icon={BookOpen}
+          title="AI Finance Copilot"
+          primaryMetric="89 hrs"
+          secondaryMetric="45 recon tasks automated today"
+          icon={Bot}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Smart Billing & Payments"
-          primaryMetric="214 Invoices"
-          secondaryMetric="Automated reminders sent today"
-          icon={CreditCard}
+          title="AI Client Support"
+          primaryMetric="112 queries"
+          secondaryMetric="88% resolved without human"
+          icon={MessageCircle}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Revenue Intelligence"
-          primaryMetric="+12.4%"
-          secondaryMetric="Profitability tracking & cash flow"
-          icon={TrendingUp}
+          title="AI Tax Assistant"
+          primaryMetric="99% accuracy"
+          secondaryMetric="Top topic: Deduction Rules (23)"
+          icon={Brain}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Financial Workflow Automation"
-          primaryMetric="47 Claims"
-          secondaryMetric="Expense reimbursements processed"
+          title="AI Report Generation"
+          primaryMetric="56 docs"
+          secondaryMetric="24 P&L • 18 Balance Sheets"
+          icon={FileText}
+          trendUp={true}
+        />
+        <MetricPillarCard 
+          title="Autonomous Audit Agents"
+          primaryMetric="4 active"
+          secondaryMetric="6 compliance pipelines completed"
           icon={Workflow}
-          trendUp={true}
         />
         <MetricPillarCard 
-          title="Loan & Collection Management"
-          primaryMetric="$12k Recovered"
-          secondaryMetric="Automated repayment schedules"
-          icon={Briefcase}
-        />
-        <MetricPillarCard 
-          title="Audit & Compliance"
-          primaryMetric="Secure"
-          secondaryMetric="Transparent financial audit trails"
-          icon={ShieldCheck}
-          trendUp={true}
+          title="Risk Detection Engine"
+          primaryMetric="15 alerts"
+          secondaryMetric="2 high-risk transactions detected"
+          icon={Sparkles}
+          trendUp={false}
         />
       </div>
 

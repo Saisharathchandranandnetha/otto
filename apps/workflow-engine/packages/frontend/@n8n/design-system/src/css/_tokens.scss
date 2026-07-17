@@ -3,6 +3,17 @@
 
 @mixin theme {
 	@include tokens-legacy.theme-legacy;
+	
+	// OTTO Source-Level Branding Tokens
+	--color-primary: #6C63FF;
+	--color--primary: #6C63FF;
+	--color-background-base: #0A0A0F;
+	--color--background: #0A0A0F;
+	--color-text-base: #E8E8F0;
+	--color--text: #E8E8F0;
+	--color-border-base: rgba(255, 255, 255, 0.08);
+	--border-color-base: rgba(255, 255, 255, 0.08);
+
 	--background--brand: #9c3e26;
 	--background--brand--hover: #7d321e;
 	--background--brand--active: #5e2517;
