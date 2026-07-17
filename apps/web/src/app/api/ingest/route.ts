@@ -61,8 +61,10 @@ export async function POST(req: Request) {
       if (doc) docIds.push(doc.id as string);
     }
 
+    const orgId = req.headers.get('x-org-id') || '00000000-0000-0000-0000-000000000000';
+
     if (mode === 'resurrection') {
-      const summary = await runResurrection(docIds);
+      const summary = await runResurrection(orgId, docIds);
       return NextResponse.json({ ok: true, summary });
     }
 
@@ -104,6 +106,7 @@ export async function POST(req: Request) {
         (review ? '. Some fields are low-confidence — highlighted for review.' : '.');
 
       const action = await createAction({
+        orgId,
         type: 'invoice_commit',
         amount: data.total.value,
         reasoning,

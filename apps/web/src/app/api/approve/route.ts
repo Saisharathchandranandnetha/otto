@@ -63,7 +63,7 @@ export async function POST(req: Request) {
 
         let offeredGraduation = false;
         if (COUNTS_TOWARD_TRUST.includes(action.type)) {
-          const result = await recordHumanApproval(action.type);
+          const result = await recordHumanApproval(action.orgId, action.type);
           offeredGraduation = result.offeredGraduation;
         }
 

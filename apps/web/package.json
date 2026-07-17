@@ -24,7 +24,8 @@
     "setup": "tsx scripts/migrate.ts && tsx db/seed.ts",
     "health": "tsx scripts/health.ts",
     "auth:seed": "tsx db/seeds/002_domains.ts",
-    "auth:reset-admin": "tsx scripts/reset-admin-password.ts"
+    "auth:reset-admin": "tsx scripts/reset-admin-password.ts",
+    "worker": "tsx src/worker/worker.ts"
   },
   "dependencies": {
     "@ai-sdk/groq": "^4.0.5",

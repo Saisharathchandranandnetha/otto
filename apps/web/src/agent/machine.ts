@@ -52,6 +52,7 @@ const TRANSITIONS: Record<ActionStatus, ActionStatus[]> = {
 
 export interface ActionRow {
   id: string;
+  orgId: string;
   type: ActionType;
   status: ActionStatus;
   payload: Record<string, unknown>;
@@ -65,14 +66,15 @@ export interface ActionRow {
 
 /** Create a new action in `perceived` and log its birth. */
 export async function createAction(input: {
+  orgId: string;
   type: ActionType;
   payload?: Record<string, unknown>;
   reasoning?: string;
   amount?: number;
 }): Promise<ActionRow> {
   const [row] = await sql`
-    insert into actions (type, payload, reasoning, amount)
-    values (${input.type}, ${sql.json((input.payload ?? {}) as any)},
+    insert into actions (org_id, type, payload, reasoning, amount)
+    values (${input.orgId}, ${input.type}, ${sql.json((input.payload ?? {}) as any)},
             ${input.reasoning ?? null}, ${input.amount ?? null})
     returning *`;
   const action = row as unknown as ActionRow;

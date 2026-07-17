@@ -15,7 +15,8 @@ const UNDO_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 export async function routeDraftedAction(action: ActionRow): Promise<'auto_approved' | 'awaiting_human'> {
   const [grant] = await sql`
     select * from trust_grants
-    where action_type = ${action.type}
+    where org_id = ${action.orgId}
+      and action_type = ${action.type}
       and autonomy_level = 'autonomous'
       and revoked_at is null
       and (amount_cap is null or amount_cap >= ${action.amount ?? 0})`;

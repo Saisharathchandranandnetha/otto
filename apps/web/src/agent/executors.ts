@@ -165,7 +165,7 @@ async function executeInvoiceCommit(action: ActionRow): Promise<void> {
 
   // stock changed → Otto notices (event-driven trigger scan; dynamic import avoids cycle)
   const { scanReorderTriggers } = await import('./triggers');
-  await scanReorderTriggers();
+  await scanReorderTriggers(action.orgId);
 }
 
 // ── Flow B: execute a reorder — PO PDF + WhatsApp to the supplier ───────────────
@@ -342,7 +342,7 @@ async function executeDomainRetail(action: ActionRow, p: DomainActionPayload): P
 // ── Graduation: owner tapped "Earn it, Otto" ────────────────────────────────────
 async function executeGraduation(action: ActionRow): Promise<void> {
   const p = action.payload as { action_type: ActionType; cap: number };
-  await acceptGraduation(p.action_type, p.cap);
+  await acceptGraduation(action.orgId, p.action_type, p.cap);
   await emitAgentEvent({
     actionId: action.id, fromState: 'executing', toState: 'executing',
     detail: { step: 'autonomy_granted', action_type: p.action_type, cap: p.cap },

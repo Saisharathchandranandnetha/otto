@@ -11,7 +11,7 @@ async function main() {
     name text primary key, applied_at timestamptz not null default now()
   )`;
 
-  const dir = join(process.cwd(), 'db', 'migrations');
+  const dir = join(process.cwd(), '../../packages', 'database', 'migrations');
   const files = readdirSync(dir).filter((f) => f.endsWith('.sql')).sort();
 
   for (const file of files) {

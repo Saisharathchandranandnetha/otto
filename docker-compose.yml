@@ -30,16 +30,17 @@ services:
 
   # --- n8n Workflow Automation Engine ---
   n8n:
-    image: n8nio/n8n:latest
+    image: docker.n8n.io/n8nio/n8n:latest
     container_name: otto_n8n
     restart: always
-    # ports:
-    #   - "5678:5678"
+    ports:
+      - "5678:5678"
     environment:
       # Core settings
       - N8N_HOST=0.0.0.0
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
+      - N8N_PERSONALIZATION_COMPANY_NAME=Otto AI
       # This gets replaced with ngrok URL at runtime — see setup script
       - WEBHOOK_URL=${N8N_WEBHOOK_URL:-http://localhost:5678}
       - WEBHOOK_TUNNEL_URL=${N8N_WEBHOOK_URL:-http://localhost:5678}

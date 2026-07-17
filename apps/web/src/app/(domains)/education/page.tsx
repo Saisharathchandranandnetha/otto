@@ -1,18 +1,18 @@
 import React from 'react';
 import { Bot, MessageCircle, Brain, FileText, Workflow, Sparkles } from 'lucide-react';
-import { MetricPillarCard } from '@/components/education/MetricPillarCard';
-import { TelegramLiveFeed } from '@/components/education/TelegramLiveFeed';
-import { DecisionIntelPanel } from '@/components/education/DecisionIntelPanel';
-import { WorkflowStatusTracker } from '@/components/education/WorkflowStatusTracker';
-import { DocumentGenPanel } from '@/components/education/DocumentGenPanel';
-import { PersonalizationPanel } from '@/components/education/PersonalizationPanel';
-import { AICEOPanel } from '@/components/education/AICEOPanel';
-import { TrustGatePanel } from '@/components/education/TrustGatePanel';
-import { NotificationsPanel } from '@/components/education/NotificationsPanel';
-import { KPIChartsPanel } from '@/components/education/KPIChartsPanel';
-import { AutomationJobsPanel } from '@/components/education/AutomationJobsPanel';
-import { AuditTrailPanel } from '@/components/education/AuditTrailPanel';
-import { ActivityTimeline } from '@/components/education/ActivityTimeline';
+import { MetricPillarCard } from '@/components/dashboard/MetricPillarCard';
+import { TelegramLiveFeed } from '@/components/dashboard/TelegramLiveFeed';
+import { DecisionIntelPanel } from '@/components/dashboard/DecisionIntelPanel';
+import { WorkflowStatusTracker } from '@/components/dashboard/WorkflowStatusTracker';
+import { DocumentGenPanel } from '@/components/dashboard/DocumentGenPanel';
+import { PersonalizationPanel } from '@/components/dashboard/PersonalizationPanel';
+import { AICEOPanel } from '@/components/dashboard/AICEOPanel';
+import { TrustGatePanel } from '@/components/dashboard/TrustGatePanel';
+import { NotificationsPanel } from '@/components/dashboard/NotificationsPanel';
+import { KPIChartsPanel } from '@/components/dashboard/KPIChartsPanel';
+import { AutomationJobsPanel } from '@/components/dashboard/AutomationJobsPanel';
+import { AuditTrailPanel } from '@/components/dashboard/AuditTrailPanel';
+import { ActivityTimeline } from '@/components/dashboard/ActivityTimeline';
 
 export const metadata = {
   title: 'Education Domain | Otto',
@@ -35,12 +35,17 @@ export default async function EducationDashboardPage() {
             <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across all 6 AI pillars</p>
           </div>
           
-          <div className="flex items-center gap-2 bg-surface border border-outline-variant/30 px-3 py-1.5 rounded-full shadow-sm">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-            </span>
-            <span className="text-label-sm font-bold text-on-surface tracking-wide">SYSTEM LIVE</span>
+          <div className="flex items-center gap-4">
+            <a href="/education/workflows" className="bg-primary hover:bg-primary/90 text-on-primary px-4 py-1.5 rounded-lg text-label-md font-medium transition-colors">
+              Open Workflows
+            </a>
+            <div className="flex items-center gap-2 bg-surface border border-outline-variant/30 px-3 py-1.5 rounded-full shadow-sm">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+              </span>
+              <span className="text-label-sm font-bold text-on-surface tracking-wide">SYSTEM LIVE</span>
+            </div>
           </div>
         </div>
       </div>

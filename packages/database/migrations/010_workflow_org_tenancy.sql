@@ -3,6 +3,6 @@
 
 CREATE TABLE IF NOT EXISTS workflows.org_tenancy (
     workflow_id VARCHAR(255) PRIMARY KEY,
-    org_id UUID NOT NULL REFERENCES otto.organizations(id) ON DELETE CASCADE,
+    org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

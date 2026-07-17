@@ -10,16 +10,18 @@ import { execute } from './executors';
 /** Purchase cost heuristic when no price history: retail price × 0.7 (documented). */
 const PURCHASE_COST_FACTOR = 0.7;
 
-export async function scanReorderTriggers(): Promise<{ triggered: string[]; autoExecuted: string[] }> {
+export async function scanReorderTriggers(orgId: string): Promise<{ triggered: string[]; autoExecuted: string[] }> {
   const lowStock = await sql`
     select p.*, s.name as supplier_name, s.phone as supplier_phone
     from products p
     left join suppliers s on s.id = p.supplier_id
-    where p.reorder_point is not null
+    where p.org_id = ${orgId}
+      and p.reorder_point is not null
       and p.stock_qty <= p.reorder_point
       and not exists (
         select 1 from actions a
-        where a.type = 'reorder'
+        where a.org_id = ${orgId}
+          and a.type = 'reorder'
           and a.status in ('perceived','planned','drafted','awaiting_approval','approved','executing')
           and a.payload->>'product_id' = p.id::text
       )`;
@@ -41,7 +43,7 @@ export async function scanReorderTriggers(): Promise<{ triggered: string[]; auto
     const [latestSaleQty] = await sql`
       select sum((l->>'qty')::float) as qty
       from invoices, jsonb_array_elements(line_items) l
-      where status = 'recorded'
+      where org_id = ${orgId} and status = 'recorded'
       order by created_at desc limit 1`;
     const dailySaleRate = Math.max(
       0.5,
@@ -50,7 +52,7 @@ export async function scanReorderTriggers(): Promise<{ triggered: string[]; auto
     const daysUntilStockout = Math.floor(stockNow / dailySaleRate);
     const [monthSpend] = await sql`
       select coalesce(sum(total)::float, 0) as spent
-      from invoices where status='due' and created_at > now() - interval '30 days'`;
+      from invoices where org_id = ${orgId} and status='due' and created_at > now() - interval '30 days'`;
     const monthlyCap = Math.max(Number(monthSpend?.spent ?? 0) * 1.5, 50000);
     const remainingBudget = Math.max(0, monthlyCap - total);
     const consequence =
@@ -65,6 +67,7 @@ export async function scanReorderTriggers(): Promise<{ triggered: string[]; auto
       consequence;
 
     const action = await createAction({
+      orgId,
       type: 'reorder',
       amount: total,
       reasoning,

@@ -11,6 +11,15 @@
 		<script src="/{{BASE_PATH}}/static/posthog.init.js" type="text/javascript"></script>
 
 		<title>Otto — Workflow Automation Studio</title>
+		<style>
+			/* White-labeling overrides for n8n to look like Otto */
+			.header-logo, .n8n-logo, img[alt="n8n"] {
+				display: none !important;
+			}
+			:root {
+				--color-primary: #1e3a8a !important; /* Otto Blue/Green */
+			}
+		</style>
 	</head>
 	<body>
 		<noscript>

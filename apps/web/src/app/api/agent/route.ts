@@ -18,8 +18,10 @@ export async function POST(req: Request) {
       run_theme2_all?: boolean;
     };
 
+    const orgId = req.headers.get('x-org-id') || '00000000-0000-0000-0000-000000000000';
+
     if (body.scan === 'reorder') {
-      const result = await scanReorderTriggers();
+      const result = await scanReorderTriggers(orgId);
       return NextResponse.json(result);
     }
 
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
         },
       });
 
-      const scan = await scanReorderTriggers();
+      const scan = await scanReorderTriggers(orgId);
       return NextResponse.json({
         ok: true,
         product: p.name,
