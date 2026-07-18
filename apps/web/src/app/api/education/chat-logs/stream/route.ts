@@ -1,8 +1,10 @@
 import { educationStore, ChatLog } from '@/lib/educationStore';
+import { startTelegramPoller } from '@/lib/telegram-education';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  startTelegramPoller();
   let controller: ReadableStreamDefaultController;
 
   const stream = new ReadableStream({
@@ -32,12 +34,6 @@ export async function GET() {
         }
       }, 15000);
 
-      // Cleanup on client disconnect (simulated via request abort, handled in Next.js edge/node differently, but this is a simple pattern)
-      requestAnimationFrame(() => {
-        // nextjs requires special handling for disconnect, simplified for this integration
-      });
-
-      // This is a naive cleanup approach.
       return () => {
         unsubscribe();
         clearInterval(heartbeatInterval);

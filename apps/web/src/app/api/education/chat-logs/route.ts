@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { educationStore } from '@/lib/educationStore';
+import { startTelegramPoller } from '@/lib/telegram-education';
 
 // Strict validation for the incoming n8n webhook payload
 const chatLogSchema = z.object({
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  startTelegramPoller(); // idempotent — dashboard load boots the live bot bridge
   const { searchParams } = new URL(request.url);
   const topic = searchParams.get('topic');
   const status = searchParams.get('status');

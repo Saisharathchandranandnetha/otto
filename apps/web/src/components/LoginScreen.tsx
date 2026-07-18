@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ParticleField, type ParticleMode } from './ParticleField';
 
 interface LoginScreenProps {
-  onLogin: (username: string, password: string) => boolean;
+  onLogin: (username: string, password: string) => boolean | Promise<boolean>;
 }
 
 const SCRAMBLE_CHARS = '!<>-_\\/[]{}—=+*^?#________';
@@ -64,8 +64,8 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
     setAuthenticating(true);
 
     // Let the vortex play before resolving
-    setTimeout(() => {
-      const ok = onLogin(username, password);
+    setTimeout(async () => {
+      const ok = await onLogin(username, password);
       setAuthenticating(false);
       if (!ok) {
         setError(true);

@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { LoginScreen } from '@/components/LoginScreen';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -19,10 +18,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const auth = localStorage.getItem('otto_auth');
     if (auth === 'true') {
       setIsAuthenticated(true);
@@ -43,12 +40,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsAuthenticated(false);
     localStorage.removeItem('otto_auth');
   };
-
-  if (!mounted) return null;
-
-  if (!isAuthenticated) {
-    return <LoginScreen onLogin={login} />;
-  }
 
   return <AuthContext.Provider value={{ isAuthenticated, login, logout }}>{children}</AuthContext.Provider>;
 }

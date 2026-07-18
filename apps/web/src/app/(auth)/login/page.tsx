@@ -1,175 +1,368 @@
 'use client';
 
-import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Factory, HeartPulse, Headphones, ShoppingBag, TrendingUp, Scale, GraduationCap, ArrowRight, Loader2 } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Building2, Code2, GraduationCap, BookOpen, ArrowRight, Sparkles, Shield, Zap, ChevronRight } from 'lucide-react';
+
+/* ── Scramble text effect ── */
+const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+function useScramble(target: string, speed = 35) {
+  const [display, setDisplay] = useState('');
+  useEffect(() => {
+    let frame = 0;
+    let raf = 0;
+    const total = target.length * 3 + 12;
+    const tick = () => {
+      frame++;
+      const locked = Math.floor((frame / total) * target.length * 1.4);
+      let out = '';
+      for (let i = 0; i < target.length; i++) {
+        out += (i < locked || target[i] === ' ') ? target[i] : CHARS[Math.floor(Math.random() * CHARS.length)];
+      }
+      setDisplay(out);
+      if (locked < target.length) raf = requestAnimationFrame(() => setTimeout(tick, speed / 3));
+      else setDisplay(target);
+    };
+    tick();
+    return () => cancelAnimationFrame(raf);
+  }, [target, speed]);
+  return display;
+}
+
+/* ── Particle canvas ── */
+function ParticleCanvas() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+    const particles: { x: number; y: number; vx: number; vy: number; r: number; o: number }[] = [];
+    for (let i = 0; i < 80; i++) {
+      particles.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, r: Math.random() * 1.5 + 0.5, o: Math.random() * 0.5 + 0.1 });
+    }
+    let raf: number;
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(234,179,8,${p.o})`;
+        ctx.fill();
+      });
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i]!.x - particles[j]!.x;
+          const dy = particles[i]!.y - particles[j]!.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(234,179,8,${0.08 * (1 - dist / 100)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i]!.x, particles[i]!.y);
+            ctx.lineTo(particles[j]!.x, particles[j]!.y);
+            ctx.stroke();
+          }
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    const onResize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
+    window.addEventListener('resize', onResize);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); };
+  }, []);
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />;
+}
+
+/* ── Portal options ── */
+const PORTALS = [
+  {
+    id: 'owner',
+    label: 'Business Owner',
+    sublabel: 'Run Your Operations',
+    icon: Building2,
+    color: '#f59e0b',
+    bgGlow: 'rgba(245,158,11,0.15)',
+    border: 'rgba(245,158,11,0.3)',
+    description: 'Access your AI-powered business dashboard with inventory, ledger & automation.',
+    redirect: '/dashboard',
+  },
+  {
+    id: 'developer',
+    label: 'Developer',
+    sublabel: 'Build & Integrate',
+    icon: Code2,
+    color: '#6366f1',
+    bgGlow: 'rgba(99,102,241,0.15)',
+    border: 'rgba(99,102,241,0.3)',
+    description: 'Access the API, workflow studio, webhook builder, and SDK documentation.',
+    redirect: '/dashboard',
+  },
+  {
+    id: 'judge',
+    label: 'Hackathon Judge',
+    sublabel: 'Evaluate the Platform',
+    icon: Shield,
+    color: '#10b981',
+    bgGlow: 'rgba(16,185,129,0.15)',
+    border: 'rgba(16,185,129,0.3)',
+    description: 'View the full system: trust engine, state machine, domain playbooks & metrics.',
+    redirect: '/dashboard',
+  },
+  {
+    id: 'student',
+    label: 'Student / Researcher',
+    sublabel: 'Learn & Explore',
+    icon: BookOpen,
+    color: '#ec4899',
+    bgGlow: 'rgba(236,72,153,0.15)',
+    border: 'rgba(236,72,153,0.3)',
+    description: 'Explore AI workflows, knowledge base, and autonomous agent architectures.',
+    redirect: '/dashboard',
+  },
+];
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('admin@otto.ai');
-  const [password, setPassword] = useState('Otto@2026!');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const initialPortal = searchParams.get('portal') || '';
+
+  const [step, setStep] = useState<'portal' | 'login'>(initialPortal ? 'login' : 'portal');
+  const [selectedPortal, setSelectedPortal] = useState(initialPortal);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [shaking, setShaking] = useState(false);
+
+  const heading = useScramble(step === 'portal' ? 'Select your portal' : 'Access the agent grid');
+  const portal = PORTALS.find(p => p.id === selectedPortal);
+
+  const handlePortalSelect = (id: string) => {
+    setSelectedPortal(id);
+    setTimeout(() => setStep('login'), 150);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError(false);
     setLoading(true);
-    
+    const email = username.includes('@') ? username : `${username}@otto.ai`;
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
-      
       const data = await res.json();
-      
       if (res.ok && data.success) {
-        router.push(callbackUrl);
-      } else {
-        setError(data.error || 'Login failed');
+        router.push(portal?.redirect || '/dashboard');
+        return;
       }
-    } catch (err) {
-      setError('An error occurred during login');
-    } finally {
+      throw new Error('Invalid credentials');
+    } catch {
       setLoading(false);
+      setError(true);
+      setShaking(true);
+      setTimeout(() => setShaking(false), 450);
+      setTimeout(() => setError(false), 3500);
     }
   };
 
-  const domainIcons = [
-    { icon: GraduationCap, color: 'text-blue-400' },
-    { icon: Factory, color: 'text-amber-400' },
-    { icon: HeartPulse, color: 'text-red-400' },
-    { icon: Headphones, color: 'text-purple-400' },
-    { icon: ShoppingBag, color: 'text-pink-400' },
-    { icon: TrendingUp, color: 'text-emerald-400' },
-    { icon: Scale, color: 'text-gray-400' },
-  ];
-
   return (
-    <div className="min-h-screen bg-neutral-950 flex flex-col justify-center relative overflow-hidden">
-      {/* Dynamic Background Effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
+    <div className="relative min-h-screen bg-[#0f0f14] overflow-hidden flex items-center justify-center px-4">
+      {/* Particle background */}
+      <ParticleCanvas />
+
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/8 rounded-full blur-[120px]" />
+        {portal && (
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-[140px] transition-all duration-700"
+            style={{ background: portal.bgGlow }} />
+        )}
       </div>
 
-      {/* Floating Domain Icons Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-        <div className="relative w-full h-full max-w-7xl mx-auto">
-          {domainIcons.map((DomainIcon, i) => {
-            const Icon = DomainIcon.icon;
-            return (
-              <div 
-                key={i}
-                className={`absolute animate-pulse ${DomainIcon.color}`}
-                style={{
-                  top: `${Math.random() * 80 + 10}%`,
-                  left: `${Math.random() * 80 + 10}%`,
-                  animationDuration: `${Math.random() * 3 + 2}s`,
-                  animationDelay: `${Math.random() * 2}s`
-                }}
-              >
-                <Icon size={Math.random() * 24 + 16} />
-              </div>
-            );
-          })}
+      {/* Logo top-left */}
+      <div className="absolute top-6 left-6 z-10 flex items-center gap-2">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+          <Sparkles size={16} className="text-white" />
         </div>
+        <span className="font-black text-white tracking-tight text-lg font-mono">OTTO</span>
+        <span className="text-xs font-mono text-white/30 uppercase tracking-widest ml-1">v2</span>
       </div>
 
-      <div className="relative z-10 sm:mx-auto sm:w-full sm:max-w-md">
+      {/* Status badge top-right */}
+      <div className="absolute top-6 right-6 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+        </span>
+        <span className="text-xs font-mono text-emerald-400 uppercase tracking-widest">Field Stable</span>
+      </div>
+
+      {/* Main card */}
+      <div className="relative z-10 w-full max-w-lg">
+
+        {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-3 bg-neutral-900 border border-neutral-800 rounded-xl mb-4 shadow-2xl">
-            <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8 text-amber-500">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <h2 className="text-3xl font-light text-white tracking-tight">
-            Welcome to <span className="font-semibold text-amber-500">Otto</span>
-          </h2>
-          <p className="mt-2 text-sm text-neutral-400">
-            Intelligent Multi-Domain Operating System
-          </p>
+          <p className="font-mono text-xs uppercase tracking-[0.35em] text-amber-500/70 mb-3">Otto / Gateway</p>
+          <h1 className="text-2xl font-bold text-white font-mono min-h-[2rem]">{heading}</h1>
+          {step === 'login' && portal && (
+            <button onClick={() => setStep('portal')} className="mt-2 text-xs font-mono text-white/40 hover:text-white/70 transition-colors flex items-center gap-1 mx-auto">
+              <span>← change portal</span>
+            </button>
+          )}
         </div>
 
-        <div className="bg-neutral-900/50 backdrop-blur-xl border border-neutral-800/50 py-8 px-4 shadow-[0_0_40px_rgba(0,0,0,0.5)] sm:rounded-2xl sm:px-10">
-          <form className="space-y-6" onSubmit={handleLogin}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-neutral-300">
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-4 py-3 bg-neutral-950 border border-neutral-800 rounded-xl text-neutral-200 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-colors sm:text-sm"
-                  placeholder="admin@otto.ai"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-neutral-300">
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-4 py-3 bg-neutral-950 border border-neutral-800 rounded-xl text-neutral-200 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-colors sm:text-sm"
-                  placeholder="••••••••"
-                />
-              </div>
-            </div>
-
-            {error && (
-              <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4">
-                <div className="flex">
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-400">{error}</h3>
+        {/* STEP 1: Portal selector */}
+        {step === 'portal' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {PORTALS.map((p) => {
+              const Icon = p.icon;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => handlePortalSelect(p.id)}
+                  className="group relative text-left p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl"
+                  style={{
+                    background: 'rgba(255,255,255,0.03)',
+                    borderColor: 'rgba(255,255,255,0.08)',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.borderColor = p.border;
+                    (e.currentTarget as HTMLElement).style.background = p.bgGlow;
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)';
+                  }}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="p-2 rounded-xl" style={{ background: p.bgGlow }}>
+                      <Icon size={18} style={{ color: p.color }} />
+                    </div>
+                    <ChevronRight size={14} className="text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all mt-1" />
                   </div>
-                </div>
+                  <p className="font-semibold text-white text-sm mb-0.5">{p.label}</p>
+                  <p className="text-xs font-mono" style={{ color: p.color }}>{p.sublabel}</p>
+                  <p className="text-xs text-white/35 mt-2 leading-relaxed">{p.description}</p>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* STEP 2: Login form */}
+        {step === 'login' && (
+          <div
+            className={`relative rounded-2xl border p-8 backdrop-blur-md transition-all duration-300 ${shaking ? 'animate-bounce' : ''}`}
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              borderColor: portal ? portal.border : 'rgba(255,255,255,0.1)',
+              boxShadow: portal ? `0 0 60px ${portal.bgGlow}` : 'none',
+            }}
+          >
+            {/* Corner brackets */}
+            <span className="absolute left-0 top-0 h-5 w-5 rounded-tl-2xl border-l-2 border-t-2" style={{ borderColor: portal?.color || '#f59e0b' }} />
+            <span className="absolute right-0 bottom-0 h-5 w-5 rounded-br-2xl border-r-2 border-b-2" style={{ borderColor: portal?.color || '#f59e0b' }} />
+
+            {/* Portal badge */}
+            {portal && (
+              <div className="flex items-center gap-2 mb-6 pb-4 border-b border-white/5">
+                {(() => { const Icon = portal.icon; return <Icon size={16} style={{ color: portal.color }} />; })()}
+                <span className="text-xs font-mono font-semibold" style={{ color: portal.color }}>{portal.label}</span>
+                <span className="text-xs font-mono text-white/30 ml-auto">{portal.sublabel}</span>
               </div>
             )}
 
-            <div>
+            <form onSubmit={handleLogin} className="flex flex-col gap-5">
+              {/* Username */}
+              <div>
+                <label className="block font-mono text-xs uppercase tracking-widest text-white/50 mb-2">Username</label>
+                <input
+                  type="text"
+                  required
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                  placeholder="admin"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-sm placeholder-white/20 focus:outline-none focus:border-amber-500/50 focus:bg-white/8 transition-all"
+                />
+                <p className="mt-1.5 font-mono text-xs text-white/25">Demo: <span className="text-amber-500/60 select-all">admin</span></p>
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block font-mono text-xs uppercase tracking-widest text-white/50 mb-2">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-sm placeholder-white/20 focus:outline-none focus:border-amber-500/50 focus:bg-white/8 transition-all"
+                />
+                <p className="mt-1.5 font-mono text-xs text-white/25">Demo: <span className="text-amber-500/60 select-all">otto2026</span></p>
+              </div>
+
+              {/* Error */}
+              {error && (
+                <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2">
+                  <p className="font-mono text-xs text-red-400">&gt; ACCESS_DENIED — try admin / otto2026</p>
+                </div>
+              )}
+
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-neutral-950 bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-950 focus:ring-amber-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group"
+                className="relative w-full py-3.5 rounded-xl font-bold text-sm text-white overflow-hidden transition-all duration-300 hover:shadow-2xl active:scale-95 disabled:opacity-60"
+                style={{ background: portal ? `linear-gradient(135deg, ${portal.color}, ${portal.color}cc)` : 'linear-gradient(135deg, #f59e0b, #ea580c)' }}
               >
-                {loading ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                ) : (
-                  <>
-                    Sign In
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out hover:translate-x-full" />
+                <span className="flex items-center justify-center gap-2">
+                  {loading ? (
+                    <>
+                      <span className="animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full" />
+                      Entering the grid…
+                    </>
+                  ) : (
+                    <>Enter the grid <ArrowRight size={16} /></>
+                  )}
+                </span>
               </button>
-            </div>
-          </form>
+            </form>
+
+            <p className="mt-6 text-center font-mono text-xs text-white/20 uppercase tracking-widest">
+              Otto v2 · Earned-trust safety core
+            </p>
+          </div>
+        )}
+
+        {/* Bottom trust badges */}
+        <div className="flex items-center justify-center gap-6 mt-8">
+          <div className="flex items-center gap-1.5 text-xs font-mono text-white/25">
+            <Shield size={11} className="text-emerald-500/50" />
+            Schema-locked
+          </div>
+          <div className="w-px h-3 bg-white/10" />
+          <div className="flex items-center gap-1.5 text-xs font-mono text-white/25">
+            <Zap size={11} className="text-amber-500/50" />
+            Idempotent
+          </div>
+          <div className="w-px h-3 bg-white/10" />
+          <div className="flex items-center gap-1.5 text-xs font-mono text-white/25">
+            <GraduationCap size={11} className="text-blue-500/50" />
+            Earned trust
+          </div>
         </div>
-        
-        <p className="mt-8 text-center text-xs text-neutral-600">
-          Powered by Otto AI &copy; 2026. All rights reserved.
-        </p>
       </div>
     </div>
   );

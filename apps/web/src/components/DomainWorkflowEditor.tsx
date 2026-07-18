@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AppShell } from '@/components/AppShell';
+import { WorkflowStudio } from '@/components/workflows/WorkflowStudio';
 
 export interface Template {
   id: string;
@@ -44,8 +44,7 @@ export function DomainWorkflowEditor({ domainName, description, templates }: Dom
   };
 
   return (
-    <AppShell>
-      <div className="flex flex-col h-[calc(100vh-48px)] overflow-hidden">
+      <div className="flex flex-col h-[calc(100vh-64px)] overflow-hidden">
         {/* TAB CONTENT */}
         <div className="flex flex-1 min-h-0 overflow-hidden">
           {/* LEFT SIDEBAR: Templates */}
@@ -115,27 +114,14 @@ export function DomainWorkflowEditor({ domainName, description, templates }: Dom
                   </div>
                 </>
               )}
-              <div className="flex items-center gap-2 ml-auto">
-                <button className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-label-sm font-medium text-primary hover:bg-primary/10 transition-colors">
-                  <span className="material-symbols-outlined text-[16px]">add</span>
-                  New Node
-                </button>
-              </div>
             </div>
 
-            {/* n8n iframe */}
-            <div className="flex-1 w-full relative">
-              {/* Note: In a real system, you'd pass the activeTemplate to the iframe URL or message broker */}
-              <iframe
-                src={`http://localhost:5678/workflow/new`}
-                title={`${domainName} Workflows`}
-                style={{ border: 'none', width: '100%', height: '100%' }}
-                allow="clipboard-read; clipboard-write"
-              />
-            </div>
+            {/* Workflow canvas */}
+            {activeInfo && (
+              <WorkflowStudio templateId={activeInfo.id} templateName={activeInfo.name} />
+            )}
           </div>
         </div>
       </div>
-    </AppShell>
   );
 }

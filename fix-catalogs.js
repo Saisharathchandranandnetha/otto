@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 
-const output = execSync('dir /s /b package.json', { encoding: 'utf8' });
+const output = execSync('dir /s /b package.json', { encoding: 'utf8', maxBuffer: 1024 * 1024 * 50 });
 const files = output.split('\\n').map(f => f.trim()).filter(f => f && f.includes('workflow-engine') && !f.includes('node_modules'));
 
 files.forEach(file => {

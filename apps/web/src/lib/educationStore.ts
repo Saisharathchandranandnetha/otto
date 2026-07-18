@@ -11,7 +11,16 @@ export interface ChatLog {
   conversation_id?: string;
 }
 
-const educationChatLogs: ChatLog[] = [
+// globalThis-backed so every API route bundle shares ONE store instance
+// (Next.js dev compiles routes into separate module graphs).
+declare global {
+  // eslint-disable-next-line no-var
+  var __ottoEduLogs: ChatLog[] | undefined;
+  // eslint-disable-next-line no-var
+  var __ottoEduListeners: Set<(log: ChatLog) => void> | undefined;
+}
+
+const seedLogs: ChatLog[] = [
   {
     id: 'mock-1',
     user_name: 'Sarah M.',
@@ -37,7 +46,8 @@ const educationChatLogs: ChatLog[] = [
 ];
 
 type Listener = (log: ChatLog) => void;
-const listeners: Set<Listener> = new Set();
+const educationChatLogs: ChatLog[] = globalThis.__ottoEduLogs ?? (globalThis.__ottoEduLogs = seedLogs);
+const listeners: Set<Listener> = globalThis.__ottoEduListeners ?? (globalThis.__ottoEduListeners = new Set());
 
 export const educationStore = {
   subscribeToChatLogs(listener: Listener) {

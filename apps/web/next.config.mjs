@@ -8,10 +8,6 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/workflows/:path*',
-        destination: 'http://localhost:5678/api/v1/:path*',
-      },
-      {
         source: '/api/ai/:path*',
         destination: 'http://localhost:5001/v1/:path*',
       },

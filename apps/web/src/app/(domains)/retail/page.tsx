@@ -1,5 +1,5 @@
 import React from 'react';
-import { Factory, Cog, Activity, Wrench, Shield, Workflow } from 'lucide-react';
+import { ShoppingBag, TrendingUp, Sparkles, Tag, Users, Workflow } from 'lucide-react';
 import { MetricPillarCard } from '@/components/dashboard/MetricPillarCard';
 import { TelegramLiveFeed } from '@/components/dashboard/TelegramLiveFeed';
 import { DecisionIntelPanel } from '@/components/dashboard/DecisionIntelPanel';
@@ -15,10 +15,10 @@ import { AuditTrailPanel } from '@/components/dashboard/AuditTrailPanel';
 import { ActivityTimeline } from '@/components/dashboard/ActivityTimeline';
 
 export const metadata = {
-  title: 'Manufacturing Domain | Otto',
+  title: 'Retail Domain | Otto',
 };
 
-export default async function ManufacturingDashboardPage() {
+export default async function RetailDashboardPage() {
   return (
     <div className="flex-1 overflow-y-auto p-6 bg-surface-container-lowest">
       {/* 1. Header */}
@@ -26,17 +26,17 @@ export default async function ManufacturingDashboardPage() {
         <div className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-2">
           <span>Otto</span>
           <span>→</span>
-          <span className="font-medium text-on-surface">Manufacturing Domain</span>
+          <span className="font-medium text-on-surface">Retail Domain</span>
         </div>
         
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-display-sm font-semibold text-on-surface">Manufacturing AI Control Center</h1>
+            <h1 className="text-display-sm font-semibold text-on-surface">Retail AI Control Center</h1>
             <p className="text-body-md text-on-surface-variant mt-1">Live monitoring across all 6 AI pillars</p>
           </div>
           
           <div className="flex items-center gap-4">
-            <a href="/manufacturing/workflows" className="bg-primary hover:bg-primary/90 text-on-primary px-4 py-1.5 rounded-lg text-label-md font-medium transition-colors">
+            <a href="/retail/workflows" className="bg-primary hover:bg-primary/90 text-on-primary px-4 py-1.5 rounded-lg text-label-md font-medium transition-colors">
               Open Workflows
             </a>
             <div className="flex items-center gap-2 bg-surface border border-outline-variant/30 px-3 py-1.5 rounded-full shadow-sm">
@@ -56,44 +56,44 @@ export default async function ManufacturingDashboardPage() {
       {/* 3. Top Row - 6 Pillar Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <MetricPillarCard 
-          title="Predictive Maintenance"
-          primaryMetric="14 alerts"
-          secondaryMetric="3 machines require attention"
-          icon={Wrench}
-          trendUp={false}
-        />
-        <MetricPillarCard 
-          title="Defect Detection"
-          primaryMetric="99.8% yield"
-          secondaryMetric="12 defects caught at line 4"
-          icon={Shield}
+          title="Demand Forecasting AI"
+          primaryMetric="96.4% acc."
+          secondaryMetric="Optimized stock for 3 upcoming promos"
+          icon={TrendingUp}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Supply Chain Bot"
-          primaryMetric="94% on-time"
-          secondaryMetric="2 raw material delays mitigated"
-          icon={Factory}
+          title="Customer Personalization"
+          primaryMetric="14.2% lift"
+          secondaryMetric="Generated 4,200 unique product recs"
+          icon={Sparkles}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="OEE Optimizer"
-          primaryMetric="86.4%"
-          secondaryMetric="Uptime increased by 2.1%"
-          icon={Activity}
+          title="Dynamic Pricing Engine"
+          primaryMetric="1,402 tweaks"
+          secondaryMetric="Margin protected on 54 items"
+          icon={Tag}
           trendUp={true}
         />
         <MetricPillarCard 
-          title="Autonomous Workflow Agents"
-          primaryMetric="8 active"
-          secondaryMetric="14 pipelines completed today"
+          title="Inventory Reallocation"
+          primaryMetric="34 transfers"
+          secondaryMetric="Prevented stockouts in 2 regions"
+          icon={ShoppingBag}
+          trendUp={true}
+        />
+        <MetricPillarCard 
+          title="Autonomous Retail Agents"
+          primaryMetric="6 active"
+          secondaryMetric="24 workflows completed today"
           icon={Workflow}
         />
         <MetricPillarCard 
-          title="Process Optimization"
-          primaryMetric="2.4% faster"
-          secondaryMetric="Assembly line 2 tuned"
-          icon={Cog}
+          title="Support & Sales Chatbot"
+          primaryMetric="3.4k chats"
+          secondaryMetric="214 cart abandonments recovered"
+          icon={Users}
           trendUp={true}
         />
       </div>
