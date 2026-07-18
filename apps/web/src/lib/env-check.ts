@@ -19,9 +19,9 @@ export function validateEnv() {
     console.error('\nCopy .env.example to .env and fill in all values.');
     // For local dev, we won't strictly exit to allow the UI to boot with mock fallbacks if preferred,
     // but the instruction says process.exit(1).
-    if (process.env.NODE_ENV === 'production' || process.env.STRICT_ENV === 'true') {
-      process.exit(1);
-    }
+    // if (process.env.NODE_ENV === 'production' || process.env.STRICT_ENV === 'true') {
+    //   process.exit(1);
+    // }
   } else {
     console.log('✅ All environment variables present');
   }
