@@ -107,6 +107,8 @@ export async function POST(req: Request) {
 
       const action = await createAction({
         orgId,
+        agentId: 'extractor',
+        actionClass: 'financial',
         type: 'invoice_commit',
         amount: data.total.value,
         reasoning,

@@ -4,8 +4,9 @@ import { requireOrg } from '@otto/auth/middleware'; // Assuming this exists or s
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { orgId: string; agentId: string; actionClass: string } }
+  { params }: { params: Promise<{ orgId: string; agentId: string; actionClass: string }> }
 ) {
+  const { orgId, agentId, actionClass } = await params;
   // 1. Require org manager or admin
   const authResponse = await requireOrg(request as any, 'manager');
   if (authResponse.status !== 200) {
@@ -13,7 +14,7 @@ export async function PATCH(
     // wait requireOrg normally returns NextResponse.next() if successful
     // Assuming if status is not 200/NextResponse.next, we return it
     // Let's implement a safe check:
-    if (authResponse.headers.get('x-org-id') !== params.orgId) {
+    if (authResponse.headers.get('x-org-id') !== orgId) {
       return NextResponse.json({ error: 'Unauthorized org access' }, { status: 403 });
     }
   }
@@ -38,9 +39,9 @@ export async function PATCH(
         last_rejection = now(),
         updated_at = now()
       WHERE
-        org_id = ${params.orgId} AND
-        agent_id = ${params.agentId} AND
-        action_class = ${params.actionClass}
+        org_id = ${orgId} AND
+        agent_id = ${agentId} AND
+        action_class = ${actionClass}
       RETURNING id, level;
     `;
 
@@ -48,7 +49,7 @@ export async function PATCH(
       // Log event
       await sql`
         INSERT INTO trust_events (org_id, agent_id, action_class, event_type, previous_level, new_level, reason, triggered_by)
-        VALUES (${params.orgId}, ${params.agentId}, ${params.actionClass}, 'revoked', null, 0, 'Manual revocation', ${userId})
+        VALUES (${orgId}, ${agentId}, ${actionClass}, 'revoked', null, 0, 'Manual revocation', ${userId})
       `;
     }
 

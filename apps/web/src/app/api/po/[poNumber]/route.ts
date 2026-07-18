@@ -8,9 +8,10 @@ export const maxDuration = 30;
 
 export async function GET(
   _req: Request,
-  { params }: { params: { poNumber: string } },
+  { params }: { params: Promise<{ poNumber: string }> },
 ) {
-  const safe = basename(params.poNumber).replace(/[^A-Za-z0-9-]/g, '');
+  const { poNumber } = await params;
+  const safe = basename(poNumber).replace(/[^A-Za-z0-9-]/g, '');
 
   // PO HTML
   const htmlPath = join('./data/pos', `${safe}.html`);

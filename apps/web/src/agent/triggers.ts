@@ -68,6 +68,8 @@ export async function scanReorderTriggers(orgId: string): Promise<{ triggered: s
 
     const action = await createAction({
       orgId,
+      agentId: 'reorder_agent',
+      actionClass: 'inventory',
       type: 'reorder',
       amount: total,
       reasoning,

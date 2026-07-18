@@ -42,8 +42,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   ops:      '📊 Business Operations',
 };
 
-export default function DashboardPage() {
-  const user = requireUser();
+export default async function DashboardPage() {
+  const user = await requireUser();
 
   const grouped = ['domain', 'platform', 'ops'].map(cat => ({
     cat,

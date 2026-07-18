@@ -166,7 +166,7 @@ function getRuleBasedResponse(userMessage: string, domain: string, tools: { name
     ],
   };
 
-  const pool = responses[domain] || responses.default;
+  const pool = responses[domain] || responses.default!;
   return { text: pool[Math.floor(Math.random() * pool.length)]! };
 }
 

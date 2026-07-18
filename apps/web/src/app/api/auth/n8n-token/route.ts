@@ -4,7 +4,7 @@ import { hashToken } from '@/lib/auth/crypto';
 
 export async function GET() {
   try {
-    const user = requireUser();
+    const user = await requireUser();
     
     // In a real n8n integration, this could call n8n's API to generate a user-specific token
     // or just return a JWT signed by our JWT_SECRET that n8n validates on its end (if configured).

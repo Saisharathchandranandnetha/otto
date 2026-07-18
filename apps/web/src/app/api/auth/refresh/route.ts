@@ -4,7 +4,7 @@ import { refreshJWT } from '@/lib/auth/jwt';
 
 export async function POST(req: NextRequest) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('otto_session')?.value;
 
     if (!token) {

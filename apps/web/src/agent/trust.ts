@@ -40,6 +40,8 @@ export async function recordHumanApproval(orgId: string, actionType: ActionType)
   // The 🎓 card: an action like any other — drafted by the agent, decided by the human.
   const offer = await createAction({
     orgId,
+    agentId: 'system',
+    actionClass: 'system',
     type: 'graduation_offer',
     payload: {
       action_type: actionType,

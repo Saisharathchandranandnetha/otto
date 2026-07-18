@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
       // Log failed login
       await sql`
         INSERT INTO otto_auth_logs (user_id, event, ip_address)
-        VALUES (${user!.id}, 'login_failed', ${req.ip || null})
+        VALUES (${user!.id}, 'login_failed', ${req.headers.get('x-forwarded-for') || null})
       `;
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create session in DB
-    const { token, expiresAt } = await createSession(user!.id, req.ip || undefined, req.headers.get('user-agent') || undefined);
+    const { token, expiresAt } = await createSession(user!.id, req.headers.get('x-forwarded-for') || undefined, req.headers.get('user-agent') || undefined);
 
     // Create JWT
     const jwtToken = signJWT({
@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
     await sql`UPDATE otto_users SET last_login_at = NOW() WHERE id = ${user!.id}`;
     await sql`
       INSERT INTO otto_auth_logs (user_id, event, ip_address)
-      VALUES (${user!.id}, 'login_success', ${req.ip || null})
+      VALUES (${user!.id}, 'login_success', ${req.headers.get('x-forwarded-for') || null})
     `;
 
     return NextResponse.json({ success: true, redirectTo: '/dashboard' });
