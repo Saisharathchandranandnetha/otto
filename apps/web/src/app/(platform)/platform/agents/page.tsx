@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import useSWR from 'swr';
+import dynamic from 'next/dynamic';
 import { Sidebar } from '../../../../components/Sidebar';
 import { Bot, Plus, Settings, Play, Shield } from 'lucide-react';
 import { AgentBuilderWizard } from '../../../../components/AgentBuilderWizard';
-import { LiquidGlass } from '../../../../components/synapse/LiquidGlass';
-import { SentientSphere } from '../../../../components/synapse/SentientSphere';
+
+const LiquidGlass = dynamic(() => import('../../../../components/synapse/LiquidGlass').then(m => m.LiquidGlass), { ssr: false });
+const SentientSphere = dynamic(() => import('../../../../components/synapse/SentientSphere').then(m => m.SentientSphere), { ssr: false });
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
