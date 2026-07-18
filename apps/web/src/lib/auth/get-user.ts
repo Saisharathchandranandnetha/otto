@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 import { verifyJWT } from './jwt';
 import { OttoJWTPayload } from './jwt';
 
-export function getCurrentUser(): OttoJWTPayload | null {
-  const cookieStore = cookies();
+export async function getCurrentUser(): Promise<OttoJWTPayload | null> {
+  const cookieStore = await cookies();
   const token = cookieStore.get('otto_session')?.value;
   
   if (!token) return null;
@@ -12,16 +12,16 @@ export function getCurrentUser(): OttoJWTPayload | null {
   return verifyJWT(token);
 }
 
-export function requireUser(): OttoJWTPayload {
-  const user = getCurrentUser();
+export async function requireUser(): Promise<OttoJWTPayload> {
+  const user = await getCurrentUser();
   if (!user) {
     redirect('/login');
   }
   return user;
 }
 
-export function requireDomainAccess(domainSlug: string): OttoJWTPayload {
-  const user = requireUser();
+export async function requireDomainAccess(domainSlug: string): Promise<OttoJWTPayload> {
+  const user = await requireUser();
   
   if (user.isSuperAdmin) {
     return user;
@@ -35,8 +35,8 @@ export function requireDomainAccess(domainSlug: string): OttoJWTPayload {
   return user;
 }
 
-export function requireSuperAdmin(): OttoJWTPayload {
-  const user = requireUser();
+export async function requireSuperAdmin(): Promise<OttoJWTPayload> {
+  const user = await requireUser();
   if (!user.isSuperAdmin) {
     redirect('/unauthorized');
   }

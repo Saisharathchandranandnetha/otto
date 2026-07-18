@@ -20,7 +20,7 @@ const DEMO_DOMAINS = [
   { slug: 'vas', name: 'VAS', icon: 'hub', route: '/vas', color: '#6366f1' },
 ] as const;
 
-function demoLogin(email: string, password: string) {
+async function demoLogin(email: string, password: string) {
   if (email !== DEMO_EMAIL || !DEMO_PASSWORDS.includes(password)) return null;
 
   const jwtToken = signJWT({
@@ -33,7 +33,7 @@ function demoLogin(email: string, password: string) {
   });
 
   const expiresAt = new Date(Date.now() + 8 * 3600 * 1000);
-  cookies().set('otto_session', jwtToken, {
+  (await cookies()).set('otto_session', jwtToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Demo credentials short-circuit — works without a database
-    const demo = demoLogin(email, password);
+    const demo = await demoLogin(email, password);
     if (demo) return demo;
 
     const users = await sql`
@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Set cookies
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     cookieStore.set('otto_session', jwtToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Login error:', error);
     // Database unreachable — fall back to demo credentials so the app stays usable
-    const demo = demoLogin(email, password);
+    const demo = await demoLogin(email, password);
     if (demo) return demo;
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

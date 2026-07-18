@@ -30,10 +30,10 @@ const DOMAIN_TILES = [
 ];
 
 const BADGE_STYLES: Record<string, string> = {
-  admin:    'bg-red-500/10 text-red-400 border-red-500/20',
-  live:     'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  beta:     'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  operator: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  admin:    'bg-error-container text-on-error-container border-error/20',
+  live:     'bg-primary-container text-on-primary-container border-primary/20',
+  beta:     'bg-secondary-container text-on-secondary-container border-secondary/20',
+  operator: 'bg-tertiary-container text-on-tertiary-container border-tertiary/20',
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -51,89 +51,91 @@ export default function DashboardPage() {
   }));
 
   return (
-    <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Welcome header */}
-      <div className="mb-10">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
-            <Sparkles size={17} className="text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-light text-white tracking-tight">
-              Welcome back, <span className="font-semibold text-amber-400">{user.fullName.split(' ')[0]}</span>
-            </h1>
-            <p className="text-sm text-neutral-400">Select a domain or feature to access your workspace</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Grouped tiles */}
-      {grouped.map(({ cat, tiles }) => (
-        <div key={cat} className="mb-10">
-          <h2 className="text-xs font-mono uppercase tracking-widest text-white/30 mb-4">
-            {CATEGORY_LABELS[cat]}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-            {tiles.map(tile => {
-              const Icon = tile.icon;
-              return (
-                <Link
-                  key={tile.slug}
-                  href={tile.route}
-                  className="group relative bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden hover:border-neutral-700 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-neutral-900/50"
-                >
-                  {/* Color accent bar */}
-                  <div className="absolute left-0 top-0 bottom-0 w-1 opacity-60 group-hover:opacity-100 transition-opacity" style={{ backgroundColor: tile.color }} />
-
-                  <div className="p-5 pl-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="p-2.5 rounded-xl bg-neutral-950/50 border border-neutral-800" style={{ color: tile.color }}>
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <span className={`text-xs px-2 py-0.5 rounded-full border font-mono ${BADGE_STYLES[tile.badge] || BADGE_STYLES.admin}`}>
-                        {tile.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="text-base font-medium text-white mb-1 group-hover:text-amber-400 transition-colors">
-                      {tile.name}
-                    </h3>
-
-                    <div className="flex items-center text-sm font-medium mt-3" style={{ color: tile.color }}>
-                      <span className="text-xs">Enter</span>
-                      <ArrowRight className="ml-1.5 h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-
-      {/* Super admin panel */}
-      {user.isSuperAdmin && (
-        <div className="mt-4">
-          <div className="inline-flex items-center justify-center p-6 bg-neutral-900 border border-neutral-800 rounded-2xl w-full relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/8 rounded-full blur-[100px]" />
-            <div className="relative z-10 flex flex-col sm:flex-row items-center sm:text-left justify-between w-full gap-4">
-              <div>
-                <div className="flex items-center space-x-3 mb-1.5">
-                  <ShieldCheck className="h-5 w-5 text-red-500" />
-                  <h3 className="text-lg font-semibold text-white">Super Admin Access</h3>
-                </div>
-                <p className="text-neutral-400 text-sm">Manage users, global roles, domains, and view security audit logs.</p>
-              </div>
-              <Link
-                href="/admin"
-                className="px-5 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-medium rounded-xl transition-colors whitespace-nowrap text-sm"
-              >
-                Open Admin Panel
-              </Link>
+    <div className="flex-1 overflow-y-auto bg-surface-container-lowest">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* Welcome header */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+              <Sparkles size={20} className="text-primary" />
+            </div>
+            <div>
+              <h1 className="text-display-sm font-semibold text-on-surface tracking-tight">
+                Welcome back, <span className="text-primary">{(user.fullName || 'Admin').split(' ')[0]}</span>
+              </h1>
+              <p className="text-body-md text-on-surface-variant mt-1">Select a domain or feature to access your workspace</p>
             </div>
           </div>
         </div>
-      )}
+
+        {/* Grouped tiles */}
+        {grouped.map(({ cat, tiles }) => (
+          <div key={cat} className="mb-10">
+            <h2 className="text-label-sm uppercase tracking-widest text-on-surface-variant mb-4 font-medium">
+              {CATEGORY_LABELS[cat]}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+              {tiles.map(tile => {
+                const Icon = tile.icon;
+                return (
+                  <Link
+                    key={tile.slug}
+                    href={tile.route}
+                    className="group relative bg-surface border border-outline-variant/30 rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                  >
+                    {/* Color accent bar */}
+                    <div className="absolute left-0 top-0 bottom-0 w-1 opacity-60 group-hover:opacity-100 transition-opacity" style={{ backgroundColor: tile.color }} />
+
+                    <div className="p-5 pl-6">
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="p-2.5 rounded-xl bg-surface-container border border-outline-variant/50" style={{ color: tile.color }}>
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <span className={`text-label-sm px-2 py-0.5 rounded-full border ${BADGE_STYLES[tile.badge] || BADGE_STYLES.admin}`}>
+                          {tile.badge}
+                        </span>
+                      </div>
+
+                      <h3 className="text-title-md font-medium text-on-surface mb-1 group-hover:text-primary transition-colors">
+                        {tile.name}
+                      </h3>
+
+                      <div className="flex items-center text-label-md font-medium mt-3" style={{ color: tile.color }}>
+                        <span>Enter workspace</span>
+                        <ArrowRight className="ml-1.5 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        {/* Super admin panel */}
+        {user.isSuperAdmin && (
+          <div className="mt-4">
+            <div className="inline-flex items-center justify-center p-6 bg-surface-container border border-error/20 rounded-2xl w-full relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-error/5 rounded-full blur-[100px]" />
+              <div className="relative z-10 flex flex-col sm:flex-row items-center sm:text-left justify-between w-full gap-4">
+                <div>
+                  <div className="flex items-center space-x-3 mb-1.5">
+                    <ShieldCheck className="h-5 w-5 text-error" />
+                    <h3 className="text-title-lg font-semibold text-on-surface">Super Admin Access</h3>
+                  </div>
+                  <p className="text-body-md text-on-surface-variant">Manage users, global roles, domains, and view security audit logs.</p>
+                </div>
+                <Link
+                  href="/admin"
+                  className="px-5 py-2.5 bg-error text-on-error hover:bg-error/90 font-medium rounded-xl transition-colors whitespace-nowrap text-label-lg"
+                >
+                  Open Admin Panel
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
