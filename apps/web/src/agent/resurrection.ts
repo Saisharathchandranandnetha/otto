@@ -28,6 +28,8 @@ const narrate = (line: string, extra: Record<string, unknown> = {}) =>
 export async function runResurrection(orgId: string, documentIds: string[]): Promise<ResurrectionSummary> {
   const action = await createAction({
     orgId,
+    agentId: 'system-resurrection',
+    actionClass: 'resurrection',
     type: 'resurrection_commit',
     reasoning: 'Rebuilding this business from its paper trail. Nothing goes live until you confirm.',
   });

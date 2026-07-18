@@ -54,6 +54,8 @@ export async function runDomainPlaybook(slug: Theme2DomainSlug): Promise<DomainR
 
   const action = await createAction({
     orgId: '00000000-0000-0000-0000-000000000000',
+    agentId: 'system-domain',
+    actionClass: 'domain',
     type: playbook.actionType,
     amount: playbook.amountInr,
     reasoning: playbook.reasoning,

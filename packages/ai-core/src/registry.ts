@@ -48,7 +48,7 @@ export function getModel(alias: ModelAlias, config: AIProviderConfig): LanguageM
       throw new Error('Anthropic API key is required for this model');
     }
     const anthropic = createAnthropic({ apiKey: config.anthropicApiKey });
-    return anthropic(modelConfig.modelId);
+    return anthropic(modelConfig.modelId) as unknown as LanguageModel;
   }
 
   if (modelConfig.provider === 'openrouter') {
@@ -59,7 +59,7 @@ export function getModel(alias: ModelAlias, config: AIProviderConfig): LanguageM
       baseURL: 'https://openrouter.ai/api/v1',
       apiKey: config.openrouterApiKey,
     });
-    return openrouter(modelConfig.modelId);
+    return openrouter(modelConfig.modelId) as unknown as LanguageModel;
   }
 
   throw new Error(`Unsupported provider: ${(modelConfig as any).provider}`);

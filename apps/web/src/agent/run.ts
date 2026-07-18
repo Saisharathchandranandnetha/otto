@@ -61,7 +61,7 @@ export class AgentRun {
         });
 
         const result = await generateText({
-          model: aiModel,
+          model: aiModel as any,
           messages,
           tools: {
             rag_search: createRagSearchTool(orgId),
@@ -79,7 +79,7 @@ export class AgentRun {
               actionId: runId,
               fromState: null,
               toState: 'run:tool_call',
-              detail: { runId, traceId, callId: call.toolCallId, tool: call.toolName, args: call.args, actionClass: 'draft' },
+              detail: { runId, traceId, callId: call.toolCallId, tool: call.toolName, args: (call as any).args, actionClass: 'draft' },
             });
 
             // Execute tool (mocked for now)

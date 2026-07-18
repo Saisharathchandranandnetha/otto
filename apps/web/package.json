@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@ai-sdk/groq": "^4.0.5",
+    "@otto/ai-core": "workspace:*",
     "@otto/auth": "workspace:*",
     "@radix-ui/react-accordion": "^1.1.2",
     "@react-three/drei": "^9.105.4",
